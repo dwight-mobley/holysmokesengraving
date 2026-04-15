@@ -1,0 +1,3 @@
+# I’m beginning this project for two reasons. First, I want to re‑familiarize myself with the PERN stack using TypeScript and build a portfolio‑worthy, production‑grade application. Second, my business website needs a full rebuild. It currently runs on Django, but instead of porting it over, I’m choosing to start from scratch so I can deepen my TypeScript skills and build something modern, scalable, and maintainable.
+
+# I’ve always enjoyed working with the PERN/MERN ecosystem, and this project gives me a chance to sharpen those skills while creating something I’ll actually use. My long‑term goal is to land a second job as a full‑stack developer, and this 90‑day journey is the first step toward that transition.
