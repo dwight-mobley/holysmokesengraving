@@ -14,7 +14,7 @@
 - [x] Create repo `dwight-mobley/holysmokesengraving`, add `.gitignore`, `README.md`, `.env.example`
 - [x] Install Node.js LTS, pnpm/npm, VS Code extensions (TS, ESLint, Prettier)
 - [x] TypeScript basics refresher: types, interfaces, unions, intersections (6–8 exercises)
-- [ ] Advanced TS: generics, utility types, conditional types; convert JS snippets to TS
+- [x] Advanced TS: generics, utility types, conditional types; convert JS snippets to TS
 - [x] Configure ESLint + Prettier + Husky pre-commit hooks; add `lint` and `format` scripts
 - [x] Git workflow: branch naming, PR template, commit conventions; create `main`/`dev` branches
 - [x] Install Jest + ts-jest; write 3 unit tests for utility functions (slug, money, ID generator)
