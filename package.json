@@ -11,7 +11,7 @@
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "format": "prettier --write 'src/**/*.{ts,tsx,json,md,css}'",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "prepare": "husky"
   },
   "repository": {
@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/dwight-mobley/holysmokesengraving#readme",
   "devDependencies": {
+    "@types/jest": "^30.0.0",
     "@types/node": "^25.6.0",
     "@typescript-eslint/eslint-plugin": "^8.58.2",
     "@typescript-eslint/parser": "^8.58.2",
@@ -34,7 +35,9 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
     "husky": "^9.1.7",
+    "jest": "^30.3.0",
     "prettier": "^3.8.3",
+    "ts-jest": "^29.4.9",
     "typescript": "^6.0.2"
   },
   "lint-staged": {
