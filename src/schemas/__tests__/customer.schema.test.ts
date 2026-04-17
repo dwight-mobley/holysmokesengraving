@@ -30,12 +30,12 @@ describe('CustomerSchema',()=>{
     })
 
     it('rejects missing name', ()=>{
-        const {firstName, lastName, ...noName} = validCustomer;
+        const {firstName: _f, lastName: _l, ...noName} = validCustomer;
         expect(()=>CustomerSchema.parse(noName)).toThrow();
     });
 
     it('allows optional address',()=>{
-        const {address, ...noAddress} = validCustomer;
+        const {address: _a, ...noAddress} = validCustomer;
         expect(()=>CustomerSchema.parse(noAddress)).not.toThrow();
     });
 
@@ -46,7 +46,7 @@ describe('CustomerSchema',()=>{
 
 describe('CreateCustomerSchema',()=>{
     it('accepts customer data without id or timestamps', ()=>{
-        const {id, createdAt, updatedAt, ...cleanedData} = validCustomer;
+        const {id: _i, createdAt: _c, updatedAt: _u, ...cleanedData} = validCustomer;
         expect(()=>CreateCustomerSchema.parse(cleanedData)).not.toThrow();
     });
 

@@ -31,14 +31,14 @@ describe('OrderSchema',()=>{
     })
 
     it('rejects missing customerId', ()=>{
-        const {customerId, ...noCustomerId} = validOrder;
+        const {customerId: _c, ...noCustomerId} = validOrder;
         expect(()=>OrderSchema.parse(noCustomerId)).toThrow();
     });
 });
 
 describe('CreateOrderSchema',()=>{
     it('accepts order data without id or timestamps', ()=>{
-        const {id, createdAt, updatedAt, ...cleanedData} = validOrder;
+        const {id: _i, createdAt: _c, updatedAt: _u, ...cleanedData} = validOrder;
         expect(()=>CreateOrderSchema.parse(cleanedData)).not.toThrow();
     });
 
