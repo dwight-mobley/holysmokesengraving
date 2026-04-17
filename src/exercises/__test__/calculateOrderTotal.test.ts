@@ -1,4 +1,4 @@
-import {Product, calculateTotalOrderPrice, OrderItem} from '../week_1_practice';
+import {Product, calculateTotalOrderPrice, OrderItem} from '../week_1/week_1_practice';
 
 const products: Product[] = [
     { id: 1, name: 'T-Shirt', price: 19.99, tags: ['clothing', 'summer'] },

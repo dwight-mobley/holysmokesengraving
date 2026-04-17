@@ -1,4 +1,4 @@
-import {Product, pick} from '../week_1_practice';
+import {Product, pick} from '../week_1/week_1_practice';
 
 
 const products: Product[] = [
