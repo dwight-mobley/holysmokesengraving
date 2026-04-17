@@ -10,7 +10,7 @@ import { ProductSchema, CreateProductSchema, UpdateProductSchema } from "../prod
         createdAt: new Date(),
         updatedAt: new Date(),
     };
-    
+
 describe('ProductSchema', ()=>{
 
     it('accepts valid product data', ()=>{
@@ -18,7 +18,7 @@ describe('ProductSchema', ()=>{
     });
 
     it('rejects missing name', ()=>{
-        const {name, ...noName} = validProduct
+        const {name:_n, ...noName} = validProduct
         expect(()=> ProductSchema.parse(noName)).toThrow();
     });
 
@@ -41,7 +41,7 @@ describe('ProductSchema', ()=>{
 
 describe('CreateProductSchema',()=>{
     it('accepts product data without id or timestamps',()=>{
-        const {createdAt, updatedAt, id, ...productWithoutIdOrTimeStamps} = validProduct
+        const {createdAt:_c, updatedAt:_u, id:_i, ...productWithoutIdOrTimeStamps} = validProduct
         expect(()=>CreateProductSchema.parse(productWithoutIdOrTimeStamps)).not.toThrow()
     });
 

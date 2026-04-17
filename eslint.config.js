@@ -4,6 +4,9 @@ const prettierConfig = require('eslint-config-prettier');
 
 module.exports = [
   {
+    ignores: ['dist/**', 'node_modules/**', 'src/exercises/**'],
+  },
+  {
     files: ['src/**/*.{ts,tsx}'],
     languageOptions: {
       parser: tsParser,
@@ -21,6 +24,11 @@ module.exports = [
       ...tsPlugin.configs.recommended.rules,
       ...tsPlugin.configs['recommended-requiring-type-checking'].rules,
       'no-console': 'warn',
+      '@typescript-eslint/no-unused-vars': ['error', {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        destructuredArrayIgnorePattern: '^_',
+      }],
     },
   },
   prettierConfig,
