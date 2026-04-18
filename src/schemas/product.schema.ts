@@ -9,6 +9,7 @@ export const ProductSchema = z.object({
     quantity: z.number().int().nonnegative('Quantity must be a non-negative integer'),
     tags: z.array(z.string()).optional(),
     slug: z.string().min(1),
+    image: z.url().optional(),
     createdAt: z.coerce.date(),
     updatedAt: z.coerce.date()
 })
