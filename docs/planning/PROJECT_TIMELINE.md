@@ -2,8 +2,8 @@
 
 ## Overview
 
-**Commitment:** 12 weeks, 20+ hours/week  
-**Stack:** TypeScript, Next.js, React, Node/Express, Postgres, Stripe, SparkPost, Docker, GitHub Actions  
+**Commitment:** 12 weeks, 20+ hours/week
+**Stack:** TypeScript, Next.js, React, Node/Express, Postgres, Stripe, SparkPost, Docker, GitHub Actions
 **Goal:** Build HolysmokesEngraving e-commerce site from scratch and deploy to production.
 
 ---
@@ -23,14 +23,14 @@
 - [x] Push first commit
 
 ### Week 2 — Advanced TypeScript & CI (~20 hrs)
-- [ ] Deep dive: strict compiler options (`strict`, `noImplicitAny`, `exactOptionalPropertyTypes`)
-- [ ] Build typed utility library (money formatting, slug generator); add tests
+- [X] Deep dive: strict compiler options (`strict`, `noImplicitAny`, `exactOptionalPropertyTypes`)
+- [X] Build typed utility library (money formatting, slug generator); add tests
 - [ ] TypeScript patterns for React: typed props, custom hooks
-- [ ] API typing patterns: DTOs, validation with Zod, mapping DB rows to types
-- [ ] Update CI to run lint + tests on PR
+- [] API typing patterns: DTOs, validation with Zod, mapping DB rows to types
+- [X] Update CI to run lint + tests on PR
 - [ ] Set up GitHub Projects board; create issues for Week 3 tasks
-- [ ] Document TS learnings in `docs/ts-notes.md`
-- [ ] Write Week 2 journal entry
+- [X] Document TS learnings in `docs/ts-notes.md`
+- [X] Write Week 2 journal entry
 
 **✅ Milestone:** Confident TS usage, repo standards, CI skeleton, testing basics.
 
@@ -39,8 +39,8 @@
 ## Phase 2: React & Next.js Production Patterns (Weeks 3–5)
 
 ### Week 3 — Storefront UI & Component Library (~22 hrs)
-- [ ] Scaffold Next.js + TypeScript app (`apps/web`); add Tailwind CSS and design tokens
-- [ ] Create base layout, navigation, global styles
+- [X] Scaffold Next.js + TypeScript app (`apps/web`); add Tailwind CSS and design tokens
+- [X] Create base layout, navigation, global styles
 - [ ] Install Storybook; build core components (Button, Card, Input, Navbar, Footer, ProductCard)
 - [ ] Build product listing page (static data, responsive grid)
 - [ ] Build product detail page (image gallery, variant selector, price display, SEO meta)

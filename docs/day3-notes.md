@@ -1,0 +1,3 @@
+# I covered a lot of ground today. I spent more time reinforcing core TypeScript concepts—generics, utility types, and conditional types—and finally got to see them working together in a real context. I built my initial schema using Zod, which helped solidify how these patterns behave when validating actual data instead of just reading examples.
+
+# I also scaffolded the first pieces of the web UI with Next.js. Since I’m already familiar with React, the transition felt natural, and the shared patterns made the setup smoother than expected. I let AI assist with choosing a color palette, handling some styling, and reviewing my code. Visual design has always been a weaker area for me, so utilizing AI helped me focuse more on TypeScript architecture and schema design.
