@@ -1,35 +1,54 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
+import { useState } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { useCart } from '../store/cart';
+
+// Shopping Bag
+const ShoppingBag = () => {
+  const count = useCart((state) =>
+    state.items.reduce((sum, i) => sum + i.quantity, 0),
+  );
+  return (
+    <div className="relative flex items-center h-7 w-7">
+      <Image
+        src="/shopping-bag.svg"
+        alt="shopping bag"
+        fill
+        className="object-contain"
+      />
+      {count > 0 && (
+        <span className="absolute inset-0 flex items-center justify-center text-[10px] text-accent-600 font-bold">
+          {count}
+        </span>
+      )}
+    </div>
+  );
+};
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
 
   return (
     <nav className="bg-surface-50 border-b border-surface-200 font-body">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-
           {/* Logo */}
           <div className="flex items-center">
             <Link href="/" className="flex items-center gap-2">
               <Image
-                src="/logo.svg"
+                src="/logo_banner.png"
                 alt="Holy Smokes Engraving"
-                width={250}
-                height={250}
-                className="h-10 w-auto"
+                width={160}
+                height={140}
+                className="w-auto"
               />
-              <span className="text-brand-700 font-heading text-xl font-bold tracking-tight">
-                Holy Smokes Engraving
-              </span>
             </Link>
           </div>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-8 ">
             <Link
               href="/shop"
               className="text-surface-700 hover:text-brand-600 text-sm font-medium"
@@ -64,11 +83,12 @@ export const Navbar = () => {
             </Link>
           </div>
 
+          <ShoppingBag />
           {/* Mobile Menu Button */}
           <button
             onClick={() => setOpen(!open)}
             className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-surface-700 hover:bg-surface-200"
-            aria-label = {open ? 'Close menu' : 'Open menu'}
+            aria-label={open ? 'Close menu' : 'Open menu'}
           >
             {open ? (
               <svg
@@ -139,4 +159,4 @@ export const Navbar = () => {
       )}
     </nav>
   );
-}
+};
