@@ -25,10 +25,10 @@
 ### Week 2 — Advanced TypeScript & CI (~20 hrs)
 - [X] Deep dive: strict compiler options (`strict`, `noImplicitAny`, `exactOptionalPropertyTypes`)
 - [X] Build typed utility library (money formatting, slug generator); add tests
-- [ ] TypeScript patterns for React: typed props, custom hooks
-- [] API typing patterns: DTOs, validation with Zod, mapping DB rows to types
+- [X] TypeScript patterns for React: typed props, custom hooks
+- [X] API typing patterns: DTOs, validation with Zod, mapping DB rows to types
 - [X] Update CI to run lint + tests on PR
-- [ ] Set up GitHub Projects board; create issues for Week 3 tasks
+- [X] Set up GitHub Projects board; create issues for Week 3 tasks
 - [X] Document TS learnings in `docs/ts-notes.md`
 - [X] Write Week 2 journal entry
 

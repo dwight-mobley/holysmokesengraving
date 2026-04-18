@@ -1,0 +1,5 @@
+# Today I covered a lot of ground again and knocked out almost all of my Week 2 tasks. I built the product card component along with the shared UI pieces—Button, Card, and Input. Putting these together really helped solidify how TypeScript fits into React and Next.js component patterns.
+
+# I used interfaces for the component props, which allowed me to extend the base HTML element attributes directly. It didn’t feel like a massive advantage over defining a standalone type, but I can already see the long‑term benefits. For example, extending from the underlying HTML element automatically includes things like className, whereas with a custom type I’d have to manually add that. Little details like that are starting to click as I build more real components.
+
+# Overall, today felt like another strong step forward in understanding how to structure reusable UI in a TypeScript‑first workflow.
