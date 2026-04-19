@@ -41,7 +41,7 @@
 ### Week 3 — Storefront UI & Component Library (~22 hrs)
 - [X] Scaffold Next.js + TypeScript app (`apps/web`); add Tailwind CSS and design tokens
 - [X] Create base layout, navigation, global styles
-- [ ] Install Storybook; build core components (Button, Card, Input, Navbar, Footer, ProductCard)
+- [X] Install Storybook; build core components (Button, Card, Input, Navbar, Footer, ProductCard)
 - [ ] Build product listing page (static data, responsive grid)
 - [ ] Build product detail page (image gallery, variant selector, price display, SEO meta)
 - [ ] Add cart state (Zustand or Context); add/remove/update quantity; persist to localStorage
