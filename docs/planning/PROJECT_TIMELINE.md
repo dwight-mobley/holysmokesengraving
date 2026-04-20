@@ -53,7 +53,7 @@
 ### Week 4 — Search, Checkout UI & Polish (~22 hrs)
 - [x] Integrate image CDN (Cloudinary or S3); responsive `next/image` usage
 - [x] Product filters and search (client-side); debounce and keyboard accessibility
-- [ ] Build checkout UI calling placeholder API for Stripe Checkout session
+- [x] Build checkout UI calling placeholder API for Stripe Checkout session
 - [ ] Add login/register skeleton (optional); guest checkout as default
 - [ ] Add analytics event stubs; run Lighthouse performance checks
 - [ ] Write Storybook component docs

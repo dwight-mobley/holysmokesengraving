@@ -11,16 +11,16 @@ const ShoppingBag = () => {
     state.items.reduce((sum, i) => sum + i.quantity, 0),
   );
   return (
-    <Link href='/cart' aria-label={`Shopping cart, ${count} item${count !== 1 ? 's' : ''}`} className="relative flex items-center h-7 w-7">
+    <Link href='/cart' aria-label={`Shopping cart, ${count} item${count !== 1 ? 's' : ''}`} className="relative flex items-center h-10 w-10">
       <Image
         src="https://res.cloudinary.com/dwf7x3rjv/image/upload/v1776687837/shopping-bag_f9ypf5.svg"
         alt="shopping bag"
         fill
         sizes='100%'
-        className="object-contain"
+        className=""
       />
       {count > 0 && (
-        <span className="absolute inset-0 flex items-center justify-center text-[10px] text-accent-600 font-bold">
+        <span className={`absolute top-2.5 inset-1 flex items-center justify-center text-[12px] text-accent-600 font-bold`}>
           {count}
         </span>
       )}
@@ -44,13 +44,13 @@ export const Navbar = () => {
                 width={300}
                 height={60}
                 priority
-                className='max-w-none h-auto'
+                className='max-w-50 md:max-w-none h-auto'
               />
             </Link>
           </div>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center space-x-8 ">
+          <div className="hidden min-[900px]:flex w-full ps-9 items-center space-x-8 ">
             <Link
               href="/shop"
               className="text-surface-700 hover:text-brand-600 text-sm font-medium"
@@ -75,13 +75,20 @@ export const Navbar = () => {
             >
               About
             </Link>
-
-            {/* CTA */}
+               {/* CTA */}
             <Link
               href="/contact"
               className="bg-accent-500 hover:bg-accent-600 text-white text-sm font-semibold px-4 py-2 rounded-md transition"
             >
               Contact
+            </Link>
+
+
+            <Link
+              href="/login"
+              className="ms-auto pe-5 text-surface-700 hover:text-brand-600 text-sm font-medium"
+            >
+              Login
             </Link>
           </div>
 
@@ -91,7 +98,7 @@ export const Navbar = () => {
             aria-label={open ? 'Close menu' : 'Open menu'}
             aria-expanded={open}
             onClick={() => setOpen(!open)}
-            className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-surface-700 hover:bg-surface-200"
+            className="min-[900px]:hidden inline-flex items-center justify-center p-2 rounded-md text-surface-700 hover:bg-surface-200"
           >
             {open ? (
               <svg
@@ -126,7 +133,7 @@ export const Navbar = () => {
 
       {/* Mobile Menu */}
       {open && (
-        <div className="md:hidden px-4 pb-4 space-y-2">
+        <div className="min-[900px]:hidden px-4 pb-4 space-y-2">
           <Link
             href="/shop"
             className="block text-surface-700 hover:text-brand-600 text-base font-medium"
@@ -152,12 +159,20 @@ export const Navbar = () => {
             About
           </Link>
 
+             {/* CTA */}
+            <Link
+              href="/contact"
+              className="block my-3 w-full max-w-50 bg-accent-500 hover:bg-accent-600 text-white text-sm font-semibold px-4 py-2 rounded-md transition"
+            >
+              Contact
+            </Link>
+
           <Link
-            href="/contact"
-            className="block bg-accent-500 hover:bg-accent-600 text-white text-base font-semibold px-4 py-2 rounded-md transition"
-          >
-            Contact
-          </Link>
+              href="/login"
+              className="block  text-surface-700 hover:text-brand-600 text-base font-medium"
+            >
+              Login
+            </Link>
         </div>
       )}
     </nav>
