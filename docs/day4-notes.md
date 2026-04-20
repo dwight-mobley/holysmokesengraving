@@ -2,4 +2,6 @@
 
 # I used interfaces for the component props, which allowed me to extend the base HTML element attributes directly. It didn’t feel like a massive advantage over defining a standalone type, but I can already see the long‑term benefits. For example, extending from the underlying HTML element automatically includes things like className, whereas with a custom type I’d have to manually add that. Little details like that are starting to click as I build more real components.
 
+# I also installed and set up Storybook, creating initial stories for the components. It felt a bit tedious upfront, but I can already see the payoff; having a dedicated space to preview variants without wiring everything into the app is going to make iteration much smoother.
+
 # Overall, today felt like another strong step forward in understanding how to structure reusable UI in a TypeScript‑first workflow.

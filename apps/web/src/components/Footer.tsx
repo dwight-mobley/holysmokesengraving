@@ -5,7 +5,7 @@ export const Footer =()=> {
     <footer className="bg-surface-900 text-surface-200 font-body">
       <div className="mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* Bottom Section */}
-        <div className="flex flex-col md:flex-row justify-between items-center text-xs text-surface-500">
+        <div className="flex flex-col md:flex-row justify-between items-center text-xs text-surface-200">
           <p>© {new Date().getFullYear()} Holy Smokes Engraving. All rights reserved.</p>
 
           <div className="flex gap-4 mt-4 md:mt-0">

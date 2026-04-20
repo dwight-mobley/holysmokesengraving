@@ -41,10 +41,10 @@
 ### Week 3 — Storefront UI & Component Library (~22 hrs)
 - [X] Scaffold Next.js + TypeScript app (`apps/web`); add Tailwind CSS and design tokens
 - [X] Create base layout, navigation, global styles
-- [ ] Install Storybook; build core components (Button, Card, Input, Navbar, Footer, ProductCard)
-- [ ] Build product listing page (static data, responsive grid)
-- [ ] Build product detail page (image gallery, variant selector, price display, SEO meta)
-- [ ] Add cart state (Zustand or Context); add/remove/update quantity; persist to localStorage
+- [X] Install Storybook; build core components (Button, Card, Input, Navbar, Footer, ProductCard)
+- [x] Build product listing page (static data, responsive grid)
+- [x] Build product detail page (image gallery, variant selector, price display, SEO meta)
+- [x] Add cart state (Zustand or Context); add/remove/update quantity; persist to localStorage
 - [ ] Accessibility checks and Lighthouse performance checks
 - [ ] Write component tests with React Testing Library
 - [ ] Deploy preview to Vercel
