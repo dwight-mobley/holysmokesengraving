@@ -1,4 +1,5 @@
 import type {Meta, StoryObj} from '@storybook/nextjs-vite';
+import { within, userEvent, expect } from 'storybook/test';
 import {Input} from '@/components/ui';
 import '../app/globals.css'
 
@@ -31,8 +32,15 @@ export const Small: Story = {
 export const Medium: Story = {
     args: {
         size: 'md',
-         placeholder: 'Medium Input'
-    }
+         placeholder: 'Medium Input',
+        'aria-label': 'Medium Input'
+    },
+     play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('textbox');
+    await userEvent.type(input, 'Hello World');
+    await expect(input).toHaveValue('Hello World');
+  },
 }
 
 export const Large: Story = {

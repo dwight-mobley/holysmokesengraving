@@ -45,8 +45,8 @@
 - [x] Build product listing page (static data, responsive grid)
 - [x] Build product detail page (image gallery, variant selector, price display, SEO meta)
 - [x] Add cart state (Zustand or Context); add/remove/update quantity; persist to localStorage
-- [ ] Accessibility checks and Lighthouse performance checks
-- [ ] Write component tests with React Testing Library
+- [x] Accessibility checks and Lighthouse performance checks
+- [x] Write component tests with Storybook
 - [ ] Deploy preview to Vercel
 - [ ] Write Week 3 journal entry
 
