@@ -27,7 +27,7 @@ export default async function ProductDetailsPage({
     <div className="max-w-6xl mx-auto p-6 space-y-8">
       {/* Back Link */}
       <Link href="/shop" className="text-brand-600 underline">
-        ← Back to Shop
+        <span  aria-hidden="true">← </span> Back to Shop
       </Link>
 
       {/* Product Image */}
@@ -36,6 +36,7 @@ export default async function ProductDetailsPage({
           src={product.image ?? '/logo.png'}
           alt={product.name}
           fill
+          sizes="(max-width: 768px) 100vw, 400px"
           className="object-contain p-4"
         />
       </div>

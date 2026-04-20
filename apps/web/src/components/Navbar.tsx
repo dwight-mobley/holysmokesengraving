@@ -11,7 +11,7 @@ const ShoppingBag = () => {
     state.items.reduce((sum, i) => sum + i.quantity, 0),
   );
   return (
-    <div className="relative flex items-center h-7 w-7">
+    <Link href='/cart' aria-label={`Shopping cart, ${count} item${count !== 1 ? 's' : ''}`} className="relative flex items-center h-7 w-7">
       <Image
         src="/shopping-bag.svg"
         alt="shopping bag"
@@ -23,7 +23,7 @@ const ShoppingBag = () => {
           {count}
         </span>
       )}
-    </div>
+    </Link>
   );
 };
 
@@ -42,6 +42,7 @@ export const Navbar = () => {
                 alt="Holy Smokes Engraving"
                 width={160}
                 height={140}
+                priority
                 className="w-auto"
               />
             </Link>
@@ -86,9 +87,10 @@ export const Navbar = () => {
           <ShoppingBag />
           {/* Mobile Menu Button */}
           <button
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-expanded={open}
             onClick={() => setOpen(!open)}
             className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-surface-700 hover:bg-surface-200"
-            aria-label={open ? 'Close menu' : 'Open menu'}
           >
             {open ? (
               <svg

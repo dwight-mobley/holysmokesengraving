@@ -18,7 +18,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     secondary:
       'bg-surface-800 text-brand-200 hover:bg-surface-700 focus:ring-brand-300',
     accent:
-      'bg-accent-500 text-surface-50 hover:bg-accent-600 focus:ring-accent-400',
+      'bg-accent-600 text-surface-50 hover:bg-accent-700 focus:ring-accent-400',
   };
 
   const sizeStyles = {

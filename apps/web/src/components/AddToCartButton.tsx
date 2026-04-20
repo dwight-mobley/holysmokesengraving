@@ -24,6 +24,7 @@ export const AddToCartButton = ({ productId, name, price }: AddToCartButtonProps
         <div className="mb-3">
           <span>You have</span>
           <Button
+            aria-label="Decrease quantity"
             onClick={() => updateQuantity(productId, inCart.quantity - 1)}
             size="sm"
             variant="accent"
@@ -33,6 +34,7 @@ export const AddToCartButton = ({ productId, name, price }: AddToCartButtonProps
           </Button>
           <span>{inCart.quantity}</span>
           <Button
+            aria-label="Increase quantity"
             onClick={() => updateQuantity(productId, inCart.quantity + 1)}
             size="sm"
             variant="accent"

@@ -14,9 +14,9 @@ export default function ProductPage() {
       </div>
       {/* Products */}
       <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {products.map((p) => {
+        {products.map((p, i) => {
           const { createdAt: _createdAt, updatedAt: _updatedAt, quantity: _quantity, tags:_tags, ...cleanedProduct } = p;
-          return <ProductCard key={p.id} {...cleanedProduct} />;
+          return <ProductCard key={p.id} priority={i === 0} {...cleanedProduct} />;
         })}
       </div>
     </div>

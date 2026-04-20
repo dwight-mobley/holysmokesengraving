@@ -15,6 +15,7 @@ interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
   price: number;
   image?: string;
   description?: string;
+  priority?: boolean
 }
 
 export const ProductCard = ({
@@ -24,20 +25,27 @@ export const ProductCard = ({
   price,
   image,
   description,
+  priority,
   className,
   ...props
 }: ProductCardProps) => {
-
   const baseStyles =
     'flex flex-col transition hover:shadow-lg hover:border-brand-300';
 
   return (
     <Card className={clsx(baseStyles, className)} {...props}>
-      <Link href={`/shop/${slug}`}>
+      <Link href={`/shop/${slug}`} aria-label={`View ${name}`}>
         {/* Image */}
         {image && (
           <div className="relative w-full h-48 mb-4 rounded-md overflow-hidden bg-surface-100">
-            <Image src={image} alt={name} fill className="object-contain" />
+            <Image
+              src={image}
+              alt={name}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+              priority={priority}
+              className="object-contain"
+            />
           </div>
         )}
 
@@ -52,7 +60,7 @@ export const ProductCard = ({
         {/* Price */}
         <p className="text-brand-700 font-bold text-lg">{formatMoney(price)}</p>
       </Link>
-      <AddToCartButton productId={id} name={name} price={price}/>
+      <AddToCartButton productId={id} name={name} price={price} />
     </Card>
   );
 };
