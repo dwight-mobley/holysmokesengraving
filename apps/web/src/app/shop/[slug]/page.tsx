@@ -20,13 +20,11 @@ export default async function ProductDetailsPage({
 }: ProductDetailPageProps) {
   const { slug } = await params;
 
-  const res = await fetch(`http://localhost:3000/api/products/${slug}`);
+ const product = products.find(p => p.slug === slug)
 
-  if(!res.ok){
+  if(!product){
     return notFound()
   }
-
-  const product = (await res.json()).product;
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
