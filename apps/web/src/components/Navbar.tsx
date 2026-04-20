@@ -13,9 +13,10 @@ const ShoppingBag = () => {
   return (
     <Link href='/cart' aria-label={`Shopping cart, ${count} item${count !== 1 ? 's' : ''}`} className="relative flex items-center h-7 w-7">
       <Image
-        src="/shopping-bag.svg"
+        src="https://res.cloudinary.com/dwf7x3rjv/image/upload/v1776687837/shopping-bag_f9ypf5.svg"
         alt="shopping bag"
         fill
+        sizes='100%'
         className="object-contain"
       />
       {count > 0 && (
@@ -38,12 +39,12 @@ export const Navbar = () => {
           <div className="flex items-center">
             <Link href="/" className="flex items-center gap-2">
               <Image
-                src="/logo_banner.png"
+                src="https://res.cloudinary.com/dwf7x3rjv/image/upload/v1776687837/logo_banner_blogiz.png"
                 alt="Holy Smokes Engraving"
-                width={160}
-                height={140}
+                width={300}
+                height={60}
                 priority
-                className="w-auto"
+                className=""
               />
             </Link>
           </div>

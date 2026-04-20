@@ -10,9 +10,12 @@ export default function Home() {
         className="relative overflow-hidden bg-black text-white text-center w-full min-h-screen flex items-center justify-center"
       >
         <Image
-          src={'/collection.webp'}
+          src={
+            'https://res.cloudinary.com/dwf7x3rjv/image/upload/v1776687837/collection_i1qpcw.webp'
+          }
           alt=""
           fill
+          sizes='100%'
           priority
           className="object-cover object-center"
         />
@@ -65,9 +68,16 @@ export default function Home() {
               </Link>
             </div>
 
-            <div
-              className="relative overflow-hidden flex flex-col justify-center items-center p-5 rounded-lg text-white text-center h-80 border-4 border-accent-400">
-                <Image src={'/collection_2.webp'} alt="" fill className="object-cover object-center "/>
+            <div className="relative overflow-hidden flex flex-col justify-center items-center p-5 rounded-lg text-white text-center h-80 border-4 border-accent-400">
+              <Image
+                src={
+                  'https://res.cloudinary.com/dwf7x3rjv/image/upload/v1776687837/collection_2_xqimug.webp'
+                }
+                alt=""
+                fill
+                sizes='100%'
+                className="object-cover object-center "
+              />
               <div className="flex flex-col justify-center items-center bg-surface-900/60 p-4 rounded-lg border-2 border-accent-400 backdrop-blur-sm gap-1">
                 <p className="text-2xl font-bold text-accent-400">
                   Crafted with Faith

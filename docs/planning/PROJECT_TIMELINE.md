@@ -47,11 +47,11 @@
 - [x] Add cart state (Zustand or Context); add/remove/update quantity; persist to localStorage
 - [x] Accessibility checks and Lighthouse performance checks
 - [x] Write component tests with Storybook
-- [ ] Deploy preview to Vercel
-- [ ] Write Week 3 journal entry
+- [x] Deploy preview to Vercel
+- [x] Write Week 3 journal entry
 
 ### Week 4 — Search, Checkout UI & Polish (~22 hrs)
-- [ ] Integrate image CDN (Cloudinary or S3); responsive `next/image` usage
+- [x] Integrate image CDN (Cloudinary or S3); responsive `next/image` usage
 - [ ] Product filters and search (client-side); debounce and keyboard accessibility
 - [ ] Build checkout UI calling placeholder API for Stripe Checkout session
 - [ ] Add login/register skeleton (optional); guest checkout as default
