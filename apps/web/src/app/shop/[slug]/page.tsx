@@ -19,9 +19,12 @@ export default async function ProductDetailsPage({
   params,
 }: ProductDetailPageProps) {
   const { slug } = await params;
-  const product = products.find((p) => p.slug === slug);
 
-  if (!product) notFound();
+ const product = products.find(p => p.slug === slug)
+
+  if(!product){
+    return notFound()
+  }
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
