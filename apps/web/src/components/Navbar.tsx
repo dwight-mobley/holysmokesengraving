@@ -44,7 +44,7 @@ export const Navbar = () => {
                 width={300}
                 height={60}
                 priority
-                className=""
+                className='max-w-none h-auto'
               />
             </Link>
           </div>

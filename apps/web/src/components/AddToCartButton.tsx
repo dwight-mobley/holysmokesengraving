@@ -10,7 +10,7 @@ type AddToCartButtonProps = {
   price: number
 };
 
-export const AddToCartButton = ({ productId, name, price }: AddToCartButtonProps) => {
+export const AddToCartButton = ({ productId, name, price, ...props }: AddToCartButtonProps) => {
 
   const items = useCart((state) => state.items);
 
@@ -19,7 +19,7 @@ export const AddToCartButton = ({ productId, name, price }: AddToCartButtonProps
 
   const inCart = items.filter((i) => i.productId === productId)[0];
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" {...props}>
       {inCart && (
         <div className="mb-3">
           <span>You have</span>

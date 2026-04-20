@@ -1,9 +1,16 @@
-import React from 'react';
-import { products } from '@/data/products';
-import { ProductCard } from '@/components/ProductCard';
-import { ShopClient } from '@/components/ShopClient';
 
-export default function ProductPage() {
+
+import { ShopClient } from '@/components/ShopClient';
+import { Product } from '@/types/product';
+
+
+
+export default async function ProductPage() {
+  const res = await fetch('http://localhost:3000/api/products')
+  const data = await res.json();
+  const {products} = data
+
+
   return (
     <div>
       {/* Products */}
