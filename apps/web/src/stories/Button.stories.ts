@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import {within, expect} from 'storybook/test'
 import { Button } from '@/components/ui/Button';
 import '../app/globals.css';
 
@@ -52,4 +53,9 @@ export const Disabled: Story = {
     variant: 'primary',
     disabled: true,
   },
+  play: async({canvasElement}) =>{
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole('button', {name:/unavailable/i})
+    await expect(button).toBeDisabled();
+  }
 };
