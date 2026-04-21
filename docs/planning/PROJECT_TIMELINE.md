@@ -54,7 +54,7 @@
 - [x] Integrate image CDN (Cloudinary or S3); responsive `next/image` usage
 - [x] Product filters and search (client-side); debounce and keyboard accessibility
 - [x] Build checkout UI calling placeholder API for Stripe Checkout session
-- [ ] Add login/register skeleton (optional); guest checkout as default
+- [X] Add login/register skeleton (optional); guest checkout as default
 - [ ] Add analytics event stubs; run Lighthouse performance checks
 - [ ] Write Storybook component docs
 - [ ] Update README with frontend setup instructions

@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { AddToCartButton } from '@/components/AddToCartButton';
 import Image from 'next/image';
 import { formatMoney } from '@/utils/formatMoney';
-import {notFound} from 'next/navigation'
-
+import { notFound } from 'next/navigation';
+import { analytics } from '@/utils/analytics';
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -20,17 +20,20 @@ export default async function ProductDetailsPage({
 }: ProductDetailPageProps) {
   const { slug } = await params;
 
- const product = products.find(p => p.slug === slug)
+  const product = products.find((p) => p.slug === slug);
 
-  if(!product){
-    return notFound()
+  if (!product) {
+    return notFound();
   }
+
+  //Analytics
+  analytics.productViewed(product.id, product.name, product.price);
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
       {/* Back Link */}
       <Link href="/shop" className="text-brand-600 underline">
-        <span  aria-hidden="true">← </span> Back to Shop
+        <span aria-hidden="true">← </span> Back to Shop
       </Link>
 
       {/* Product Image */}
@@ -45,7 +48,7 @@ export default async function ProductDetailsPage({
       </div>
 
       {/* Name + Price */}
-      <div className='text-center'>
+      <div className="text-center">
         <h1 className="text-3xl font-bold text-brand-800">{product.name}</h1>
         <p className="text-xl font-semibold text-brand-700 mt-2">
           {formatMoney(product.price)}
@@ -61,7 +64,11 @@ export default async function ProductDetailsPage({
 
       {/* Add to Cart */}
       <div className="pt-4 flex justify-center">
-        <AddToCartButton productId={product.id} name={product.name} price={product.price}/>
+        <AddToCartButton
+          productId={product.id}
+          name={product.name}
+          price={product.price}
+        />
       </div>
     </div>
   );

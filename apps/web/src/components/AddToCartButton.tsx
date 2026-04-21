@@ -2,6 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui';
 import { useCart } from '@/store/cart';
+import { analytics } from '@/utils/analytics';
 
 
 type AddToCartButtonProps = {
@@ -46,7 +47,11 @@ export const AddToCartButton = ({ productId, name, price, ...props }: AddToCartB
         </div>
       )}
       {!inCart && (
-        <Button onClick={() => addItem({ productId, name, price })}>
+        <Button onClick={() => {
+          const isNew = !items.find(i=>i.productId === productId);
+          addItem({ productId, name, price })
+          if(isNew) analytics.addedToCart(productId, name, price)
+          }}>
           Add To Cart
         </Button>
       )}
