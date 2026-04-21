@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/store/cart';
 import { formatMoney } from '@/utils/formatMoney';
 import { Button, Input } from './ui';
 import Link from 'next/link';
+import { analytics } from '@/utils/analytics';
 
 type CheckoutForm = {
   email: string;
@@ -28,6 +29,9 @@ const initialForm: CheckoutForm = {
 export const CheckoutClient = () => {
   const items = useCart((state) => state.items);
   const total = useCart((state) => state.total)();
+  const totalItems = useCart((state) =>
+    state.items.reduce((sum, i) => sum + i.quantity, 0),
+  );
   const taxTotal = Math.round(total * 0.07);
   const shipping = 999;
   const grandTotal = total + taxTotal + shipping;
@@ -36,6 +40,13 @@ export const CheckoutClient = () => {
   const [errors, setErrors] = useState<Partial<CheckoutForm>>({});
   const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
+
+  //Analytics
+  useEffect(() => {
+    if (items.length > 0) {
+      analytics.checkoutStarted(grandTotal, totalItems);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (items.length === 0) {
     return (
@@ -87,6 +98,8 @@ export const CheckoutClient = () => {
         body: JSON.stringify({ customer: form, items }),
       });
       const data = await res.json();
+      //Analytics
+      analytics.orderCompleted(grandTotal);
       router.push(data.url);
     } catch {
       setSubmitting(false);
@@ -103,9 +116,12 @@ export const CheckoutClient = () => {
       <div className="space-y-6 w-full max-w-lg">
         {/* Contact */}
         <div className="bg-white rounded-lg p-4 space-y-4">
-            <h2 className="font-bold text-lg text-brand-800">Contact</h2>
+          <h2 className="font-bold text-lg text-brand-800">Contact</h2>
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-surface-700 mb-1">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-surface-700 mb-1"
+            >
               Email
             </label>
             <Input
@@ -126,12 +142,13 @@ export const CheckoutClient = () => {
 
         {/* Shipping */}
         <div className="bg-white rounded-lg p-6 space-y-4">
-          <h2 className="font-bold text-lg text-brand-800">
-            Shipping Address
-          </h2>
+          <h2 className="font-bold text-lg text-brand-800">Shipping Address</h2>
 
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-surface-700 mb-1">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-surface-700 mb-1"
+            >
               Full Name
             </label>
             <Input
@@ -148,7 +165,10 @@ export const CheckoutClient = () => {
           </div>
 
           <div>
-            <label htmlFor="address" className="block text-sm font-medium text-surface-700 mb-1">
+            <label
+              htmlFor="address"
+              className="block text-sm font-medium text-surface-700 mb-1"
+            >
               Address
             </label>
             <Input
@@ -166,7 +186,10 @@ export const CheckoutClient = () => {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label htmlFor="city" className="block text-sm font-medium text-surface-700 mb-1">
+              <label
+                htmlFor="city"
+                className="block text-sm font-medium text-surface-700 mb-1"
+              >
                 City
               </label>
               <Input
@@ -182,7 +205,10 @@ export const CheckoutClient = () => {
               )}
             </div>
             <div>
-              <label htmlFor="state" className="block text-sm font-medium text-surface-700 mb-1">
+              <label
+                htmlFor="state"
+                className="block text-sm font-medium text-surface-700 mb-1"
+              >
                 State
               </label>
               <Input
@@ -200,7 +226,10 @@ export const CheckoutClient = () => {
           </div>
 
           <div className="w-1/2">
-            <label htmlFor="zip" className="block text-sm font-medium text-surface-700 mb-1">
+            <label
+              htmlFor="zip"
+              className="block text-sm font-medium text-surface-700 mb-1"
+            >
               ZIP Code
             </label>
             <Input
