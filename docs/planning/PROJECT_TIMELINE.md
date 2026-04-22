@@ -55,7 +55,7 @@
 - [x] Product filters and search (client-side); debounce and keyboard accessibility
 - [x] Build checkout UI calling placeholder API for Stripe Checkout session
 - [X] Add login/register skeleton (optional); guest checkout as default
-- [ ] Add analytics event stubs; run Lighthouse performance checks
+- [x] Add analytics event stubs; run Lighthouse performance checks
 - [ ] Write Storybook component docs
 - [ ] Update README with frontend setup instructions
 - [ ] Write Week 4 journal entry
