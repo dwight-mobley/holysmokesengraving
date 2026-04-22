@@ -56,13 +56,13 @@
 - [x] Build checkout UI calling placeholder API for Stripe Checkout session
 - [X] Add login/register skeleton (optional); guest checkout as default
 - [x] Add analytics event stubs; run Lighthouse performance checks
-- [ ] Write Storybook component docs
-- [ ] Update README with frontend setup instructions
-- [ ] Write Week 4 journal entry
+- [x] Write Storybook component docs
+- [x] Update README with frontend setup instructions
+- [x] Write Week 4 journal entry
 
 ### Week 5 — Data Fetching, Validation & API Contracts (~20 hrs)
-- [ ] Implement SSG for catalog, ISR for updates, SSR for cart/checkout pages
-- [ ] Add client-side form validation with React Hook Form + Zod
+- [x] Implement SSG for catalog, ISR for updates, SSR for cart/checkout pages
+- [x] Add client-side form validation with React Hook Form + Zod
 - [ ] Add integration tests for critical flows (add to cart, product page)
 - [ ] Create component library README
 - [ ] Define API contracts for backend (OpenAPI sketch)

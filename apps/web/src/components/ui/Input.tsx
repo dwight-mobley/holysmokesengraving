@@ -24,9 +24,10 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       ? 'border-accent-500 focus:ring-accent-500'
       : 'border-surface-300 focus:ring-brand-400 focus:border-brand-400';
 
+
     return (
       <input
-        ref={ref}
+        ref={ref}       
         data-invalid={invalid || undefined}
         aria-invalid={invalid || undefined}
         className={clsx(baseStyles, sizeStyles[size], stateStyles, className)}
