@@ -3,6 +3,7 @@ import { within, userEvent, expect } from 'storybook/test';
 import { ProductCard } from '@/components/ProductCard';
 import '../app/globals.css';
 
+
 //Product Data
 const product = {
   id: 'prod_board_001',
@@ -15,9 +16,18 @@ const product = {
 };
 
 const meta: Meta<typeof ProductCard> = {
-  title: 'UI/ProductCard',
+  title: 'Component/ProductCard',
   component: ProductCard,
   tags: ['autodocs'],
+   parameters: {
+    docs: {
+      description: {
+        component:
+          "Displays a product image, name, price, and CTA. Used in the product listing grid.",
+      },
+    },
+    layout: "centered",
+  },
 };
 
 export default meta;
@@ -26,7 +36,7 @@ type Story = StoryObj<typeof ProductCard>;
 export const ProductWithImage: Story = {
   args: {
     ...product,
-  },
+  },  
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
@@ -51,14 +61,29 @@ export const ProductWithImage: Story = {
 const { image, ...productNoImage } = product;
 export const ProductWithoutImage: Story = {
   args: { ...productNoImage },
+  parameters:{
+    description:{
+      component: "Display all product card properties except image."
+    }
+  },
 };
 
 const { description, ...productNoDescription } = product;
 export const ProductWithoutDescription: Story = {
   args: { ...productNoDescription },
+  parameters:{
+    description:{
+      component: "Display all product card properties except description"
+    }
+  },
 };
 
-const { image: i, ...productNoImageNoDescription } = productNoDescription;
+const { image:i, ...productNoImageNoDescription } = productNoDescription;
 export const ProductWithoutImageAndDescription: Story = {
   args: { ...productNoImageNoDescription },
+  parameters:{
+    description:{
+      component: "Display all product card properties except image and description."
+    }
+  },
 };
