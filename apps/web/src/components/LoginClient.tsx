@@ -1,75 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import {useForm} from 'react-hook-form'
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
-
-type LoginForm = {
-  email: string;
-  password: string;
-};
-
-const initialForm: LoginForm = {
-  email: "",
-  password: "",
-};
+import { loginSchema, type LoginForm } from "@/schemas/login.schema";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { FormField } from './ui/FormField';
+import Link from 'next/link';
 
 export default function LoginClient() {
-  const [form, setForm] = useState<LoginForm>(initialForm);
-  const [errors, setErrors] = useState<Partial<LoginForm>>({});
-  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const {register, handleSubmit, formState:{errors, isSubmitting}} = useForm<LoginForm>({
+    resolver: zodResolver(loginSchema)
+  });  
 
-    setForm((prev) => ({ ...prev, [name]: value }));
-
-    // Clear error on change
-    if (errors[name as keyof LoginForm]) {
-      setErrors((prev) => ({ ...prev, [name]: undefined }));
-    }
-  };
-
-  const validate = (): boolean => {
-    const next: Partial<LoginForm> = {};
-
-    // Email validation
-    if (!form.email.trim()) next.email = "Email is required";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
-      next.email = "Enter a valid email";
-
-    // Password validation
-    if (!form.password.trim()) next.password = "Password is required";
-
-    setErrors(next);
-    return Object.keys(next).length === 0;
-  };
-
-  const handleLogin = async (e: React.SubmitEvent) => {
-    e.preventDefault();
-
-    if (!validate()) return;
-
-    setLoading(true);
-
-    try {
-      // TODO: Replace with actual login API call
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-
-      const data = await res.json();
-      alert(JSON.stringify(data));
-
-      // Clear form on success
-      setForm(initialForm);
-    } catch (err) {
-      alert("Login failed");
-    } finally {
-      setLoading(false);
-    }
+  const handleLogin = async (data: LoginForm) => {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    router.push('/');
   };
 
   return (
@@ -78,72 +31,49 @@ export default function LoginClient() {
         Login
       </h1>
 
-      <form onSubmit={handleLogin} className="space-y-6">
+      <form onSubmit={handleSubmit(handleLogin)} className="space-y-6">
         {/* Email */}
-        <div className="space-y-2">
-          <label
-            htmlFor="email"
-            className="text-sm font-medium text-surface-700"
-          >
-            Email
-          </label>
+        <FormField label='Email' error={errors.email?.message} >         
           <Input
-            id="email"
-            type="email"
-            name="email"
-            placeholder="you@example.com"
-            value={form.email}
-            onChange={handleChange}
+            {...register('email')}
+            autoComplete='email'
             invalid={!!errors.email}
             className="bg-surface-50 border-surface-300 focus:ring-brand-400"
-          />
-          {errors.email && (
-            <p className="text-red-600 text-sm mt-1">{errors.email}</p>
-          )}
-        </div>
+          />          
+        </FormField>
 
         {/* Password */}
-        <div className="space-y-2">
-          <label
-            htmlFor="password"
-            className="text-sm font-medium text-surface-700"
-          >
-            Password
-          </label>
+        <FormField label='Password' error={errors.password?.message}>
+         
           <Input
-            id="password"
-            type="password"
-            name="password"
-            placeholder="••••••••••"
-            value={form.password}
-            onChange={handleChange}
+           {...register('password')}
+            placeholder="••••••••••"     
+            type='password'
+            autoComplete='current-password'      
             invalid={!!errors.password}
             className="bg-surface-50 border-surface-300 focus:ring-brand-400"
-          />
-          {errors.password && (
-            <p className="text-red-600 text-sm mt-1">{errors.password}</p>
-          )}
-        </div>
+          />          
+        </FormField>
 
         {/* Submit */}
         <Button
           type="submit"
-          disabled={loading}
+          disabled={isSubmitting}
           className="w-full bg-brand-600 hover:bg-brand-700 text-white"
         >
-          {loading ? "Logging in..." : "Login"}
+          {isSubmitting ? "Logging in..." : "Login"}
         </Button>
       </form>
 
       {/* Footer */}
       <p className="text-center text-sm text-surface-600 mt-6">
         Don’t have an account?{" "}
-        <a
+        <Link
           href="/register"
           className="text-accent-600 hover:text-accent-700 font-medium"
         >
           Create Account
-        </a>
+        </Link>
       </p>
     </div>
   );
