@@ -26,7 +26,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <input
-      ref={ref}
+        ref={ref}
+        data-invalid={invalid || undefined}
+        aria-invalid={invalid || undefined}
         className={clsx(baseStyles, sizeStyles[size], stateStyles, className)}
         {...props}
       />
