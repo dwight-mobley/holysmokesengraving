@@ -42,6 +42,8 @@ Open [http://localhost:3000](http://localhost:3000).
 | `npm run lint`            | Run ESLint                    |
 | `npm run storybook`       | Start Storybook on port 6006  |
 | `npm run build-storybook` | Build static Storybook        |
+| `npm run test`            | Run Storybook component tests via Vitest |
+| `npm run test:ui`         | Run test with Vitest UI       |
 
 ## Project Structure
 
@@ -53,6 +55,7 @@ src/
   store/        # Zustand cart store
   types/        # TypeScript types
   utils/        # formatMoney, analytics stubs
+  stories/      # Storybook stories and component tests
 ```
 
 ## Key Pages
