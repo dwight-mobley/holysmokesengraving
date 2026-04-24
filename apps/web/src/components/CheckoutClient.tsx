@@ -20,7 +20,7 @@ export const CheckoutClient = () => {
   const totalItems = useCart((state) =>
     state.items.reduce((sum, i) => sum + i.quantity, 0),
   );
-  const taxTotal = Math.round(total * 0.07);
+  const taxTotal = Math.round(total * .07);
   const shipping = 999;
   const grandTotal = total + taxTotal + shipping;
   
