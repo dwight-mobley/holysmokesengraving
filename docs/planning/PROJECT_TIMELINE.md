@@ -66,7 +66,7 @@
 - [x] Add integration tests for critical flows (add to cart, product page)
 - [x] Create component library README
 - [x] Define API contracts for backend (OpenAPI sketch)
-- [ ] Record 3-minute frontend walkthrough for portfolio
+- [ ] Record 3-minute frontend walkthrough for portfolio - Loom
 - [ ] Write Week 5 journal entry
 
 **✅ Milestone:** Production-grade frontend with component library, SSG/SSR, cart UX, and test coverage.
