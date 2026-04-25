@@ -63,9 +63,9 @@
 ### Week 5 — Data Fetching, Validation & API Contracts (~20 hrs)
 - [x] Implement SSG for catalog, ISR for updates, SSR for cart/checkout pages
 - [x] Add client-side form validation with React Hook Form + Zod
-- [ ] Add integration tests for critical flows (add to cart, product page)
-- [ ] Create component library README
-- [ ] Define API contracts for backend (OpenAPI sketch)
+- [x] Add integration tests for critical flows (add to cart, product page)
+- [x] Create component library README
+- [x] Define API contracts for backend (OpenAPI sketch)
 - [ ] Record 3-minute frontend walkthrough for portfolio
 - [ ] Write Week 5 journal entry
 
