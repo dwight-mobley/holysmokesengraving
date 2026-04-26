@@ -79,10 +79,10 @@
 - [x] Scaffold Express + TypeScript API (`apps/api`)
 - [x] Dockerize Postgres via `docker-compose`
 - [x] Install Prisma (or TypeORM); create schema: products, variants, customers, orders
-- [ ] Create seed script (import product CSV/JSON); verify data in DB
-- [ ] Add DB migrations
-- [ ] Implement `GET /products` with pagination
-- [ ] Implement `GET /products/:slug`
+- [x] Create seed script (import product CSV/JSON); verify data in DB
+- [x] Add DB migrations
+- [x] Implement `GET /products` with pagination
+- [x] Implement `GET /products/:slug`
 - [ ] Implement `POST /orders` (no payment yet); add transactional safety
 - [ ] Add request validation middleware
 - [ ] Add error handling middleware
