@@ -19,6 +19,6 @@
     "declarationMap": true,
     "sourceMap": true
   },
-  "include": ["src/**/*"],
+  "include": ["packages/shared/src/schemas", "packages/shared/src/utils"],
   "exclude": ["node_modules", "dist"]
 }
