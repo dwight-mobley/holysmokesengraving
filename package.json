@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A full-stack, production-ready e-commerce platform built with TypeScript, Next.js, Postgres, Stripe, and SparkPost.",
   "main": "index.js",
-  "workspaces":["packages/*"],
+  "workspaces":["packages/*", "apps/*"],
   "directories": {
     "doc": "docs"
   },
