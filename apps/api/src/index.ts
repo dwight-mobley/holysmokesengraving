@@ -1,6 +1,7 @@
 import express from 'express';
 import {errorHandler} from './middleware/errorHandler';
 import {productRouter} from './routes/products';
+import { orderRouter } from './routes/orders';
 
 
 const app = express();
@@ -14,6 +15,7 @@ app.get('/health', (_req, res)=>{
 });
 
 app.use('/products', productRouter);
+app.use('/orders', orderRouter)
 
 app.use(errorHandler);
 

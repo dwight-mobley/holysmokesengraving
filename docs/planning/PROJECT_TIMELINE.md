@@ -83,7 +83,7 @@
 - [x] Add DB migrations
 - [x] Implement `GET /products` with pagination
 - [x] Implement `GET /products/:slug`
-- [ ] Implement `POST /orders` (no payment yet); add transactional safety
+- [x] Implement `POST /orders` (no payment yet); add transactional safety
 - [ ] Add request validation middleware
 - [ ] Add error handling middleware
 - [ ] Write integration tests against local DB
