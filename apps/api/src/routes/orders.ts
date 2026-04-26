@@ -2,21 +2,14 @@ import { Router, Request, Response, NextFunction } from 'express';
 import { z } from 'zod';
 import { prisma } from '../lib/prisma';
 import { CreateOrderSchema } from '@hse/shared';
+import { validate } from '../middleware/validate';
 
 export const orderRouter = Router();
 
-orderRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
+orderRouter.post('/', validate(CreateOrderSchema), async (req: Request, res: Response, next: NextFunction) => {
     try {
-        // Validate request body
-        const parsed = CreateOrderSchema.safeParse(req.body);
-
-        // Return 400 if not valid
-        if (!parsed.success) {
-            res.status(400).json({ error: z.treeifyError(parsed.error) });
-            return;
-        }
-
-        const { customerId, items } = parsed.data;
+    
+        const { customerId, items } = req.body;
 
         // Fetch the products from the database
         const productIds = items.map(i => i.productId);
