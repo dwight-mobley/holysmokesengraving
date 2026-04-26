@@ -1,15 +1,14 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { z } from 'zod';
 import { prisma } from '../lib/prisma';
-import { CreateOrderSchema } from '@hse/shared';
+import { CreateOrderDTO, CreateOrderSchema } from '@hse/shared';
 import { validate } from '../middleware/validate';
 
 export const orderRouter = Router();
 
 orderRouter.post('/', validate(CreateOrderSchema), async (req: Request, res: Response, next: NextFunction) => {
-    try {
-    
-        const { customerId, items } = req.body;
+    try {    
+        const { customerId, items } = req.body as CreateOrderDTO;
 
         // Fetch the products from the database
         const productIds = items.map(i => i.productId);

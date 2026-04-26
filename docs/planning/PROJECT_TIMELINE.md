@@ -84,7 +84,7 @@
 - [x] Implement `GET /products` with pagination
 - [x] Implement `GET /products/:slug`
 - [x] Implement `POST /orders` (no payment yet); add transactional safety
-- [ ] Add request validation middleware
+- [x] Add request validation middleware
 - [ ] Add error handling middleware
 - [ ] Write integration tests against local DB
 - [ ] Deploy API to staging (Render, DigitalOcean, or Heroku)
