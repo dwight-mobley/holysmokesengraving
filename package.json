@@ -8,7 +8,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "npm run build --workspace=packages/shared",
     "lint": "eslint packages/shared/src",
     "lint:fix": "eslint packages/shared/src --fix",
     "format": "prettier --write 'packages/shared/src/**/*.{ts,tsx,json,md,css}'",
