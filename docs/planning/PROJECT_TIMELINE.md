@@ -76,15 +76,15 @@
 ## Phase 3: Backend APIs & Postgres (Weeks 6–7)
 
 ### Week 6 — API Scaffold, Schema & Core Endpoints (~22 hrs)
-- [ ] Scaffold Express + TypeScript API (`apps/api`)
-- [ ] Dockerize Postgres via `docker-compose`
-- [ ] Install Prisma (or TypeORM); create schema: products, variants, customers, orders
-- [ ] Create seed script (import product CSV/JSON); verify data in DB
-- [ ] Add DB migrations
-- [ ] Implement `GET /products` with pagination
-- [ ] Implement `GET /products/:slug`
-- [ ] Implement `POST /orders` (no payment yet); add transactional safety
-- [ ] Add request validation middleware
+- [x] Scaffold Express + TypeScript API (`apps/api`)
+- [x] Dockerize Postgres via `docker-compose`
+- [x] Install Prisma (or TypeORM); create schema: products, variants, customers, orders
+- [x] Create seed script (import product CSV/JSON); verify data in DB
+- [x] Add DB migrations
+- [x] Implement `GET /products` with pagination
+- [x] Implement `GET /products/:slug`
+- [x] Implement `POST /orders` (no payment yet); add transactional safety
+- [x] Add request validation middleware
 - [ ] Add error handling middleware
 - [ ] Write integration tests against local DB
 - [ ] Deploy API to staging (Render, DigitalOcean, or Heroku)
