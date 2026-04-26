@@ -9,9 +9,9 @@
   },
   "scripts": {
     "build": "tsc",
-    "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
-    "format": "prettier --write 'src/**/*.{ts,tsx,json,md,css}'",
+    "lint": "eslint packages/shared/src",
+    "lint:fix": "eslint packages/shared/src --fix",
+    "format": "prettier --write 'packages/shared/src/**/*.{ts,tsx,json,md,css}'",
     "test": "jest",
     "prepare": "husky"
   },
@@ -42,7 +42,7 @@
     "typescript": "^6.0.2"
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx}": [
+    "packages/shared/src/**/*.{ts,tsx}": [
       "eslint --fix",
       "prettier --write"
     ]
