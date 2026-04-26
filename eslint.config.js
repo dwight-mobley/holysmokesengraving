@@ -4,14 +4,14 @@ const prettierConfig = require('eslint-config-prettier');
 
 module.exports = [
   {
-    ignores: ['dist/**', 'node_modules/**', 'src/exercises/**'],
+    ignores: ['dist/**', 'node_modules/**', 'src/exercises/**', '**/dist/**'],
   },
   {
     files: ['src/**/*.{ts,tsx}'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        project: './tsconfig.json',
+        project: './packages/shared/tsconfig.json',
         tsconfigRootDir: __dirname,
         ecmaVersion: 2022,
         sourceType: 'module',
