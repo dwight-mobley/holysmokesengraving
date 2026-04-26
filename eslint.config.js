@@ -7,7 +7,7 @@ module.exports = [
     ignores: ['dist/**', 'node_modules/**', 'src/exercises/**', '**/dist/**'],
   },
   {
-    files: ['src/**/*.{ts,tsx}'],
+    files: ['packages/shared/src/**/*.{ts,tsx}'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
