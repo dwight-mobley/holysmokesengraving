@@ -13,7 +13,7 @@
     "lint:fix": "eslint packages/shared/src --fix",
     "format": "prettier --write 'packages/shared/src/**/*.{ts,tsx,json,md,css}'",
     "test": "jest",
-    "prepare": "husky"
+    "prepare": "[ -d .git ] && husky || true"
   },
   "repository": {
     "type": "git",

@@ -86,7 +86,7 @@
 - [x] Implement `POST /orders` (no payment yet); add transactional safety
 - [x] Add request validation middleware
 - [x] Add error handling middleware
-- [ ] Write integration tests against local DB
+- [x] Write integration tests against local DB
 - [ ] Deploy API to staging (Render, DigitalOcean, or Heroku)
 - [ ] Write Week 6 journal entry
 
