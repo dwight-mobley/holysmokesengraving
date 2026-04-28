@@ -95,7 +95,7 @@
 - [x] Add inventory decrement logic (optimistic locking or DB transactions)
 - [x] Implement admin endpoints (CRUD products, order status updates); protect with API key or JWT
 - [x] Add DB backup script
-- [ ] Add structured logging
+- [x] Add structured logging
 - [ ] Document DB schema in `docs/schema.md`
 - [ ] Write Week 7 journal entry
 
