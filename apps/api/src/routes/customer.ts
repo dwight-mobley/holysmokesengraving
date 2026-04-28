@@ -20,10 +20,8 @@ customerRouter.get('/:id', async(req:Request, res:Response, next:NextFunction)=>
 
 customerRouter.post('/', validate(CreateCustomerSchema), async(req:Request, res:Response, next:NextFunction)=>{
     try{
-        const customer = await prisma.$transaction(async(tx)=>{
-            const created = await tx.customer.create({data:{...req.body}});
-            return created;
-        })
+        const customer = await prisma.customer.create({data:{...req.body}});
+          
         return res.status(201).json({customer});
     }catch(err){
         next(err)
