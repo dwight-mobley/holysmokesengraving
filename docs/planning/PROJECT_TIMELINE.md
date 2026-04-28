@@ -87,13 +87,13 @@
 - [x] Add request validation middleware
 - [x] Add error handling middleware
 - [x] Write integration tests against local DB
-- [ ] Deploy API to staging (Render, DigitalOcean, or Heroku)
+- [x] Deploy API to staging (Render, DigitalOcean, or Heroku)
 - [ ] Write Week 6 journal entry
 
 ### Week 7 — Customers, Inventory & Admin (~20 hrs)
-- [ ] Implement customer endpoints (create/fetch); email normalization
-- [ ] Add inventory decrement logic (optimistic locking or DB transactions)
-- [ ] Implement admin endpoints (CRUD products, order status updates); protect with API key or JWT
+- [x] Implement customer endpoints (create/fetch); email normalization
+- [x] Add inventory decrement logic (optimistic locking or DB transactions)
+- [x] Implement admin endpoints (CRUD products, order status updates); protect with API key or JWT
 - [ ] Add DB backup script
 - [ ] Add structured logging
 - [ ] Document DB schema in `docs/schema.md`
