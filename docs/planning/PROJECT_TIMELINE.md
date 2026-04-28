@@ -45,28 +45,28 @@
 - [x] Build product listing page (static data, responsive grid)
 - [x] Build product detail page (image gallery, variant selector, price display, SEO meta)
 - [x] Add cart state (Zustand or Context); add/remove/update quantity; persist to localStorage
-- [ ] Accessibility checks and Lighthouse performance checks
-- [ ] Write component tests with React Testing Library
-- [ ] Deploy preview to Vercel
-- [ ] Write Week 3 journal entry
+- [x] Accessibility checks and Lighthouse performance checks
+- [x] Write component tests with Storybook
+- [x] Deploy preview to Vercel
+- [x] Write Week 3 journal entry
 
 ### Week 4 — Search, Checkout UI & Polish (~22 hrs)
-- [ ] Integrate image CDN (Cloudinary or S3); responsive `next/image` usage
-- [ ] Product filters and search (client-side); debounce and keyboard accessibility
-- [ ] Build checkout UI calling placeholder API for Stripe Checkout session
-- [ ] Add login/register skeleton (optional); guest checkout as default
-- [ ] Add analytics event stubs; run Lighthouse performance checks
-- [ ] Write Storybook component docs
-- [ ] Update README with frontend setup instructions
-- [ ] Write Week 4 journal entry
+- [x] Integrate image CDN (Cloudinary or S3); responsive `next/image` usage
+- [x] Product filters and search (client-side); debounce and keyboard accessibility
+- [x] Build checkout UI calling placeholder API for Stripe Checkout session
+- [X] Add login/register skeleton (optional); guest checkout as default
+- [x] Add analytics event stubs; run Lighthouse performance checks
+- [x] Write Storybook component docs
+- [x] Update README with frontend setup instructions
+- [x] Write Week 4 journal entry
 
 ### Week 5 — Data Fetching, Validation & API Contracts (~20 hrs)
-- [ ] Implement SSG for catalog, ISR for updates, SSR for cart/checkout pages
-- [ ] Add client-side form validation with React Hook Form + Zod
-- [ ] Add integration tests for critical flows (add to cart, product page)
-- [ ] Create component library README
-- [ ] Define API contracts for backend (OpenAPI sketch)
-- [ ] Record 3-minute frontend walkthrough for portfolio
+- [x] Implement SSG for catalog, ISR for updates, SSR for cart/checkout pages
+- [x] Add client-side form validation with React Hook Form + Zod
+- [x] Add integration tests for critical flows (add to cart, product page)
+- [x] Create component library README
+- [x] Define API contracts for backend (OpenAPI sketch)
+- [ ] Record 3-minute frontend walkthrough for portfolio - Loom
 - [ ] Write Week 5 journal entry
 
 **✅ Milestone:** Production-grade frontend with component library, SSG/SSR, cart UX, and test coverage.
@@ -76,24 +76,24 @@
 ## Phase 3: Backend APIs & Postgres (Weeks 6–7)
 
 ### Week 6 — API Scaffold, Schema & Core Endpoints (~22 hrs)
-- [ ] Scaffold Express + TypeScript API (`apps/api`)
-- [ ] Dockerize Postgres via `docker-compose`
-- [ ] Install Prisma (or TypeORM); create schema: products, variants, customers, orders
-- [ ] Create seed script (import product CSV/JSON); verify data in DB
-- [ ] Add DB migrations
-- [ ] Implement `GET /products` with pagination
-- [ ] Implement `GET /products/:slug`
-- [ ] Implement `POST /orders` (no payment yet); add transactional safety
-- [ ] Add request validation middleware
-- [ ] Add error handling middleware
-- [ ] Write integration tests against local DB
-- [ ] Deploy API to staging (Render, DigitalOcean, or Heroku)
+- [x] Scaffold Express + TypeScript API (`apps/api`)
+- [x] Dockerize Postgres via `docker-compose`
+- [x] Install Prisma (or TypeORM); create schema: products, variants, customers, orders
+- [x] Create seed script (import product CSV/JSON); verify data in DB
+- [x] Add DB migrations
+- [x] Implement `GET /products` with pagination
+- [x] Implement `GET /products/:slug`
+- [x] Implement `POST /orders` (no payment yet); add transactional safety
+- [x] Add request validation middleware
+- [x] Add error handling middleware
+- [x] Write integration tests against local DB
+- [x] Deploy API to staging (Render, DigitalOcean, or Heroku)
 - [ ] Write Week 6 journal entry
 
 ### Week 7 — Customers, Inventory & Admin (~20 hrs)
-- [ ] Implement customer endpoints (create/fetch); email normalization
-- [ ] Add inventory decrement logic (optimistic locking or DB transactions)
-- [ ] Implement admin endpoints (CRUD products, order status updates); protect with API key or JWT
+- [x] Implement customer endpoints (create/fetch); email normalization
+- [x] Add inventory decrement logic (optimistic locking or DB transactions)
+- [x] Implement admin endpoints (CRUD products, order status updates); protect with API key or JWT
 - [ ] Add DB backup script
 - [ ] Add structured logging
 - [ ] Document DB schema in `docs/schema.md`

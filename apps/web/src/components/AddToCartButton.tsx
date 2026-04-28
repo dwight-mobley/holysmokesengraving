@@ -2,6 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui';
 import { useCart } from '@/store/cart';
+import { analytics } from '@/utils/analytics';
 
 
 type AddToCartButtonProps = {
@@ -10,7 +11,7 @@ type AddToCartButtonProps = {
   price: number
 };
 
-export const AddToCartButton = ({ productId, name, price }: AddToCartButtonProps) => {
+export const AddToCartButton = ({ productId, name, price, ...props }: AddToCartButtonProps) => {
 
   const items = useCart((state) => state.items);
 
@@ -19,7 +20,7 @@ export const AddToCartButton = ({ productId, name, price }: AddToCartButtonProps
 
   const inCart = items.filter((i) => i.productId === productId)[0];
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" {...props}>
       {inCart && (
         <div className="mb-3">
           <span>You have</span>
@@ -46,7 +47,11 @@ export const AddToCartButton = ({ productId, name, price }: AddToCartButtonProps
         </div>
       )}
       {!inCart && (
-        <Button onClick={() => addItem({ productId, name, price })}>
+        <Button onClick={() => {
+          const isNew = !items.find(i=>i.productId === productId);
+          addItem({ productId, name, price })
+          if(isNew) analytics.addedToCart(productId, name, price)
+          }}>
           Add To Cart
         </Button>
       )}

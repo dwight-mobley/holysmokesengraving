@@ -3,16 +3,17 @@
   "version": "1.0.0",
   "description": "A full-stack, production-ready e-commerce platform built with TypeScript, Next.js, Postgres, Stripe, and SparkPost.",
   "main": "index.js",
+  "workspaces":["packages/*", "apps/*"],
   "directories": {
     "doc": "docs"
   },
   "scripts": {
-    "build": "tsc",
-    "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
-    "format": "prettier --write 'src/**/*.{ts,tsx,json,md,css}'",
+    "build": "npm run build --workspace=packages/shared",
+    "lint": "eslint packages/shared/src",
+    "lint:fix": "eslint packages/shared/src --fix",
+    "format": "prettier --write 'packages/shared/src/**/*.{ts,tsx,json,md,css}'",
     "test": "jest",
-    "prepare": "husky"
+    "prepare": "[ -d .git ] && husky || true"
   },
   "repository": {
     "type": "git",
@@ -41,7 +42,7 @@
     "typescript": "^6.0.2"
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx}": [
+    "packages/shared/src/**/*.{ts,tsx}": [
       "eslint --fix",
       "prettier --write"
     ]
