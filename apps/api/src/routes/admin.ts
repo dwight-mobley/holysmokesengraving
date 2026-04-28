@@ -25,6 +25,8 @@ adminRouter.post(
       const product = await prisma.product.create({
         data: { ...req.body },
       });
+      // Log product creation
+      req.log.info({ productId: product.id, name: product.name }, 'Product created');
       return res.status(201).json({ product });
     } catch (err) {
       next(err);
@@ -42,6 +44,8 @@ adminRouter.put(
         where: { id: id as string },
         data: { ...req.body },
       });
+      // Log product update
+      req.log.info({ productId: id }, 'Product updated');
       return res.status(200).json({ product });
     } catch (err) {
       next(err);
@@ -55,6 +59,8 @@ adminRouter.delete(
     try {
       const { id } = req.params;
       await prisma.product.delete({ where: { id: id as string } });
+      //Log product delete
+      req.log.info({ productId: id }, 'Product deleted');
       return res.status(204);
     } catch (err) {
       next(err);
