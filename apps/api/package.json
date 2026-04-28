@@ -11,7 +11,8 @@
     "test:watch": "vitest",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "db:backup": "powershell -ExecutionPolicy Bypass -File ../../scripts/db-backup.ps1"
   },
   "keywords": [],
   "author": "",

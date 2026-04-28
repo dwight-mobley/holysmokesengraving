@@ -94,7 +94,7 @@
 - [x] Implement customer endpoints (create/fetch); email normalization
 - [x] Add inventory decrement logic (optimistic locking or DB transactions)
 - [x] Implement admin endpoints (CRUD products, order status updates); protect with API key or JWT
-- [ ] Add DB backup script
+- [x] Add DB backup script
 - [ ] Add structured logging
 - [ ] Document DB schema in `docs/schema.md`
 - [ ] Write Week 7 journal entry
