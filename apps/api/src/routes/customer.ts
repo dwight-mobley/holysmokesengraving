@@ -20,8 +20,8 @@ customerRouter.get('/:id', async(req:Request, res:Response, next:NextFunction)=>
 
 customerRouter.post('/', validate(CreateCustomerSchema), async(req:Request, res:Response, next:NextFunction)=>{
     try{
-        const customer = await prisma.customer.create({data:{...req.body}});
-          
+        const customer = await prisma.customer.create({data:{...req.body, email:req.body.email.toLowerCase() }});
+
         return res.status(201).json({customer});
     }catch(err){
         next(err)

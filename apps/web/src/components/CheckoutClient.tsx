@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect} from 'react';
-import { useRouter } from 'next/navigation';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { checkoutSchema, type CheckoutForm } from "@/schemas/checkout.schema";
@@ -23,12 +22,12 @@ export const CheckoutClient = () => {
   const taxTotal = Math.round(total * .07);
   const shipping = 999;
   const grandTotal = total + taxTotal + shipping;
-  
+
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<CheckoutForm>({
     resolver: zodResolver(checkoutSchema)
   })
 
-  const router = useRouter();
+
 
   //Analytics
   useEffect(() => {
@@ -56,9 +55,20 @@ export const CheckoutClient = () => {
     const res = await fetch('/api/checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      body: JSON.stringify({
+        ...data,
+        items: items.map((i)=>({
+          productId: i.productId,
+          name: i.name,
+          price: i.price,
+          quantity: i.quantity,
+          image: i.image,
+        }))
+      }),
     });
-    router.push('/checkout/success');
+    const {url} = await res.json();
+    if (url) window.location.assign(url);
+
   }
 
 

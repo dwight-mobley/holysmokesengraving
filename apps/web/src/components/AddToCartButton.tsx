@@ -7,11 +7,12 @@ import { analytics } from '@/utils/analytics';
 
 type AddToCartButtonProps = {
   productId: string;
-  name: string,
-  price: number
+  name: string;
+  price: number;
+  image?:string
 };
 
-export const AddToCartButton = ({ productId, name, price, ...props }: AddToCartButtonProps) => {
+export const AddToCartButton = ({ productId, name, price, image, ...props }: AddToCartButtonProps) => {
 
   const items = useCart((state) => state.items);
 
@@ -49,7 +50,7 @@ export const AddToCartButton = ({ productId, name, price, ...props }: AddToCartB
       {!inCart && (
         <Button onClick={() => {
           const isNew = !items.find(i=>i.productId === productId);
-          addItem({ productId, name, price })
+          addItem({ productId, name, price, image })
           if(isNew) analytics.addedToCart(productId, name, price)
           }}>
           Add To Cart
