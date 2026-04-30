@@ -2,6 +2,9 @@ import { Router, Request, Response, NextFunction } from 'express';
 import Stripe from 'stripe';
 import { prisma } from '../lib/prisma';
 import { logger } from '../lib/logger';
+import { sendEmail } from '../lib/email';
+import OrderConfirmation from '../emails/templates/OrderConfirmation';
+import React from 'react';
 
 type AllStripeEvents = ReturnType<
   InstanceType<typeof Stripe>['webhooks']['constructEvent']
@@ -77,7 +80,7 @@ async function handleCheckoutCompleted(session: CheckoutSession) {
       }
       return true;
     });
-    
+
     //Return if no items
   if (orderItems.length === 0) {
     logger.warn(
@@ -90,7 +93,7 @@ async function handleCheckoutCompleted(session: CheckoutSession) {
   const total = session.amount_total ?? 0;
 
   //Save order in db
-  await prisma.$transaction(async (tx) => {
+  const order = await prisma.$transaction(async (tx) => {
     // Check inventory first
     const productIds = orderItems.map((i) => i.productId);
     const products = await tx.product.findMany({
@@ -108,7 +111,7 @@ async function handleCheckoutCompleted(session: CheckoutSession) {
       }
     }
 
-    await tx.order.create({
+    const newOrder = await tx.order.create({
       data: {
         customerId: customer.id,
         stripeSessionId: session.id,
@@ -124,8 +127,32 @@ async function handleCheckoutCompleted(session: CheckoutSession) {
         data: { quantity: { decrement: item.quantity } },
       });
     }
+    return newOrder;
+  });
+  // Send Confirmation email
+  const emailItems = lineItems.filter((item)=> {
+    const product = item.price?.product as StripeProduct | null;
+    return !!product?.metadata?.productId;
+  }).map(item => ({
+    name: item.description ?? 'Item',
+    quantity: item.quantity ?? 1,
+    price: item.price?.unit_amount ?? 0,
+    total: (item.price?.unit_amount ?? 0) * (item.quantity ?? 1)
+  }))
+  await sendEmail({
+    to:email,
+    subject:'Your Holy Smokes Engraving Order Is Confirmed',
+    react:React.createElement(OrderConfirmation, {
+      customerName: customerName ?? 'customer',
+      orderId: order.id,
+      items: emailItems,
+      subtotal: session.amount_subtotal ?? 0,
+      total,
+      shippingAddress: {street: address, city, state, zip}
+    })
   });
 
+  //Log successful order
   logger.info(
     { stripeSessionId: session.id, email, total },
     'Order created from checkout',

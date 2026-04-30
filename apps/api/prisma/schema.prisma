@@ -50,6 +50,7 @@ model Order {
   stripeSessionId String? @unique
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
+  trackingNumber String?
   items      OrderItem[]
 }
 
