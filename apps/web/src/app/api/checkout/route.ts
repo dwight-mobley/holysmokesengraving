@@ -19,6 +19,7 @@ export async function POST(req: NextRequest) {
       price_data: {
         currency: 'usd',
         unit_amount: item.price,
+        tax_behavior: 'exclusive',
         product_data: {
           name: item.name,
           metadata: { productId: item.productId },
@@ -40,7 +41,15 @@ export async function POST(req: NextRequest) {
     mode: 'payment',
     line_items: lineItems,
     customer_email: email,
+    automatic_tax: {enabled:true},
     shipping_address_collection: { allowed_countries: ['US'] },
+    shipping_options:[{
+      shipping_rate_data:{
+        type:'fixed_amount',
+        fixed_amount: {amount: 999, currency:'usd'},
+        display_name: 'Standard Shipping'
+      }
+  }],
     metadata: {
       customerName: name,
       address,

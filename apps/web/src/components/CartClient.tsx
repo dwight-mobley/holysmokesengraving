@@ -9,9 +9,9 @@ import Link from 'next/link';
 export const CartClient = () => {
   const items = useCart((state) => state.items);
   const total = useCart((state) => state.total)();
-  const taxTotal = Math.round(total * 0.07);
+
   const shipping = 999;
-  const grandTotal = total + taxTotal + shipping;
+  const grandTotal = total +  shipping;
   const handleRemove = useCart((state) => state.removeItem);
   const updateQuantity = useCart((state) => state.updateQuantity);
 
@@ -86,10 +86,6 @@ export const CartClient = () => {
         <div className="flex justify-between">
           <span>Subtotal</span>
           <span>{formatMoney(total)}</span>
-        </div>
-        <div className="flex justify-between">
-          <span>Estimated Tax</span>
-          <span>{formatMoney(taxTotal)}</span>
         </div>
         <div className="flex justify-between">
           <span>Shipping</span>
