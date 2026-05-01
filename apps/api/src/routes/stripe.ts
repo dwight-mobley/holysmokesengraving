@@ -2,9 +2,10 @@ import { Router, Request, Response, NextFunction } from 'express';
 import Stripe from 'stripe';
 import { prisma } from '../lib/prisma';
 import { logger } from '../lib/logger';
-import { sendEmail } from '../lib/email';
+import { ADMIN_EMAIL, sendEmail } from '../lib/email';
 import OrderConfirmation from '../emails/templates/OrderConfirmation';
 import React from 'react';
+import { AdminOrderNotification } from '../emails/templates/AdminNewOrder';
 
 type AllStripeEvents = ReturnType<
   InstanceType<typeof Stripe>['webhooks']['constructEvent']
@@ -139,6 +140,7 @@ async function handleCheckoutCompleted(session: CheckoutSession) {
     price: item.price?.unit_amount ?? 0,
     total: (item.price?.unit_amount ?? 0) * (item.quantity ?? 1)
   }))
+  //Email to customer
   await sendEmail({
     to:email,
     subject:'Your Holy Smokes Engraving Order Is Confirmed',
@@ -150,6 +152,17 @@ async function handleCheckoutCompleted(session: CheckoutSession) {
       total,
       shippingAddress: {street: address, city, state, zip}
     })
+  });
+  //Email Store
+  await sendEmail({
+    to: ADMIN_EMAIL,
+    subject: 'New Order For Holy Smokes Engraving',
+    react: React.createElement(AdminOrderNotification, {
+       customerName: customerName ?? 'customer',
+      orderId: order.id,
+      items: emailItems,
+       shippingAddress: {street: address, city, state, zip}
+    }),
   });
 
   //Log successful order
