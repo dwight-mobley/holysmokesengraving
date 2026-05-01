@@ -42,8 +42,8 @@ export const AdminOrderNotification = ({
   shippingAddress,
 }: AdminOrderNotificationProps) => (
   <Html>
+    <Head />
     <Preview>New Holy Smokes Engraving Order: {orderId}</Preview>
-    <Head/>
     <Body style={{ backgroundColor: '#fdf8f0', fontFamily: 'sans-serif' }}>
       <Container
         style={{

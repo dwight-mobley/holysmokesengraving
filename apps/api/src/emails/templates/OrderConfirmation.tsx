@@ -46,9 +46,8 @@ export const OrderConfirmation = ({
   shippingAddress,
 }: OrderConfirmationProps) => (
   <Html>
-    <Preview>Your Holy Smokes Engraving order is confirmed!</Preview>
     <Head />
-
+    <Preview>Your Holy Smokes Engraving order is confirmed!</Preview>
     <Body style={{ backgroundColor: '#fdf8f0', fontFamily: 'sans-serif' }}>
       <Container
         style={{
