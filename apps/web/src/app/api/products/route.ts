@@ -1,7 +1,12 @@
 import { NextResponse } from "next/server";
-import {products} from '@/data/products'
+
 
 
 export async function GET(request: Request){
-    return NextResponse.json({products:[...products]});
+    const res = await fetch('https://holysmokesengraving.onrender.com/products');
+    if(res.status === 200){
+        const data = await res.json()
+        return NextResponse.json({products:[...data]});
+    }
+    return NextResponse.json([]);
 }
