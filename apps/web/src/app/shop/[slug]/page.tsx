@@ -1,5 +1,4 @@
 import React from 'react';
-import { products } from '@/data/products';
 import Link from 'next/link';
 import { AddToCartButton } from '@/components/AddToCartButton';
 import Image from 'next/image';
@@ -7,11 +6,19 @@ import { formatMoney } from '@/utils/formatMoney';
 import { notFound } from 'next/navigation';
 import { analytics } from '@/utils/analytics';
 
-export function generateStaticParams() {
-  return products.map((p) => ({ slug: p.slug }));
-}
+
+
+
 
 export const revalidate = 3600;
+
+const getProduct = async(slug:string)  =>{
+  const res = await fetch(`${process.env.API_URL}/products/${slug}`);
+  if(!res.ok) return null;
+  const data = await res.json();
+  return data.product;
+}
+
 
 interface ProductDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -22,7 +29,7 @@ export default async function ProductDetailsPage({
 }: ProductDetailPageProps) {
   const { slug } = await params;
 
-  const product = products.find((p) => p.slug === slug);
+  const product = await getProduct(slug)
 
   if (!product) {
     return notFound();
