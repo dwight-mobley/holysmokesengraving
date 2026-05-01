@@ -78,8 +78,9 @@
 **Status: 🔄 In Progress**
 
 - [x] Connect product detail page (`/shop/[slug]`) to `GET /products/:slug`
-- [ ] Connect shop listing page (`/shop`) to `GET /products`
-- [ ] Remove static `data/products.ts` file
+- [x ] Connect shop listing page (`/shop`) to `GET /products`
+- [x] Remove static `data/products.ts` file
+- [ ] Add pagination UI to shop listing page
 - [ ] Wire checkout form to live `POST /api/checkout` Stripe session endpoint
 - [ ] Add `NEXT_PUBLIC_APP_URL` / `API_URL` environment variables; update Vercel config
 - [ ] Verify ISR revalidation works end-to-end on Vercel
