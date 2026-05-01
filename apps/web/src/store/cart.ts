@@ -7,6 +7,7 @@ type CartItem = {
   name: string;
   price: number; // in cents
   quantity: number;
+  image?: string
 };
 
 type CartState = {

@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect} from 'react';
-import { useRouter } from 'next/navigation';
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { checkoutSchema, type CheckoutForm } from "@/schemas/checkout.schema";
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { checkoutSchema, type CheckoutForm } from '@/schemas/checkout.schema';
 import { useCart } from '@/store/cart';
 import { formatMoney } from '@/utils/formatMoney';
 import { Button, Input } from './ui';
@@ -12,23 +11,22 @@ import Link from 'next/link';
 import { analytics } from '@/utils/analytics';
 import { FormField } from './ui/FormField';
 
-
-
 export const CheckoutClient = () => {
   const items = useCart((state) => state.items);
   const total = useCart((state) => state.total)();
   const totalItems = useCart((state) =>
     state.items.reduce((sum, i) => sum + i.quantity, 0),
   );
-  const taxTotal = Math.round(total * .07);
   const shipping = 999;
-  const grandTotal = total + taxTotal + shipping;
-  
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<CheckoutForm>({
-    resolver: zodResolver(checkoutSchema)
-  })
+  const grandTotal = total + shipping;
 
-  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<CheckoutForm>({
+    resolver: zodResolver(checkoutSchema),
+  });
 
   //Analytics
   useEffect(() => {
@@ -56,12 +54,20 @@ export const CheckoutClient = () => {
     const res = await fetch('/api/checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      body: JSON.stringify({
+        ...data,
+        items: items.map((i) => ({
+          productId: i.productId,
+          name: i.name,
+          price: i.price,
+          quantity: i.quantity,
+          image: i.image,
+        })),
+      }),
     });
-    router.push('/checkout/success');
-  }
-
-
+    const { url } = await res.json();
+    if (url) window.location.assign(url);
+  };
 
   return (
     <form
@@ -74,8 +80,12 @@ export const CheckoutClient = () => {
         {/* Contact */}
         <div className="bg-white rounded-lg p-4 space-y-4">
           <h2 className="font-bold text-lg text-brand-800">Contact</h2>
-          <FormField label='Email' error={errors.email?.message}>
-            <Input {...register('email')} autoComplete='email' invalid={!!errors.email} />
+          <FormField label="Email" error={errors.email?.message}>
+            <Input
+              {...register('email')}
+              autoComplete="email"
+              invalid={!!errors.email}
+            />
           </FormField>
         </div>
 
@@ -83,25 +93,46 @@ export const CheckoutClient = () => {
         <div className="bg-white rounded-lg p-6 space-y-4">
           <h2 className="font-bold text-lg text-brand-800">Shipping Address</h2>
 
-          <FormField label='Name' error={errors.name?.message}>
-            <Input {...register('name')} autoComplete="name" invalid={!!errors.name} />
+          <FormField label="Name" error={errors.name?.message}>
+            <Input
+              {...register('name')}
+              autoComplete="name"
+              invalid={!!errors.name}
+            />
           </FormField>
 
-          <FormField label='Street Address' error={errors.address?.message}>
-            <Input {...register('address')} autoComplete="street-address" invalid={!!errors.address} />
+          <FormField label="Street Address" error={errors.address?.message}>
+            <Input
+              {...register('address')}
+              autoComplete="street-address"
+              invalid={!!errors.address}
+            />
           </FormField>
 
           <div className="grid grid-cols-2 gap-4">
-            <FormField label='City' error={errors.city?.message}>
-              <Input {...register('city')} autoComplete="address-level2" invalid={!!errors.city} />
+            <FormField label="City" error={errors.city?.message}>
+              <Input
+                {...register('city')}
+                autoComplete="address-level2"
+                invalid={!!errors.city}
+              />
             </FormField>
-            <FormField label='State' error={errors.state?.message}>
-              <Input {...register('state')} autoComplete="address-level1" invalid={!!errors.state} />
+            <FormField label="State" error={errors.state?.message}>
+              <Input
+                {...register('state')}
+                autoComplete="address-level1"
+                invalid={!!errors.state}
+              />
             </FormField>
           </div>
 
-          <FormField label='Zip' error={errors.zip?.message}>
-            <Input {...register('zip')} autoComplete="postal-code" inputMode="numeric" invalid={!!errors.zip} />
+          <FormField label="Zip" error={errors.zip?.message}>
+            <Input
+              {...register('zip')}
+              autoComplete="postal-code"
+              inputMode="numeric"
+              invalid={!!errors.zip}
+            />
           </FormField>
         </div>
       </div>
@@ -127,10 +158,6 @@ export const CheckoutClient = () => {
             <span>{formatMoney(total)}</span>
           </div>
           <div className="flex justify-between">
-            <span>Estimated Tax</span>
-            <span>{formatMoney(taxTotal)}</span>
-          </div>
-          <div className="flex justify-between">
             <span>Shipping</span>
             <span>{formatMoney(shipping)}</span>
           </div>
@@ -140,6 +167,7 @@ export const CheckoutClient = () => {
           <span>Total</span>
           <span>{formatMoney(grandTotal)}</span>
         </div>
+          <small>Tax Will Be Calculted on next screen</small>
 
         <Button
           type="submit"
