@@ -11,7 +11,7 @@ const ShoppingBag = () => {
     state.items.reduce((sum, i) => sum + i.quantity, 0),
   );
   return (
-    <Link href='/cart' aria-label={`Shopping cart, ${count} item${count !== 1 ? 's' : ''}`} className="relative flex items-center h-10 w-10">
+    <Link href='/checkout' aria-label={`Shopping cart, ${count} item${count !== 1 ? 's' : ''}`} className="relative flex items-center h-10 w-10">
       <Image
         src="https://res.cloudinary.com/dwf7x3rjv/image/upload/v1776687837/shopping-bag_f9ypf5.svg"
         alt="shopping bag"

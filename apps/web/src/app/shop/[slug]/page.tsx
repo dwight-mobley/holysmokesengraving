@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { AddToCartButton } from '@/components/AddToCartButton';
 import Image from 'next/image';
-import { formatMoney } from '@/utils/formatMoney';
+import { formatMoney } from '@hse/shared';
 import { notFound } from 'next/navigation';
 import { analytics } from '@/utils/analytics';
 

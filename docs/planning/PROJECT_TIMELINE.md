@@ -78,11 +78,12 @@
 **Status: 🔄 In Progress**
 
 - [x] Connect product detail page (`/shop/[slug]`) to `GET /products/:slug`
-- [ ] Connect shop listing page (`/shop`) to `GET /products`
-- [ ] Remove static `data/products.ts` file
-- [ ] Wire checkout form to live `POST /api/checkout` Stripe session endpoint
-- [ ] Add `NEXT_PUBLIC_APP_URL` / `API_URL` environment variables; update Vercel config
-- [ ] Verify ISR revalidation works end-to-end on Vercel
+- [x ] Connect shop listing page (`/shop`) to `GET /products`
+- [x] Remove static `data/products.ts` file
+- [x] Add pagination UI to shop listing page
+- [x] Wire checkout form to live `POST /api/checkout` Stripe session endpoint
+- [x] Add `NEXT_PUBLIC_APP_URL` / `API_URL` environment variables; update Vercel config
+- [x] Verify ISR revalidation works end-to-end on Vercel
 
 **✅ Milestone:** Storefront fully powered by live API; no static data remaining.
 
