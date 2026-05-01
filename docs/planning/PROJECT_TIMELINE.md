@@ -96,7 +96,7 @@
 - [x] Implement admin endpoints (CRUD products, order status updates); protect with API key or JWT
 - [x] Add DB backup script
 - [x] Add structured logging
-- [ ] Document DB schema in `docs/schema.md`
+- [x] Document DB schema in `docs/schema.md`
 - [ ] Write Week 7 journal entry
 
 **✅ Milestone:** Stable API with Postgres, migrations, seed data, and admin endpoints.

@@ -2,6 +2,10 @@ import { Router, Response, Request, NextFunction } from 'express';
 import { prisma } from '../lib/prisma';
 import { validate } from '../middleware/validate';
 import { CreateProductSchema, UpdateProductSchema } from '@hse/shared';
+import { sendEmail } from '../lib/email';
+import { OrderShipped } from '../emails/templates/OrderShipped';
+import Stripe from 'stripe';
+import React from 'react';
 
 export const adminRouter = Router();
 
@@ -73,16 +77,32 @@ adminRouter.patch(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
-      const { status } = req.body;
+      const { status, trackingNumber } = req.body;
+
       if (!status) {
-        return res.status(400).json({ error: 'Status must be include' });
+        return res.status(400).json({ error: 'Status must be included' });
       }
       const updatedOrder = await prisma.order.update({
         where: { id: id as string },
         data: {
           status: req.body.status,
+          ...(trackingNumber && {trackingNumber})
         },
       });
+      //Notify Customer if items shipped
+      if(status === 'shipped'){
+        const customer = await prisma.customer.findUnique({where:{id: updatedOrder.customerId}});
+        if(!customer) return;
+        await sendEmail({
+          to: customer.email,
+          subject: 'Holy Smokes Engraving Order Shipped',
+          react: React.createElement(OrderShipped,{
+            customerName: customer.firstName,
+            orderId: updatedOrder.id,
+            trackingNumber: trackingNumber
+          })
+        })
+      }
       return res.status(200).json({ updatedOrder });
     } catch (err) {
       next(err);

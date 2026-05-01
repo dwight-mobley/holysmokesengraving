@@ -59,7 +59,7 @@ export const ProductCard = ({
         {/* Price */}
         <p className="text-brand-700 font-bold text-lg">{formatMoney(price)}</p>
       </Link>
-      <AddToCartButton productId={id} name={name} price={price} />
+      <AddToCartButton productId={id} name={name} price={price} image={image} />
     </Card>
   );
 };
