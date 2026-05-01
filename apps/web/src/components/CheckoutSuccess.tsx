@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useCart } from '@/store/cart';
 import { Button } from './ui';
 import Link from 'next/link';
-import { formatMoney } from '@/utils/formatMoney';
+import { formatMoney } from '@hse/shared';
 
 
 type OrderData = {
@@ -44,7 +44,7 @@ export const CheckoutSuccess = ({ order }: Props) => {
         </div>
       </div>
       <Link href="/shop">
-        <Button variant="primary" size="lg">Continue Shopping</Button>
+        <Button variant="primary" size="lg" >Continue Shopping</Button>
       </Link>
     </>
   );

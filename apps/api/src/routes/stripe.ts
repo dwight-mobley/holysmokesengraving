@@ -10,10 +10,22 @@ import { AdminOrderNotification } from '../emails/templates/AdminNewOrder';
 type AllStripeEvents = ReturnType<
   InstanceType<typeof Stripe>['webhooks']['constructEvent']
 >;
+
 type CheckoutSession = Extract<
   AllStripeEvents,
   { type: 'checkout.session.completed' }
->['data']['object'];
+>['data']['object'] & {
+  shipping_details?: {
+    name?: string
+    address?: {
+      line1?: string | null;
+      city?: string | null;
+      state?: string | null;
+      postal_code?: string | null;
+    } | null;
+  } | null;
+};
+
 type StripeProduct = Awaited<
   ReturnType<InstanceType<typeof Stripe>['products']['retrieve']>
 >;
@@ -37,7 +49,13 @@ async function handleCheckoutCompleted(session: CheckoutSession) {
     return;
   }
 
-  const { customerName, address, city, state, zip } = session.metadata ?? {};
+  console.log(session);
+  const  customerName  = session.shipping_details?.name;
+  const shipping = session.shipping_details?.address;
+  const address = shipping?.line1 ?? '';
+  const city = shipping?.city ?? '';
+  const state = shipping?.state ?? '';
+  const zip = shipping?.postal_code ?? '';
   const email = session.customer_email ?? '';
 
   // Split name into first/last
@@ -82,7 +100,7 @@ async function handleCheckoutCompleted(session: CheckoutSession) {
       return true;
     });
 
-    //Return if no items
+  //Return if no items
   if (orderItems.length === 0) {
     logger.warn(
       { stripeSessionId: session.id },
@@ -131,37 +149,39 @@ async function handleCheckoutCompleted(session: CheckoutSession) {
     return newOrder;
   });
   // Send Confirmation email
-  const emailItems = lineItems.filter((item)=> {
-    const product = item.price?.product as StripeProduct | null;
-    return !!product?.metadata?.productId;
-  }).map(item => ({
-    name: item.description ?? 'Item',
-    quantity: item.quantity ?? 1,
-    price: item.price?.unit_amount ?? 0,
-    total: (item.price?.unit_amount ?? 0) * (item.quantity ?? 1)
-  }))
+  const emailItems = lineItems
+    .filter((item) => {
+      const product = item.price?.product as StripeProduct | null;
+      return !!product?.metadata?.productId;
+    })
+    .map((item) => ({
+      name: item.description ?? 'Item',
+      quantity: item.quantity ?? 1,
+      price: item.price?.unit_amount ?? 0,
+      total: (item.price?.unit_amount ?? 0) * (item.quantity ?? 1),
+    }));
   //Email to customer
   await sendEmail({
-    to:email,
-    subject:'Your Holy Smokes Engraving Order Is Confirmed',
-    react:React.createElement(OrderConfirmation, {
+    to: email,
+    subject: 'Your Holy Smokes Engraving Order Is Confirmed',
+    react: React.createElement(OrderConfirmation, {
       customerName: customerName ?? 'customer',
       orderId: order.id,
       items: emailItems,
       subtotal: session.amount_subtotal ?? 0,
       total,
-      shippingAddress: {street: address, city, state, zip}
-    })
+      shippingAddress: { street: address, city, state, zip },
+    }),
   });
   //Email Store
   await sendEmail({
     to: ADMIN_EMAIL,
     subject: 'New Order For Holy Smokes Engraving',
     react: React.createElement(AdminOrderNotification, {
-       customerName: customerName ?? 'customer',
+      customerName: customerName ?? 'customer',
       orderId: order.id,
       items: emailItems,
-       shippingAddress: {street: address, city, state, zip}
+      shippingAddress: { street: address, city, state, zip },
     }),
   });
 

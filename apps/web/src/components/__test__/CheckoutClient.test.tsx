@@ -2,11 +2,14 @@ import userEvent from "@testing-library/user-event";
 import { render, screen, waitFor } from "@testing-library/react";
 import { CheckoutClient } from "../CheckoutClient";
 import { useCart } from "@/store/cart";
-import { products } from "@/data/products";
+
 import { useRouter } from 'next/navigation';
 import { vi } from "vitest";
-import { formatMoney } from "@/utils/formatMoney";
+import { formatMoney } from "@hse/shared";
+import { Product } from "@/types/product";
 
+//TODO Implement Database
+const products: Product[] = [];
 
 // Mock the entire next/navigation module
 vi.mock('next/navigation', () => ({
@@ -60,7 +63,7 @@ describe('Checkout Client', () => {
         render(<CheckoutClient />)
 
         const payWithStripe = screen.getByRole('button', { name: /pay with stripe/i });
-       
+
         // Click to trigger validation erros
         await user.click(payWithStripe);
 
@@ -88,7 +91,7 @@ describe('Checkout Client', () => {
         //Clear the invalid zip
         await user.clear(zipcodeInput)
         //Enter valid zip
-        await user.type(zipcodeInput, '30598');       
+        await user.type(zipcodeInput, '30598');
 
         await waitFor(() => {
             expect(screen.queryByText(/enter a valid zip/i)).not.toBeInTheDocument();
@@ -97,9 +100,9 @@ describe('Checkout Client', () => {
 
     it('clears error message when user enters valid data', async () => {
         render(<CheckoutClient />)
-        
+
         const payWithStripe = screen.getByRole('button', { name: /pay with stripe/i });
-       
+
         //Trigger validation errors
         await user.click(payWithStripe);
         expect(await screen.findByText(/please enter a valid email address/i)).toBeInTheDocument();
@@ -144,7 +147,7 @@ describe('Checkout Client', () => {
             expect(pushMock).toHaveBeenCalledWith('/checkout/success')
         })
 
-        
+
     });
 
     it('show empty cart message when cart is empty', () => {
