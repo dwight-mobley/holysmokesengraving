@@ -99,8 +99,8 @@
 - [x] On webhook: upsert customer, create order in Postgres, decrement inventory
 - [x] Idempotency guard: skip duplicate webhook events via `stripeSessionId` unique constraint
 - [x] Distinguish retryable vs. non-retryable webhook errors
-- [ ] Test with Stripe CLI (send test events)
-- [ ] End-to-end test: Stripe test card → order appears in DB
+- [x] Test with Stripe CLI (send test events)
+- [x] End-to-end test: Stripe test card → order appears in DB
 
 **✅ Milestone:** Live Stripe Checkout with secure webhook processing and transactional order creation.
 
@@ -118,7 +118,7 @@
 - [x] Hook order confirmation into webhook flow (sent after order creation)
 - [x] Hook admin alert into webhook flow
 - [x] Hook shipping notification into admin order status update (`PATCH /orders/:id/status`)
-- [ ] Test deliverability end-to-end (test inboxes, links, formatting)
+- [x] Test deliverability end-to-end (test inboxes, links, formatting)
 
 **✅ Milestone:** Transactional email system integrated with order lifecycle.
 

@@ -19,6 +19,13 @@ const getProduct = async(slug:string)  =>{
   return data.product;
 }
 
+export async function generateStaticParams(){
+  const res = await fetch(`${process.env.API_URL}/products?limit=100`)
+  if(!res.ok) return [];
+  const {products} = await res.json();
+  return products.map((p:{slug:string})=> ({slug:p.slug}));
+}
+
 
 interface ProductDetailPageProps {
   params: Promise<{ slug: string }>;

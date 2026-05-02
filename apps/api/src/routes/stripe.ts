@@ -49,7 +49,7 @@ async function handleCheckoutCompleted(session: CheckoutSession) {
     return;
   }
 
-  console.log(session);
+ 
   const  customerName  = session.shipping_details?.name;
   const shipping = session.shipping_details?.address;
   const address = shipping?.line1 ?? '';
