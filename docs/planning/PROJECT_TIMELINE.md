@@ -135,8 +135,8 @@
 - [x] Wire `LoginClient` and `RegisterClient` to live auth endpoints
 - [x] Add protected route middleware in Next.js (`proxy.ts`)
 - [x] Build customer dashboard: order history, profile details
-- [ ] Post-order success prompt: "Create an account to track your orders"
-- [ ] Add auth integration tests
+- [x] Post-order success prompt: "Create an account to track your orders"
+- [x] Add auth integration tests
 
 **✅ Milestone:** Guest checkout remains default; customers can optionally create accounts to view order history.
 
