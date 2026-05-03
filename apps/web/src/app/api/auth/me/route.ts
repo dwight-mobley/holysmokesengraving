@@ -3,10 +3,12 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   const cookieStore = await cookies();
-  const token = cookieStore.get('auth-token');
+  const token = cookieStore.get('auth-token')?.value;
+
   const res = await fetch(`${process.env.API_URL}/auth/me`, {
     method: 'GET',
     headers: {
+        'Content-type': 'application/json',
       'Authorization': `Bearer ${token}`,
     },
   });

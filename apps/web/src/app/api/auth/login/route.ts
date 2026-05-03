@@ -14,10 +14,10 @@ export async function POST(request: Request) {
   const data = await res.json();
 
   if (!res.ok) {
-    return NextResponse.json({
-      status: res.status,
-      error: data.error || 'Invalid email or password',
-    });
+    return NextResponse.json(
+      { error: data.error || 'Invalid email or password' },
+      { status: res.status }
+    );
   }
 
   const cookieStore = await cookies();
@@ -29,9 +29,7 @@ export async function POST(request: Request) {
     path: '/',
   });
 
-  const {token: _, ...safeData} = data;
-  return NextResponse.json({
-    status: 200,
-    data,
-  });
+  const { token: _, ...safeData } = data;
+
+  return NextResponse.json({ user: safeData }, { status: 200 });
 }

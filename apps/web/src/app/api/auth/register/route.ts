@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import {cookies} from 'next/headers';
+import { cookies } from 'next/headers';
 
 export async function POST(request: Request) {
   const { firstName, lastName, email, password } = await request.json();
@@ -11,9 +11,12 @@ export async function POST(request: Request) {
     },
     body: JSON.stringify({ firstName, lastName, email, password }),
   });
-  const data = await res.json()
-  if(!res.ok){
-    return NextResponse.json({status:res.status, error: data.error || 'Failed to register user'});
+  const data = await res.json();
+  if (!res.ok) {
+    return NextResponse.json(
+      { error: data.error || 'Failed to register user' },
+      { status: res.status },
+    );
   }
 
   const cookieStore = await cookies();
@@ -22,12 +25,9 @@ export async function POST(request: Request) {
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
     maxAge: 60 * 60 * 24 * 7,
-    path:"/"
-  })
-  
-  const {token: _, ...safeData} = data;
-  return NextResponse.json({
-    status: 201,
-    safeData
+    path: '/',
   });
+
+  const { token: _, ...safeData } = data;
+  return NextResponse.json({ user: safeData }, { status: 201 });
 }
