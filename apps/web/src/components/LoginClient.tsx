@@ -8,21 +8,26 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { FormField } from './ui/FormField';
 import Link from 'next/link';
+import { useState } from 'react';
 
 export default function LoginClient() {
   const router = useRouter();
-
+  const [error, setError] = useState<string | null>(null);
   const {register, handleSubmit, formState:{errors, isSubmitting}} = useForm<LoginForm>({
     resolver: zodResolver(loginSchema)
-  });  
+  });
 
   const handleLogin = async (data: LoginForm) => {
-    const res = await fetch('/api/login', {
+    const res = await fetch('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
-    router.push('/');
+    if(!res.ok){
+      setError('Invalid email or password');
+      return;
+    }
+    router.push('/dashboard');
   };
 
   return (
@@ -30,29 +35,33 @@ export default function LoginClient() {
       <h1 className="text-3xl font-bold text-brand-800 mb-6 text-center">
         Login
       </h1>
-
+      {error &&
+      <div>
+        <p className='text-center text-red-600'>{error}</p>
+        </div>
+        }
       <form onSubmit={handleSubmit(handleLogin)} className="space-y-6">
         {/* Email */}
-        <FormField label='Email' error={errors.email?.message} >         
+        <FormField label='Email' error={errors.email?.message} >
           <Input
             {...register('email')}
             autoComplete='email'
             invalid={!!errors.email}
             className="bg-surface-50 border-surface-300 focus:ring-brand-400"
-          />          
+          />
         </FormField>
 
         {/* Password */}
         <FormField label='Password' error={errors.password?.message}>
-         
+
           <Input
            {...register('password')}
-            placeholder="••••••••••"     
+            placeholder="••••••••••"
             type='password'
-            autoComplete='current-password'      
+            autoComplete='current-password'
             invalid={!!errors.password}
             className="bg-surface-50 border-surface-300 focus:ring-brand-400"
-          />          
+          />
         </FormField>
 
         {/* Submit */}

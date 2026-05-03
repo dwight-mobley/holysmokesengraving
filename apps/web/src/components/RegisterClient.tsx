@@ -6,12 +6,14 @@ import { Input, Button } from "@/components/ui";
 import { FormField } from './ui/FormField';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
 
 
 
 
 export default function RegisterClient() {
   const router = useRouter();
+  const [error, setError] = useState<string | null>(null)
   const { register, handleSubmit, formState: { isSubmitting, errors } } = useForm<RegisterForm>({
     resolver: zodResolver(registerSchema)
   })
@@ -22,7 +24,11 @@ export default function RegisterClient() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...data }),
     });
-    router.push('/')
+    if(!res.ok){
+      setError('Error Registering User')
+      return;
+    }
+    router.push('/dashboard')
   };
 
   return (
@@ -30,6 +36,11 @@ export default function RegisterClient() {
       <h1 className="text-3xl font-bold text-brand-800 mb-6 text-center">
         Create Account
       </h1>
+      {error &&
+      <div>
+        <p className='text-center text-red-500'>{error}</p>
+      </div>
+      }
 
       <form onSubmit={handleSubmit(handleRegister)} className="space-y-6">
         {/* First Name */}
@@ -39,7 +50,7 @@ export default function RegisterClient() {
             autoComplete='given-name'
             invalid={!!errors.firstName}
             className="bg-surface-50 border-surface-300 focus:ring-brand-400"
-          />         
+          />
         </FormField>
 
         {/* Last Name */}
@@ -49,7 +60,7 @@ export default function RegisterClient() {
             autoComplete='family-name'
             invalid={!!errors.lastName}
             className="bg-surface-50 border-surface-300 focus:ring-brand-400"
-          />         
+          />
         </FormField>
 
         {/* Email */}
@@ -59,7 +70,7 @@ export default function RegisterClient() {
             autoComplete='email'
             invalid={!!errors.email}
             className="bg-surface-50 border-surface-300 focus:ring-brand-400"
-          />         
+          />
         </FormField>
 
         {/* Phone (optional) */}
@@ -69,7 +80,7 @@ export default function RegisterClient() {
             autoComplete='tel'
             invalid={!!errors.phone}
             className="bg-surface-50 border-surface-300 focus:ring-brand-400"
-          />         
+          />
         </FormField>
 
         {/* Password */}
@@ -80,7 +91,7 @@ export default function RegisterClient() {
             type='password'
             autoComplete='new-password'
             className="bg-surface-50 border-surface-300 focus:ring-brand-400"
-          />         
+          />
         </FormField>
 
         {/* Confirm Password */}
@@ -91,7 +102,7 @@ export default function RegisterClient() {
             type='password'
             autoComplete='new-password'
             className="bg-surface-50 border-surface-300 focus:ring-brand-400"
-          />         
+          />
         </FormField>
 
         {/* Submit */}
