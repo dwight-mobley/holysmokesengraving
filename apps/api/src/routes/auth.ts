@@ -56,7 +56,7 @@ authRouter.post(
         email: user.email,
         role: user.role,
       });
-      
+
       return res.status(201).json({ user: safeUser, token });
     } catch (err) {
       next(err);
@@ -104,17 +104,21 @@ authRouter.get(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { userId } = req.auth!;
-      const [user, orders] = await Promise.all([
+      const [user, orders, customer] = await Promise.all([
         prisma.user.findUnique({ where: { id:userId } }),
         prisma.order.findMany({
             where: { customer: { userId: userId } },
             include:{items:{include:{product:true}}},
             orderBy: {createdAt: 'desc'}
-        })
+        }),
+        prisma.customer.findUnique({where:{userId:userId}})
       ]);
       if (!user) return res.status(404).json({ error: 'User not found' });
       const {passwordHash, ...safeUser} = user!;
-      return res.status(200).json({user:safeUser, orders});
+
+      const updatedUser = {...safeUser, ...customer}
+      console.log(updatedUser)
+      return res.status(200).json({user:updatedUser, orders});
     } catch (err) {
       next(err);
     }
