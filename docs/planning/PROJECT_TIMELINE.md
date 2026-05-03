@@ -75,7 +75,7 @@
 
 ## Phase 4: API Integration — Connect Frontend to Live Backend
 
-**Status: 🔄 In Progress**
+**Status: ✅ Completed**
 
 - [x] Connect product detail page (`/shop/[slug]`) to `GET /products/:slug`
 - [x ] Connect shop listing page (`/shop`) to `GET /products`
@@ -126,17 +126,17 @@
 
 ## Phase 7: Auth & Customer Accounts
 
-**Status: 🔲 Not Started**
+**Status: 🔄  In Progress**
 
-- [ ] Add auth endpoints to API: `POST /auth/register`, `POST /auth/login`, `GET /auth/me`
-- [ ] Issue JWT on login; add auth middleware to protect customer routes
-- [ ] Add `passwordHash` field to `Customer` model; migrate DB
-- [ ] Implement NextAuth (or custom session) on the frontend
-- [ ] Wire `LoginClient` and `RegisterClient` to live auth endpoints
-- [ ] Add protected route middleware in Next.js (`middleware.ts`)
-- [ ] Build customer dashboard: order history, profile details
-- [ ] Post-order success prompt: "Create an account to track your orders"
-- [ ] Add auth integration tests
+- [x] Add auth endpoints to API: `POST /auth/register`, `POST /auth/login`, `GET /auth/me`
+- [x] Issue JWT on login; add auth middleware to protect customer routes
+- [x] Add `passwordHash` field to `Customer` model; migrate DB
+- [x] Implement NextAuth (or custom session) on the frontend
+- [x] Wire `LoginClient` and `RegisterClient` to live auth endpoints
+- [x] Add protected route middleware in Next.js (`proxy.ts`)
+- [x] Build customer dashboard: order history, profile details
+- [x] Post-order success prompt: "Create an account to track your orders"
+- [x] Add auth integration tests
 
 **✅ Milestone:** Guest checkout remains default; customers can optionally create accounts to view order history.
 

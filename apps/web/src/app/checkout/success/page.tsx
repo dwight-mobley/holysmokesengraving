@@ -1,5 +1,6 @@
 import Stripe from 'stripe';
 import { CheckoutSuccess } from '@/components/CheckoutSuccess';
+import { cookies } from 'next/headers';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -9,6 +10,8 @@ interface SuccessPageProps {
 
 export default async function SuccessPage({ searchParams }: SuccessPageProps) {
   const { session_id } = await searchParams;
+  const cookieStore = await cookies();
+  const isLoggedIn = !!cookieStore.get('auth-token')?.value;
 
   if (!session_id) {
     return <div className="p-8 text-center">Invalid session.</div>;
@@ -32,7 +35,7 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
 
   return (
     <div  className="p-8 max-w-xl mx-auto text-center py-20">
-      <CheckoutSuccess order={orderData} />
+      <CheckoutSuccess order={orderData} isLoggedIn={isLoggedIn}/>
     </div>
   );
 }
