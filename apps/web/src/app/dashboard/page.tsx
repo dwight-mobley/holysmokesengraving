@@ -28,17 +28,29 @@ export default async function DashboardPage() {
       </div>
 
       {/* Profile Summary */}
-      <div className="bg-white border border-surface-200 rounded-lg p-6 shadow-sm space-y-1">
-        <h2 className="text-lg font-semibold text-brand-700 mb-3">Profile</h2>
-        <p className="text-surface-700">
-          <span className="font-medium text-brand-800">Name: </span>
-          {user.firstName} {user.lastName ?? ''}
-        </p>
-        <p className="text-surface-700">
-          <span className="font-medium text-brand-800">Email: </span>
-          {user.email}
-        </p>
-      </div>
+     <div className="bg-white border border-surface-200 rounded-lg p-6 shadow-sm space-y-2">
+  <h2 className="text-lg font-semibold text-brand-700 mb-3">Profile</h2>
+  <p className="text-surface-700">
+    <span className="font-medium text-brand-800">Name: </span>
+    {user.firstName} {user.lastName ?? ''}
+  </p>
+  <p className="text-surface-700">
+    <span className="font-medium text-brand-800">Email: </span>
+    {user.email}
+  </p>
+  {user.phone && (
+    <p className="text-surface-700">
+      <span className="font-medium text-brand-800">Phone: </span>
+      {user.phone}
+    </p>
+  )}
+  {user.street && (
+    <div className="text-surface-700">
+      <span className="font-medium text-brand-800">Shipping Address: </span>
+      <span>{user.street}, {user.city}, {user.state} {user.zip}</span>
+    </div>
+  )}
+</div>
 
       {/* Order History */}
       <div className="space-y-4">

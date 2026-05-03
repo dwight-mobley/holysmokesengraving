@@ -134,7 +134,7 @@
 - [x] Implement NextAuth (or custom session) on the frontend
 - [x] Wire `LoginClient` and `RegisterClient` to live auth endpoints
 - [x] Add protected route middleware in Next.js (`proxy.ts`)
-- [ ] Build customer dashboard: order history, profile details
+- [x] Build customer dashboard: order history, profile details
 - [ ] Post-order success prompt: "Create an account to track your orders"
 - [ ] Add auth integration tests
 
