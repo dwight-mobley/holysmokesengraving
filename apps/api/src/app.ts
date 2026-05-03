@@ -5,14 +5,12 @@ import { productRouter } from './routes/products';
 import { orderRouter } from './routes/orders';
 import { customerRouter } from './routes/customer';
 import { adminRouter } from './routes/admin';
-import { requireApiKey } from './middleware/requireApiKey';
+import { requireAdminAccess } from './middleware/requireAdmin';
 import { pinoHttp } from 'pino-http';
 import { logger } from './lib/logger';
 import { stripeRouter } from './routes/stripe';
-
+import {authRouter} from './routes/auth'
 export const app = express();
-
-
 
 // Pino Logger
 app.use(
@@ -43,13 +41,11 @@ app.use(
   }),
 );
 
-
 //Stripe set raw buffer body for signature verification
-app.use('/stripe', express.raw({type: 'application/json'}), stripeRouter);
+app.use('/stripe', express.raw({ type: 'application/json' }), stripeRouter);
 
 // Set JSON parsing for other routes
 app.use(express.json());
-
 
 //Health Check Route
 app.get('/health', (_req, res) => {
@@ -59,8 +55,7 @@ app.get('/health', (_req, res) => {
 app.use('/products', productRouter);
 app.use('/orders', orderRouter);
 app.use('/customers', customerRouter);
-app.use('/admin', requireApiKey, adminRouter);
-
-
+app.use('/auth', authRouter);
+app.use('/admin', requireAdminAccess, adminRouter);
 
 app.use(errorHandler);

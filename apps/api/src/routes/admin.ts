@@ -65,7 +65,7 @@ adminRouter.delete(
       await prisma.product.delete({ where: { id: id as string } });
       //Log product delete
       req.log.info({ productId: id }, 'Product deleted');
-      return res.status(204);
+      return res.status(204).send();
     } catch (err) {
       next(err);
     }

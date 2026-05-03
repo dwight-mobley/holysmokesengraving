@@ -75,7 +75,7 @@
 
 ## Phase 4: API Integration — Connect Frontend to Live Backend
 
-**Status: 🔄 In Progress**
+**Status: ✅ Completed**
 
 - [x] Connect product detail page (`/shop/[slug]`) to `GET /products/:slug`
 - [x ] Connect shop listing page (`/shop`) to `GET /products`
@@ -126,11 +126,11 @@
 
 ## Phase 7: Auth & Customer Accounts
 
-**Status: 🔲 Not Started**
+**Status: 🔄  In Progress**
 
-- [ ] Add auth endpoints to API: `POST /auth/register`, `POST /auth/login`, `GET /auth/me`
-- [ ] Issue JWT on login; add auth middleware to protect customer routes
-- [ ] Add `passwordHash` field to `Customer` model; migrate DB
+- [x] Add auth endpoints to API: `POST /auth/register`, `POST /auth/login`, `GET /auth/me`
+- [x] Issue JWT on login; add auth middleware to protect customer routes
+- [x] Add `passwordHash` field to `Customer` model; migrate DB
 - [ ] Implement NextAuth (or custom session) on the frontend
 - [ ] Wire `LoginClient` and `RegisterClient` to live auth endpoints
 - [ ] Add protected route middleware in Next.js (`middleware.ts`)
