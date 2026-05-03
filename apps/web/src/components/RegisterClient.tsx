@@ -11,11 +11,12 @@ import { useState } from 'react';
 
 
 
-export default function RegisterClient() {
+export default function RegisterClient({ prefillEmail }: { prefillEmail?: string }) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null)
   const { register, handleSubmit, formState: { isSubmitting, errors } } = useForm<RegisterForm>({
-    resolver: zodResolver(registerSchema)
+    resolver: zodResolver(registerSchema),
+    defaultValues: {email:prefillEmail ?? ''}
   })
 
   const handleRegister = async (data: RegisterForm) => {

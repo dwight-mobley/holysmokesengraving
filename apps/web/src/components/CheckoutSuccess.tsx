@@ -19,9 +19,9 @@ type OrderData = {
   }[];
 };
 
-type Props = { order: OrderData };
+type Props = { order: OrderData, isLoggedIn: boolean };
 
-export const CheckoutSuccess = ({ order }: Props) => {
+export const CheckoutSuccess = ({ order, isLoggedIn }: Props) => {
   const clearCart = useCart((state) => state.clearCart);
   useEffect(() => { clearCart(); }, [clearCart]);
 
@@ -43,9 +43,23 @@ export const CheckoutSuccess = ({ order }: Props) => {
           <span>{formatMoney(order.total)}</span>
         </div>
       </div>
-      <Link href="/shop">
-        <Button variant="primary" size="lg" >Continue Shopping</Button>
-      </Link>
+       {/* Account creation prompt */}
+      {!isLoggedIn && (
+        <div className="mt-6 border border-accent-200 bg-accent-50 rounded-lg p-5 text-left space-y-3">
+          <p className="font-semibold text-brand-800">Save your order history</p>
+          <p className="text-sm text-surface-600">
+            Create a free account to track this order and view past purchases.
+          </p>
+          <Link href={`/register?email=${encodeURIComponent(order.email)}`}>
+            <Button variant="accent" size="md">Create an Account</Button>
+          </Link>
+        </div>
+      )}
+       <div className="mt-4">
+        <Link href="/shop">
+          <Button variant="primary" size="lg">Continue Shopping</Button>
+        </Link>
+      </div>
     </>
   );
 };
