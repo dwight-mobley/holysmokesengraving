@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { FormField } from './ui/FormField';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useAuth } from '@/store/auth';
 
 export default function LoginClient() {
   const router = useRouter();
@@ -16,6 +17,8 @@ export default function LoginClient() {
   const {register, handleSubmit, formState:{errors, isSubmitting}} = useForm<LoginForm>({
     resolver: zodResolver(loginSchema)
   });
+
+  const auth = useAuth();
 
   const handleLogin = async (data: LoginForm) => {
     const res = await fetch('/api/auth/login', {
@@ -27,6 +30,9 @@ export default function LoginClient() {
       setError('Invalid email or password');
       return;
     }
+    const resData = await res.json()
+    
+    auth.setAuth(resData.user)
     router.push('/dashboard');
   };
 

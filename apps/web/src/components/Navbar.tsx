@@ -1,9 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCart } from '../store/cart';
+import { useAuth } from '@/store/auth';
+import { redirect } from 'next/navigation';
 
 // Shopping Bag
 const ShoppingBag = () => {
@@ -11,16 +13,22 @@ const ShoppingBag = () => {
     state.items.reduce((sum, i) => sum + i.quantity, 0),
   );
   return (
-    <Link href='/checkout' aria-label={`Shopping cart, ${count} item${count !== 1 ? 's' : ''}`} className="relative flex items-center h-10 w-10">
+    <Link
+      href="/checkout"
+      aria-label={`Shopping cart, ${count} item${count !== 1 ? 's' : ''}`}
+      className="relative flex items-center h-10 w-10"
+    >
       <Image
         src="https://res.cloudinary.com/dwf7x3rjv/image/upload/v1776687837/shopping-bag_f9ypf5.svg"
         alt="shopping bag"
         fill
-        sizes='100%'
+        sizes="100%"
         className=""
       />
       {count > 0 && (
-        <span className={`absolute top-2.5 inset-1 flex items-center justify-center text-[12px] text-accent-600 font-bold`}>
+        <span
+          className={`absolute top-2.5 inset-1 flex items-center justify-center text-[12px] text-accent-600 font-bold`}
+        >
           {count}
         </span>
       )}
@@ -30,7 +38,16 @@ const ShoppingBag = () => {
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const [openUserMenu, setOpenUserMenu] = useState(false);
+  const auth = useAuth();
 
+  const handleSignout = async () => {
+    auth.clearAuth();
+    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/logout`);
+    redirect('/');
+  };
+
+  useEffect(() => {}, [auth?.user]);
   return (
     <nav className="bg-surface-50 border-b border-surface-200 font-body">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
@@ -44,7 +61,7 @@ export const Navbar = () => {
                 width={300}
                 height={60}
                 priority
-                className='max-w-50 md:max-w-none h-auto'
+                className="max-w-50 md:max-w-none h-auto"
               />
             </Link>
           </div>
@@ -75,7 +92,7 @@ export const Navbar = () => {
             >
               About
             </Link>
-               {/* CTA */}
+            {/* CTA */}
             <Link
               href="/contact"
               className="bg-accent-500 hover:bg-accent-600 text-white text-sm font-semibold px-4 py-2 rounded-md transition"
@@ -83,13 +100,36 @@ export const Navbar = () => {
               Contact
             </Link>
 
+            {auth?.user ? (
+              <div className="relative group hidden ms-auto pe-5 md:block">
+                <div className="cursor-pointer text-surface-700 hover:text-brand-600 text-sm font-medium">
+                  {auth?.user?.email.split('@')[0]}
+                </div>
 
-            <Link
-              href="/login"
-              className="ms-auto pe-5 text-surface-700 hover:text-brand-600 text-sm font-medium"
-            >
-              Login
-            </Link>
+                <div className="absolute right-0 mt-2 w-40 bg-white border border-surface-200 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150">
+                  <Link
+                    href="/dashboard"
+                    className="block px-4 py-2 text-sm text-surface-700 hover:bg-surface-100"
+                  >
+                    Dashboard
+                  </Link>
+
+                  <button
+                    onClick={handleSignout}
+                    className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-surface-100"
+                  >
+                    Sign Out
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                className="ms-auto pe-5 text-surface-700 hover:text-brand-600 text-sm font-medium"
+              >
+                Login
+              </Link>
+            )}
           </div>
 
           <ShoppingBag />
@@ -134,6 +174,9 @@ export const Navbar = () => {
       {/* Mobile Menu */}
       {open && (
         <div className="min-[900px]:hidden px-4 pb-4 space-y-2">
+          <h2 className="block text-center text-surface-700 hover:text-brand-600 text-base font-extrabold border-b-2 border-accent-700">
+            {auth?.user?.email.split('@')[0]}
+          </h2>
           <Link
             href="/shop"
             className="block text-surface-700 hover:text-brand-600 text-base font-medium"
@@ -159,20 +202,39 @@ export const Navbar = () => {
             About
           </Link>
 
-             {/* CTA */}
-            <Link
-              href="/contact"
-              className="block my-3 w-full max-w-50 bg-accent-500 hover:bg-accent-600 text-white text-sm font-semibold px-4 py-2 rounded-md transition"
-            >
-              Contact
-            </Link>
-
+          {/* CTA */}
           <Link
+            href="/contact"
+            className="block my-3 w-full max-w-50 bg-accent-500 hover:bg-accent-600 text-white text-sm font-semibold px-4 py-2 rounded-md transition"
+          >
+            Contact
+          </Link>
+          {auth?.user ? (
+            <div className="md:hidden">
+              <div className="mt-1 border">
+                <Link
+                  href="/dashboard"
+                  className="block  py-2 text-sm text-surface-700 hover:bg-surface-100"
+                >
+                  Dashboard
+                </Link>
+
+                <button
+                  onClick={handleSignout}
+                  className="w-full text-left  py-2 text-sm text-red-600 hover:bg-surface-100"
+                >
+                  Sign Out
+                </button>
+              </div>
+            </div>
+          ) : (
+            <Link
               href="/login"
               className="block  text-surface-700 hover:text-brand-600 text-base font-medium"
             >
               Login
             </Link>
+          )}
         </div>
       )}
     </nav>

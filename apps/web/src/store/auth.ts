@@ -13,12 +13,12 @@ interface AuthState {
   clearAuth: () => void;
 }
 
-export const authState = create<AuthState>()(
+export const useAuth = create<AuthState>()(
   persist(
     (set) => ({
       user: null,
 
-      setAuth: (user) => set({ user }),
+      setAuth: (user) => set({user}),
 
       clearAuth: () => set({ user: null }),
     }),
