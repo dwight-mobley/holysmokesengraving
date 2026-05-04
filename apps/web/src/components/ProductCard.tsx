@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from '@/components/ui';
 import clsx from 'clsx';
-import { formatMoney } from '@/utils/formatMoney';
+import { formatMoney } from '@hse/shared';
 import Image from 'next/image';
 
 import { AddToCartButton } from './AddToCartButton';
@@ -59,7 +59,7 @@ export const ProductCard = ({
         {/* Price */}
         <p className="text-brand-700 font-bold text-lg">{formatMoney(price)}</p>
       </Link>
-      <AddToCartButton productId={id} name={name} price={price} />
+      <AddToCartButton productId={id} name={name} price={price} image={image} />
     </Card>
   );
 };

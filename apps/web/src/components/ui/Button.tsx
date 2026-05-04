@@ -3,7 +3,7 @@ import React from 'react';
 import clsx from 'clsx'
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'accent';
+  variant?: 'primary' | 'secondary' | 'accent' | 'disabled';
   size?: 'sm' | 'md' | 'lg';
 }
 
@@ -19,6 +19,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       'bg-surface-800 text-brand-200 hover:bg-surface-700 focus:ring-brand-300',
     accent:
       'bg-accent-600 text-surface-50 hover:bg-accent-700 focus:ring-accent-400',
+    disabled:
+    "bg-gray-300 text-white"
   };
 
   const sizeStyles = {

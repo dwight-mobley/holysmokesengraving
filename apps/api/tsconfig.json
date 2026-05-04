@@ -4,6 +4,7 @@
     "module": "commonjs",
     "lib": ["ES2022"],
     "types": ["node", "vitest/globals"],
+    "jsx": "react",
     "outDir": "dist",
     "rootDir": ".",
     "strict": true,
@@ -16,5 +17,5 @@
     "sourceMap": true
   },
   "include": ["src/**/*", "prisma/**/*"],
-  "exclude": ["node_modules", "dist"]
+ "exclude": ["node_modules", "dist", "src/__tests__", "**/*.test.ts", "**/*.spec.ts"]
 }

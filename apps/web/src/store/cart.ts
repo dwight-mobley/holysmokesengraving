@@ -1,12 +1,13 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { analytics } from '@/utils/analytics';
+
 
 type CartItem = {
   productId: string;
   name: string;
   price: number; // in cents
   quantity: number;
+  image?: string
 };
 
 type CartState = {
