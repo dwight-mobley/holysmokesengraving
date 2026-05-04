@@ -1,0 +1,3 @@
+## Today I spent time building out the admin dashboard, and along the way I made another small but worthwhile refactor. I switched product deletion to a safe‑delete approach so order items will always retain a valid product reference. After that, most of the work was straightforward CRUD.
+
+## I also added server‑side filtering for orders. It might be more than this project strictly needs, but it aligns with the filtering I already implemented for products and gives me room to grow the dashboard later. 

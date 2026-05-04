@@ -148,12 +148,12 @@
 
 ### Admin Dashboard
 
-- [ ] Create `/admin` app section with separate admin auth (API key or admin JWT)
-- [ ] Admin login page + protected route guard
-- [ ] Product management: list, create, edit, delete (calls `apps/api` admin endpoints)
-- [ ] Order management: list all orders, filter by status, view order details
-- [ ] Update order status + add tracking number (triggers shipping email)
-- [ ] Inventory dashboard: current stock levels, low-stock indicators
+- [x] Create `/admin` app section with separate admin auth (API key or admin JWT)
+- [x] Admin login page + protected route guard
+- [x] Product management: list, create, edit, delete (calls `apps/api` admin endpoints)
+- [x] Order management: list all orders, filter by status, view order details
+- [x] Update order status + add tracking number (triggers shipping email)
+- [x] Inventory dashboard: current stock levels, low-stock indicators
 
 ### Point of Sale
 

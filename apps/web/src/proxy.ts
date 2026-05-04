@@ -7,9 +7,12 @@ export async function proxy(req: NextRequest) {
   const token = req.cookies.get('auth-token')?.value;
 
   if (!token) return NextResponse.redirect(new URL('/login', req.url));
-  
+
   try{
-    await jwtVerify(token, secret);
+    const {payload} = await jwtVerify(token, secret);
+    if (req.nextUrl.pathname.startsWith('/admin') && payload.role !== 'ADMIN'){
+      return NextResponse.redirect(new URL('/dashboard', req.url))
+    }
     return NextResponse.next();
   }catch{
     const res = NextResponse.redirect(new URL('/login', req.url));

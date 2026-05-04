@@ -17,6 +17,7 @@ productRouter.get(
       const tag = (req.query.tag as string) ?? '';
 
       const where = {
+        active:true,
         ...(search && {
           OR: [
             { name: { contains: search, mode: Prisma.QueryMode.insensitive } },
@@ -50,7 +51,7 @@ productRouter.get(
 // Fetch Tags
 productRouter.get('/tags', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const products = await prisma.product.findMany({ select: { tags: true } });
+    const products = await prisma.product.findMany({where:{active: true}, select: { tags: true } });
     const tags = [...new Set(products.flatMap((p) => p.tags))].sort();
     console.log(tags)
     res.json({ tags });
@@ -66,7 +67,7 @@ productRouter.get(
       const { slug } = req.params;
 
       const product = await prisma.product.findUnique({
-        where: { slug: slug as string },
+        where: { slug: slug as string, active:true },
       });
 
       if (!product) {
