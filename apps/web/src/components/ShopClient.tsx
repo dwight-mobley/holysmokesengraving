@@ -19,7 +19,7 @@ export const ShopClient = ({ products, page, totalPages, search, tags, tag }: Sh
   const router = useRouter();
   const searchParams = useSearchParams();
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  
+
 
   const pushURL = (params: { page?: number; search?: string; tag?: string }) => {
     const current = new URLSearchParams(searchParams.toString());
@@ -108,7 +108,7 @@ export const ShopClient = ({ products, page, totalPages, search, tags, tag }: Sh
                 key={p.id}
                 priority={i === 0}
                 {...cleanedProduct}
-                image="https://res.cloudinary.com/dwf7x3rjv/image/upload/v1776687708/logo_symfiz.webp"
+                image={p.image ?? "https://res.cloudinary.com/dwf7x3rjv/image/upload/v1776687708/logo_symfiz.webp"}
               />
             );
           })}

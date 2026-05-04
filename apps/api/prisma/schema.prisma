@@ -16,11 +16,12 @@ model Product {
   id          String      @id @default(uuid())
   name        String
   description String?
-  price       Int         // in cents
+  price       Int // in cents
   quantity    Int         @default(0)
   tags        String[]
   slug        String      @unique
   image       String?
+  active      Boolean     @default(true)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   orderItems  OrderItem[]
@@ -32,19 +33,19 @@ enum Role {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  passwordHash  String
-  role      Role     @default(CUSTOMER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  customer Customer?
+  id           String    @id @default(uuid())
+  email        String    @unique
+  passwordHash String
+  role         Role      @default(CUSTOMER)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  customer     Customer?
 }
 
 model Customer {
   id        String   @id @default(uuid())
-  userId    String?   @unique
-  user      User?     @relation(fields: [userId], references: [id])
+  userId    String?  @unique
+  user      User?    @relation(fields: [userId], references: [id])
   firstName String
   lastName  String
   email     String   @unique
@@ -59,16 +60,16 @@ model Customer {
 }
 
 model Order {
-  id         String      @id @default(uuid())
-  customerId String
-  customer   Customer    @relation(fields: [customerId], references: [id])
-  status     OrderStatus @default(pending)
-  total      Int         // in cents
-  stripeSessionId String? @unique
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  trackingNumber String?
-  items      OrderItem[]
+  id              String      @id @default(uuid())
+  customerId      String
+  customer        Customer    @relation(fields: [customerId], references: [id])
+  status          OrderStatus @default(pending)
+  total           Int // in cents
+  stripeSessionId String?     @unique
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  trackingNumber  String?
+  items           OrderItem[]
 }
 
 model OrderItem {
@@ -78,8 +79,8 @@ model OrderItem {
   productId String
   product   Product @relation(fields: [productId], references: [id])
   quantity  Int
-  price     Int     // unit price in cents at time of purchase
-  total     Int     // price * quantity in cents
+  price     Int // unit price in cents at time of purchase
+  total     Int // price * quantity in cents
 }
 
 enum OrderStatus {

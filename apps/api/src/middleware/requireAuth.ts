@@ -28,5 +28,6 @@ export function requireAdmin(req:Request, res:Response, next: NextFunction): voi
             res.status(403).json({error:'Forbidden'});
             return;
         }
+        next();
     });
 }
