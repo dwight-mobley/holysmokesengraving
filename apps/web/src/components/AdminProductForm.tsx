@@ -8,15 +8,13 @@ import { FormField } from '@/components/ui/FormField';
 import { useState } from 'react';
 import Image from 'next/image';
 
-
-
 const FormSchema = z.object({
   name: z.string().min(1),
   description: z.string().optional(),
   priceDollars: z.number().positive('Price must be positive'),
   quantity: z.number().int().nonnegative(),
   slug: z.string().min(1),
-  active: z.boolean().default(true),
+  active: z.boolean(),
   tags: z.string().optional(),
 });
 
@@ -47,7 +45,6 @@ export default function AdminProductForm({
     resolver: zodResolver(FormSchema),
     defaultValues,
   });
-  const isActive = watch('active');
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -146,9 +143,17 @@ export default function AdminProductForm({
       <FormField label="Tags (comma-separated)" error={errors.tags?.message}>
         <Input {...register('tags')} placeholder="wood, custom, gift" />
       </FormField>
-      <div className='flex gap-3 w-25 align-center'>
-        <label htmlFor='active' className='text-accent-700 font-bold'>Active</label>
-        <input {...register('active')} type='checkbox' checked={isActive} className='focus:border-0 focus:outline-0' />
+      <div className="flex gap-3 w-25 align-center">
+        <label htmlFor="active" className="text-accent-700 font-bold">
+          Active
+        </label>
+        <input
+          {...register('active')}
+          type="checkbox"
+          id="active"
+          defaultChecked={defaultValues?.active ?? true}
+          className="focus:border-0 focus:outline-0"
+        />
       </div>
       <Button type="submit" disabled={isSubmitting}>
         {isSubmitting
