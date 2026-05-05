@@ -60,6 +60,30 @@ productRouter.get('/tags', async (req: Request, res: Response, next: NextFunctio
   }
 });
 
+productRouter.get('/gallery', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const products = await prisma.product.findMany({
+      where: { gallery: true },
+      orderBy: { updatedAt: 'desc' },
+    });
+    return res.json(products);
+  } catch (err) {
+    next(err);
+  }
+});
+
+productRouter.get('/featured', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const products = await prisma.product.findMany({
+      where: { featured: true },
+      orderBy: { updatedAt: 'desc' },
+    });
+    return res.json(products);
+  } catch (err) {
+    next(err);
+  }
+});
+
 productRouter.get(
   '/:slug',
   async (req: Request, res: Response, next: NextFunction) => {

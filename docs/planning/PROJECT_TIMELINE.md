@@ -157,12 +157,12 @@
 
 ### Point of Sale
 
-- [ ] In-person cart builder: search products, add to cart, adjust quantities
-- [ ] Customer lookup by email; create new customer inline
-- [ ] Order summary with subtotal, tax, and total
-- [ ] Charge via Stripe Terminal (card-present) or manual charge link
-- [ ] On payment: create order via API, decrement inventory, send confirmation email
-- [ ] Receipt: email to customer or print-friendly view
+- [x] In-person cart builder: search products, add to cart, adjust quantities
+- [x] Customer lookup by email; create new customer inline
+- [x] Order summary with subtotal, tax, and total
+- [x] Charge via Stripe Terminal (card-present) or manual charge link
+- [x] On payment: create order via API, decrement inventory, send confirmation email
+- [x] Receipt: email to customer or print-friendly view
 
 **✅ Milestone:** Full admin dashboard and in-person POS system sharing the same API and inventory as the online storefront.
 

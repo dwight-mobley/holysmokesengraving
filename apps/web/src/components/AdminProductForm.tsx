@@ -15,6 +15,8 @@ const FormSchema = z.object({
   quantity: z.number().int().nonnegative(),
   slug: z.string().min(1),
   active: z.boolean(),
+  gallery: z.boolean(),
+  featured: z.boolean(),
   tags: z.string().optional(),
 });
 
@@ -39,7 +41,6 @@ export default function AdminProductForm({
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
@@ -69,6 +70,8 @@ export default function AdminProductForm({
       slug: data.slug,
       image: imageUrl || undefined,
       active: data.active,
+      gallery: data.gallery,
+      featured: data.featured,
       tags: data.tags
         ? data.tags
             .split(',')
@@ -143,7 +146,8 @@ export default function AdminProductForm({
       <FormField label="Tags (comma-separated)" error={errors.tags?.message}>
         <Input {...register('tags')} placeholder="wood, custom, gift" />
       </FormField>
-      <div className="flex gap-3 w-25 align-center">
+      <div className='flex gab-5'>
+        <div className="flex gap-3 w-25 align-center">
         <label htmlFor="active" className="text-accent-700 font-bold">
           Active
         </label>
@@ -155,6 +159,32 @@ export default function AdminProductForm({
           className="focus:border-0 focus:outline-0"
         />
       </div>
+      <div className="flex gap-3 w-25 align-center">
+        <label htmlFor="featured" className="text-accent-700 font-bold">
+         Featured
+        </label>
+        <input
+          {...register('featured')}
+          type="checkbox"
+          id="active"
+          defaultChecked={defaultValues?.featured ?? false}
+          className="focus:border-0 focus:outline-0"
+        />
+      </div>
+      <div className="flex gap-3 w-25 align-center">
+        <label htmlFor="gallery" className="text-accent-700 font-bold">
+           Gallery
+        </label>
+        <input
+          {...register('gallery')}
+          type="checkbox"
+          id="active"
+          defaultChecked={defaultValues?.gallery ?? false}
+          className="focus:border-0 focus:outline-0"
+        />
+      </div>
+      </div>
+
       <Button type="submit" disabled={isSubmitting}>
         {isSubmitting
           ? 'Saving…'

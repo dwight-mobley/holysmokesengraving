@@ -81,7 +81,7 @@ export const Navbar = () => {
               Gallery
             </Link>
             <Link
-              href="/custom"
+              href="/custom-order"
               className="text-surface-700 hover:text-brand-600 text-sm font-medium"
             >
               Custom Orders
@@ -190,7 +190,7 @@ export const Navbar = () => {
             Gallery
           </Link>
           <Link
-            href="/custom"
+            href="/custom-order"
             className="block text-surface-700 hover:text-brand-600 text-base font-medium"
           >
             Custom Orders

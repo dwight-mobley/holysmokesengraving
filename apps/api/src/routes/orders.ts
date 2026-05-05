@@ -2,6 +2,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 import { prisma } from '../lib/prisma';
 import { CreateOrderDTO, CreateOrderSchema } from '@hse/shared';
 import { validate } from '../middleware/validate';
+import { logger } from '../lib/logger';
 
 export const orderRouter = Router();
 
@@ -67,7 +68,7 @@ orderRouter.post(
       });
 
       // Log Successful Creation of Order
-      req.log.info(
+      logger.info(
         {
           orderId: order.id,
           customerId,
