@@ -1,3 +1,4 @@
+import { ContactForm } from '@/components/ContactForm';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -11,7 +12,6 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div className="w-full">
-
       {/* Hero */}
       <section className="relative overflow-hidden bg-black text-white text-center min-h-[50vh] flex items-center justify-center">
         <Image
@@ -22,7 +22,10 @@ export default function AboutPage() {
           priority
           className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-surface-900/70" aria-hidden="true" />
+        <div
+          className="absolute inset-0 bg-surface-900/70"
+          aria-hidden="true"
+        />
         <div className="relative z-10 max-w-3xl px-8 py-16">
           <p className="text-accent-400 text-sm font-semibold uppercase tracking-widest mb-3">
             Veteran Owned &amp; Operated
@@ -49,10 +52,10 @@ export default function AboutPage() {
               I create.
             </p>
             <p className="text-surface-600 mb-4">
-              What started as a passion for craftsmanship has grown into a
-              full custom engraving studio. From personalized gifts to
-              faith-inspired artwork, every order gets the same care and
-              attention — whether it&apos;s one piece or one hundred.
+              What started as a passion for craftsmanship has grown into a full
+              custom engraving studio. From personalized gifts to faith-inspired
+              artwork, every order gets the same care and attention — whether
+              it&apos;s one piece or one hundred.
             </p>
             <p className="text-surface-600">
               When you order from Holy Smokes Engraving, you&apos;re not buying
@@ -101,7 +104,9 @@ export default function AboutPage() {
                 key={value.title}
                 className="bg-surface-50 border border-surface-200 rounded-lg p-8 text-center space-y-3"
               >
-                <h3 className="text-lg font-bold text-brand-800">{value.title}</h3>
+                <h3 className="text-lg font-bold text-brand-800">
+                  {value.title}
+                </h3>
                 <p className="text-surface-600 text-sm leading-relaxed">
                   {value.description}
                 </p>
@@ -118,8 +123,9 @@ export default function AboutPage() {
             What We Create
           </h2>
           <p className="text-surface-600 text-lg mb-10">
-            Every item is laser engraved with precision on quality materials.
-            We specialize in custom work — if you can imagine it, we can engrave it.
+            Every item is laser engraved with precision on quality materials. We
+            specialize in custom work — if you can imagine it, we can engrave
+            it.
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm font-medium">
             {[
@@ -142,6 +148,17 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+         <section className="py-20 bg-white" id="contact">
+              <div className="max-w-2xl mx-auto px-4">
+                <h2 className="text-3xl font-bold text-brand-800 mb-2">
+                  Get in Touch
+                </h2>
+                <p className="text-surface-500 text-sm mb-8">
+                  Have a question or just want to say hi? Send us a message.
+                </p>
+                <ContactForm />
+              </div>
+            </section>
 
       {/* CTA */}
       <section className="py-20 bg-surface-900 text-white text-center">
@@ -160,16 +177,9 @@ export default function AboutPage() {
             >
               Shop Now
             </Link>
-            <a
-              href="mailto:dwight@holysmokesengraving.com"
-              className="inline-block bg-transparent border-2 border-surface-400 text-surface-200 font-bold py-3 px-8 rounded-lg hover:border-accent-400 hover:text-accent-400 transition-colors"
-            >
-              Contact Us
-            </a>
           </div>
         </div>
       </section>
-
     </div>
   );
 }

@@ -11,6 +11,7 @@ import { logger } from './lib/logger';
 import { stripeRouter } from './routes/stripe';
 import {authRouter} from './routes/auth'
 import { customOrderRouter } from './routes/customOrders';
+import { contactRouter } from './routes/contact';
 export const app = express();
 
 // Pino Logger
@@ -59,5 +60,6 @@ app.use('/customers', customerRouter);
 app.use('/auth', authRouter);
 app.use('/admin', requireAdminAccess, adminRouter);
 app.use('/custom-orders', customOrderRouter);
+app.use('/contact', contactRouter)
 
 app.use(errorHandler);

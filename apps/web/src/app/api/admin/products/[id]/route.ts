@@ -16,6 +16,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
 
   const data = await res.json();
 
+
    revalidatePath('/shop');
     revalidatePath(`/shop/${data?.slug}`);
 

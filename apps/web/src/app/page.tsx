@@ -1,7 +1,18 @@
+import { ProductCard } from '@/components/ProductCard';
+import { Product } from '@/types/product';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function Home() {
+
+export const revalidate = 3600;
+const fetchFeaturedItems = async () => {
+  const res = await fetch(`${process.env.API_URL}/products/featured`);
+  if (!res.ok) return [];
+  return  await res.json();
+};
+
+export default async function Home() {
+  const featuredProducts = await fetchFeaturedItems();
   return (
     <div className="w-full">
       {/* Hero Section */}
@@ -15,7 +26,7 @@ export default function Home() {
           }
           alt=""
           fill
-          sizes='100%'
+          sizes="100%"
           priority
           className="object-cover object-center"
         />
@@ -64,7 +75,7 @@ export default function Home() {
                 href="/shop"
                 className="inline-block bg-surface-700 text-white font-bold py-3 px-6 rounded-lg hover:bg-surface-800 transition-colors"
               >
-                Explore Collections
+                Explore Items
               </Link>
             </div>
 
@@ -75,7 +86,7 @@ export default function Home() {
                 }
                 alt=""
                 fill
-                sizes='100%'
+                sizes="100%"
                 className="object-cover object-center "
               />
               <div className="flex flex-col justify-center items-center bg-surface-900/60 p-4 rounded-lg border-2 border-accent-400 backdrop-blur-sm gap-1">
@@ -94,40 +105,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Collections */}
-      <section aria-label="Featured collections" className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-center text-4xl font-bold mb-2 text-surface-900">
-            Featured Collections
-          </h2>
-          <p className="text-center text-surface-600 mb-12">
-            Shop by Collection
-          </p>
+      {/* Featured Items */}
+      {featuredProducts?.length > 0 && (
+        <section aria-label="Featured Items" className="py-20 bg-white">
+          <div className="max-w-6xl mx-auto px-4">
+            <h2 className="text-center text-4xl font-bold mb-2 text-surface-900">
+              Featured Items
+            </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* TODO: Replace with real collection data */}
-            <Link href="/" className="no-underline">
-              <div className="rounded-lg h-full shadow-md hover:shadow-xl hover:-translate-y-1 transition-all bg-white">
-                <div className="p-8 text-center">
-                  <Image
-                    src="/logo.png"
-                    alt="Collection Name"
-                    width={40}
-                    height={40}
-                    className="max-h-40 mx-auto mb-4"
-                  />
-                  <h3 className="text-lg font-bold text-surface-900">
-                    Collection Name
-                  </h3>
-                  <p className="text-surface-600 text-sm">
-                    Short description goes here...
-                  </p>
-                </div>
-              </div>
-            </Link>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {featuredProducts.map((product: Product) => (
+                <ProductCard key={product.id} id={product.id} image={product?.image} slug={product.slug} name={product.name} price={product.price} description={product?.description} />
+             ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* CTA Section */}
       <section className="py-20 text-white bg-linear-to-br from-surface-700 to-surface-900">
@@ -136,8 +129,8 @@ export default function Home() {
             Experience Precision Engraving
           </h2>
           <p className="text-lg mb-8 text-surface-200">
-            Upload your own designs or choose from our curated collections to
-            create something truly special.
+            Upload your own designs or choose from our curated items to create
+            something truly special.
           </p>
           <Link
             href="/shop"

@@ -1,4 +1,4 @@
-import {z} from 'zod';
+import { z} from 'zod';
 
 
 export const ProductSchema = z.object({
@@ -11,6 +11,8 @@ export const ProductSchema = z.object({
     slug: z.string().min(1),
     image: z.url().optional(),
     active: z.boolean().default(true),
+    featured: z.boolean().default(false),
+    gallery: z.boolean().default(true),
     createdAt: z.coerce.date(),
     updatedAt: z.coerce.date()
 })
