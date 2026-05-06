@@ -1,18 +1,19 @@
+import { FeaturedItems } from '@/components/FeaturedItemsRow';
 import { ProductCard } from '@/components/ProductCard';
 import { Product } from '@/types/product';
 import Image from 'next/image';
 import Link from 'next/link';
 
-
 export const revalidate = 3600;
+
 const fetchFeaturedItems = async () => {
   const res = await fetch(`${process.env.API_URL}/products/featured`);
   if (!res.ok) return [];
-  return  await res.json();
+  return await res.json();
 };
 
 export default async function Home() {
-  const featuredProducts = await fetchFeaturedItems();
+  const featuredItems = await fetchFeaturedItems();
   return (
     <div className="w-full">
       {/* Hero Section */}
@@ -106,19 +107,9 @@ export default async function Home() {
       </section>
 
       {/* Featured Items */}
-      {featuredProducts?.length > 0 && (
+      {featuredItems.length > 0 && (
         <section aria-label="Featured Items" className="py-20 bg-white">
-          <div className="max-w-6xl mx-auto px-4">
-            <h2 className="text-center text-4xl font-bold mb-2 text-surface-900">
-              Featured Items
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {featuredProducts.map((product: Product) => (
-                <ProductCard key={product.id} id={product.id} image={product?.image} slug={product.slug} name={product.name} price={product.price} description={product?.description} />
-             ))}
-            </div>
-          </div>
+          <FeaturedItems items={featuredItems} />
         </section>
       )}
 

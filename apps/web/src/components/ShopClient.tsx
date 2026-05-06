@@ -102,12 +102,15 @@ export const ShopClient = ({ products, page, totalPages, search, tags, tag }: Sh
       {products.length > 0 ? (
         <div className="px-4 pb-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {products.map((p, i) => {
-            const { createdAt: _, updatedAt: __, quantity: ___, tags: ____, ...cleanedProduct } = p;
             return (
               <ProductCard
                 key={p.id}
                 priority={i === 0}
-                {...cleanedProduct}
+                id={p.id}
+                name={p.name}
+                description={p?.description}
+                price={p.price}
+                slug={p.slug}
                 image={p.image ?? "https://res.cloudinary.com/dwf7x3rjv/image/upload/v1776687708/logo_symfiz.webp"}
               />
             );
