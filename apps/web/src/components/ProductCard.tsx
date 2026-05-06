@@ -54,7 +54,7 @@ export const ProductCard = ({
 
         {/* Description */}
         <div className="prose prose-sm max-w-none text-surface-700 prose-headings:text-brand-800 prose-strong:text-brand-800">
-          <p className="w-100 truncate">{description}</p>
+          <p className="max-w-100 truncate">{description}</p>
         </div>
 
         {/* Price */}
