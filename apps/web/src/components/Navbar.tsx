@@ -38,12 +38,13 @@ const ShoppingBag = () => {
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const [openUserMenu, setOpenUserMenu] = useState(false);
+  
   const auth = useAuth();
 
   const handleSignout = async () => {
     auth.clearAuth();
     await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/logout`);
+    setOpen(!open);
     redirect('/');
   };
 
@@ -92,13 +93,6 @@ export const Navbar = () => {
             >
               About
             </Link>
-            {/* CTA */}
-            <Link
-              href="/contact"
-              className="bg-accent-500 hover:bg-accent-600 text-white text-sm font-semibold px-4 py-2 rounded-md transition"
-            >
-              Contact
-            </Link>
 
             {auth?.user ? (
               <div className="relative group hidden ms-auto pe-5 md:block">
@@ -106,7 +100,7 @@ export const Navbar = () => {
                   {auth?.user?.email.split('@')[0]}
                 </div>
 
-                <div className="absolute right-0 mt-2 w-40 bg-white border border-surface-200 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150">
+                <div className="absolute z-50 right-0 mt-2 w-40 bg-white border border-surface-200 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150">
                   <Link
                     href="/dashboard"
                     className="block px-4 py-2 text-sm text-surface-700 hover:bg-surface-100"
@@ -174,61 +168,60 @@ export const Navbar = () => {
       {/* Mobile Menu */}
       {open && (
         <div className="min-[900px]:hidden px-4 pb-4 space-y-2">
-          <h2 className="block text-center text-surface-700 hover:text-brand-600 text-base font-extrabold border-b-2 border-accent-700">
-            {auth?.user?.email.split('@')[0]}
-          </h2>
+          {auth?.user?.email && (
+            <h2 className="block text-center text-surface-700 hover:text-brand-600 text-base font-extrabold border-b-2 border-accent-700">
+              {auth.user.email.split('@')[0]}
+            </h2>
+          )}
           <Link
+            onClick={() => setOpen(!open)}
             href="/shop"
             className="block text-surface-700 hover:text-brand-600 text-base font-medium"
           >
             Shop
           </Link>
           <Link
+            onClick={() => setOpen(!open)}
             href="/gallery"
             className="block text-surface-700 hover:text-brand-600 text-base font-medium"
           >
             Gallery
           </Link>
           <Link
+            onClick={() => setOpen(!open)}
             href="/custom-order"
             className="block text-surface-700 hover:text-brand-600 text-base font-medium"
           >
             Custom Orders
           </Link>
           <Link
+            onClick={() => setOpen(!open)}
             href="/about"
             className="block text-surface-700 hover:text-brand-600 text-base font-medium"
           >
             About
           </Link>
 
-          {/* CTA */}
-          <Link
-            href="/contact"
-            className="block my-3 w-full max-w-50 bg-accent-500 hover:bg-accent-600 text-white text-sm font-semibold px-4 py-2 rounded-md transition"
-          >
-            Contact
-          </Link>
           {auth?.user ? (
-            <div className="md:hidden">
-              <div className="mt-1 border">
-                <Link
-                  href="/dashboard"
-                  className="block  py-2 text-sm text-surface-700 hover:bg-surface-100"
-                >
-                  Dashboard
-                </Link>
+            <>
+              <Link
+                onClick={() => setOpen(!open)}
+                href="/dashboard"
+                className="block text-surface-700 hover:text-brand-600 text-base font-medium"
+              >
+                Dashboard
+              </Link>
 
-                <button
-                  onClick={handleSignout}
-                  className="w-full text-left  py-2 text-sm text-red-600 hover:bg-surface-100"
-                >
-                  Sign Out
-                </button>
-              </div>
-            </div>
+              <button
+                onClick={handleSignout}
+                className="w-full text-left  py-2 text-sm text-red-600 hover:bg-surface-100"
+              >
+                Sign Out
+              </button>
+            </>
           ) : (
             <Link
+              onClick={() => setOpen(!open)}
               href="/login"
               className="block  text-surface-700 hover:text-brand-600 text-base font-medium"
             >
