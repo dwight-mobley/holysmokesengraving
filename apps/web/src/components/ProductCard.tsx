@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { AddToCartButton } from './AddToCartButton';
 import Link from 'next/link';
 
+
 interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
   id: string;
   name: string;
@@ -14,7 +15,7 @@ interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
   price: number;
   image?: string;
   description?: string;
-  priority?: boolean
+  priority?: boolean;
 }
 
 export const ProductCard = ({
@@ -41,7 +42,7 @@ export const ProductCard = ({
               src={image}
               alt={name}
               fill
-              sizes='100%'
+              sizes="100%"
               priority={priority}
               className="object-contain"
             />
@@ -52,9 +53,9 @@ export const ProductCard = ({
         <p className="text-lg font-semibold text-brand-800 mb-1">{name}</p>
 
         {/* Description */}
-        <p className="text-surface-600 text-sm mb-3 line-clamp-2">
-          {description}
-        </p>
+        <div className="prose prose-sm max-w-none text-surface-700 prose-headings:text-brand-800 prose-strong:text-brand-800">
+          <p className="w-100 truncate">{description}</p>
+        </div>
 
         {/* Price */}
         <p className="text-brand-700 font-bold text-lg">{formatMoney(price)}</p>

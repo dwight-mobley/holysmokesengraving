@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { formatMoney } from '@hse/shared';
 import { notFound } from 'next/navigation';
 import { analytics } from '@/utils/analytics';
-
+import ReactMarkDown from 'react-markdown'
 
 
 
@@ -73,9 +73,9 @@ export default async function ProductDetailsPage({
 
       {/* Description */}
       {product.description && (
-        <p className="text-center text-surface-700 leading-relaxed">
-          {product.description}
-        </p>
+        <div className="prose prose-sm max-w-none text-surface-700 prose-headings:text-brand-800 prose-strong:text-brand-800">
+          <ReactMarkDown>{product.description}</ReactMarkDown>
+        </div>
       )}
 
       {/* Add to Cart */}

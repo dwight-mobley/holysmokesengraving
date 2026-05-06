@@ -101,7 +101,14 @@ export default function AdminProductForm({
         <Input {...register('name')} invalid={!!errors.name} />
       </FormField>
       <FormField label="Description" error={errors.description?.message}>
-        <Input {...register('description')} />
+        <textarea
+          {...register('description')}
+          rows={8}
+          placeholder={
+            'Use markdown for formatting:\n# Heading\n**bold text**\n- bullet item'
+          }
+          className="block w-full rounded-md bg-surface-50 border border-surface-300 px-4 py-2 text-surface-900 placeholder-surface-400 focus:outline-none focus:ring-2 focus:ring-brand-400 resize-y font-mono text-sm"
+        />
       </FormField>
       <FormField label="Price (USD)" error={errors.priceDollars?.message}>
         <Input
@@ -146,43 +153,43 @@ export default function AdminProductForm({
       <FormField label="Tags (comma-separated)" error={errors.tags?.message}>
         <Input {...register('tags')} placeholder="wood, custom, gift" />
       </FormField>
-      <div className='flex gab-5'>
+      <div className="flex gab-5">
         <div className="flex gap-3 w-25 align-center">
-        <label htmlFor="active" className="text-accent-700 font-bold">
-          Active
-        </label>
-        <input
-          {...register('active')}
-          type="checkbox"
-          id="active"
-          defaultChecked={defaultValues?.active ?? true}
-          className="focus:border-0 focus:outline-0"
-        />
-      </div>
-      <div className="flex gap-3 w-25 align-center">
-        <label htmlFor="featured" className="text-accent-700 font-bold">
-         Featured
-        </label>
-        <input
-          {...register('featured')}
-          type="checkbox"
-          id="active"
-          defaultChecked={defaultValues?.featured ?? false}
-          className="focus:border-0 focus:outline-0"
-        />
-      </div>
-      <div className="flex gap-3 w-25 align-center">
-        <label htmlFor="gallery" className="text-accent-700 font-bold">
-           Gallery
-        </label>
-        <input
-          {...register('gallery')}
-          type="checkbox"
-          id="active"
-          defaultChecked={defaultValues?.gallery ?? false}
-          className="focus:border-0 focus:outline-0"
-        />
-      </div>
+          <label htmlFor="active" className="text-accent-700 font-bold">
+            Active
+          </label>
+          <input
+            {...register('active')}
+            type="checkbox"
+            id="active"
+            defaultChecked={defaultValues?.active ?? true}
+            className="focus:border-0 focus:outline-0"
+          />
+        </div>
+        <div className="flex gap-3 w-25 align-center">
+          <label htmlFor="featured" className="text-accent-700 font-bold">
+            Featured
+          </label>
+          <input
+            {...register('featured')}
+            type="checkbox"
+            id="active"
+            defaultChecked={defaultValues?.featured ?? false}
+            className="focus:border-0 focus:outline-0"
+          />
+        </div>
+        <div className="flex gap-3 w-25 align-center">
+          <label htmlFor="gallery" className="text-accent-700 font-bold">
+            Gallery
+          </label>
+          <input
+            {...register('gallery')}
+            type="checkbox"
+            id="active"
+            defaultChecked={defaultValues?.gallery ?? false}
+            className="focus:border-0 focus:outline-0"
+          />
+        </div>
       </div>
 
       <Button type="submit" disabled={isSubmitting}>
