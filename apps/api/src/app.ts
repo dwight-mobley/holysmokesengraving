@@ -14,6 +14,8 @@ import { customOrderRouter } from './routes/customOrders';
 import { contactRouter } from './routes/contact';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit'
+import * as Sentry from '@sentry/node';
+
 
 export const app = express();
 
@@ -96,9 +98,11 @@ app.get('/health', (_req, res) => {
 app.use('/products', productRouter);
 app.use('/orders', orderRouter);
 app.use('/customers', customerRouter);
-app.use('/auth', authLimiter, authRouter);
+app.use('/auth', ...(process.env.NODE_ENV !== 'test' ? [authLimiter] : []), authRouter);
 app.use('/admin', requireAdminAccess, adminRouter);
 app.use('/custom-orders', formLimiter, customOrderRouter);
 app.use('/contact',formLimiter, contactRouter);
+
+Sentry.setupExpressErrorHandler(app);
 
 app.use(errorHandler);
