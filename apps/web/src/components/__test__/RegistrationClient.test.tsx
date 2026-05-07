@@ -14,9 +14,9 @@ vi.mock('next/navigation', () => ({
 
 describe('Registration Client', () => {
     const user = userEvent.setup()
-    
+
     beforeEach(() => {
-        vi.mocked(useRouter).mockReturnValue({ push: vi.fn() } as any);
+        vi.mocked(useRouter).mockReturnValue({ push: vi.fn() } as unknown as ReturnType<typeof useRouter>);
     });
 
     it('renders the registration form', () => {
@@ -37,7 +37,7 @@ describe('Registration Client', () => {
 
         //Click submit to trigger validation errors
         await user.click(screen.getByRole('button', { name: /register/i }));
-        
+
         expect(await screen.findByText(/first name is required/i)).toBeInTheDocument();
         expect(await screen.findByText(/last name is required/i)).toBeInTheDocument();
         expect(await screen.findByText(/enter a valid email/i)).toBeInTheDocument();
@@ -79,7 +79,7 @@ describe('Registration Client', () => {
     it('succesfully redirects on successful submit', async()=>{
         vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true }))
         const pushMock = vi.fn()
-        vi.mocked(useRouter).mockReturnValue({push:pushMock} as any);
+        vi.mocked(useRouter).mockReturnValue({push:pushMock} as unknown as ReturnType<typeof useRouter>);
 
         render(<RegisterClient/>)
 

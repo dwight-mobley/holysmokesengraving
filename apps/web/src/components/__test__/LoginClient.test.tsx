@@ -14,7 +14,7 @@ describe('LoginClient', () => {
     const user = userEvent.setup();
 
     beforeEach(() => {
-        vi.mocked(useRouter).mockReturnValue({ push: vi.fn() } as any);
+        vi.mocked(useRouter).mockReturnValue({ push: vi.fn() } as unknown as ReturnType<typeof useRouter>);
     });
 
     it('renders the login form', () => {
@@ -50,7 +50,7 @@ describe('LoginClient', () => {
     it('redirects to home on successful login', async () => {
         vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true }));
         const pushMock = vi.fn();
-        vi.mocked(useRouter).mockReturnValue({ push: pushMock } as any);
+        vi.mocked(useRouter).mockReturnValue({ push: pushMock } as unknown as ReturnType<typeof useRouter>);
 
         render(<LoginClient />);
 

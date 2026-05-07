@@ -30,7 +30,7 @@ describe('Checkout Client', () => {
     // Set Cart State before each test
     beforeEach(() => {
         useCart.setState({ items: cartItems });
-        vi.mocked(useRouter).mockReturnValue({ push: vi.fn() } as any)
+        vi.mocked(useRouter).mockReturnValue({ push: vi.fn() } as unknown as ReturnType<typeof useRouter>)
     });
 
     //Empty cart after checkout test
@@ -121,7 +121,7 @@ describe('Checkout Client', () => {
 
         vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true }))
         const pushMock = vi.fn();
-        vi.mocked(useRouter).mockReturnValue({ push: pushMock } as any)
+        vi.mocked(useRouter).mockReturnValue({ push: pushMock } as unknown as ReturnType<typeof useRouter>)
 
         render(<CheckoutClient />);
 
