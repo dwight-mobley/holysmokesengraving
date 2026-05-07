@@ -1,6 +1,12 @@
 import 'dotenv/config';
-import {prisma} from '../lib/prisma';
+import { vi } from 'vitest';
+import { prisma } from '../lib/prisma';
 
-afterAll(async ()=>{
-    await prisma.$disconnect();
-})
+vi.mock('../lib/email', () => ({
+  sendEmail: vi.fn().mockResolvedValue({ data: {}, error: null }),
+  FROM_ADDRESS: 'test@test.com',
+}));
+
+afterAll(async () => {
+  await prisma.$disconnect();
+});
