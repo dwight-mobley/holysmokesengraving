@@ -306,7 +306,7 @@ async function handleInvoicePaid(invoice: StripeInvoice) {
   // but send your branded one too
   await sendEmail({
     to: email,
-    subject: 'Your Holy Smokes Engraving Order Is Confirmed',
+    subject: 'Thank You For Your Holy Smokes Engraving Order',
     react: React.createElement(OrderConfirmation, {
       customerName: invoice.customer_name ?? 'Customer',
       orderId: order.id,
@@ -327,7 +327,7 @@ async function handleInvoicePaid(invoice: StripeInvoice) {
   // Email admin
 await sendEmail({
   to: ADMIN_EMAIL,
-  subject: 'New Invoice Order For Holy Smokes Engraving',
+  subject: 'Invoice Order For Holy Smokes Engraving Has Been Paid',
   react: React.createElement(AdminOrderNotification, {
     customerName: invoice.customer_name ?? 'Customer',
     orderId: order.id,
