@@ -24,6 +24,7 @@ model Product {
   active      Boolean     @default(true)
   featured    Boolean     @default(false)
   gallery     Boolean     @default(true)
+  onlyPOS     Boolean     @default(false)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   orderItems  OrderItem[]

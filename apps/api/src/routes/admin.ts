@@ -96,12 +96,12 @@ adminRouter.put(
 
       // Fetch current product to get old image URL
       const existing = await prisma.product.findUnique({ where: { id:id as string } });
-
+      console.log(req.body)
       const product = await prisma.product.update({
         where: { id:id as string },
         data: { ...req.body },
       });
-      
+
       // Delete old Cloudinary image if it was replaced
       const oldImage = existing?.image;
       const newImage = req.body.image as string | undefined;

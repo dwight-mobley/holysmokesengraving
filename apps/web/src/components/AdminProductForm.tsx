@@ -17,6 +17,7 @@ const FormSchema = z.object({
   active: z.boolean(),
   gallery: z.boolean(),
   featured: z.boolean(),
+  onlyPOS: z.boolean(),
   tags: z.string().optional(),
 });
 
@@ -72,6 +73,7 @@ export default function AdminProductForm({
       active: data.active,
       gallery: data.gallery,
       featured: data.featured,
+      onlyPOS: data.onlyPOS,
       tags: data.tags
         ? data.tags
             .split(',')
@@ -79,7 +81,7 @@ export default function AdminProductForm({
             .filter(Boolean)
         : [],
     };
-
+    
     const res = await fetch(
       isEdit ? `/api/admin/products/${productId}` : '/api/admin/products',
       {
@@ -173,7 +175,7 @@ export default function AdminProductForm({
           <input
             {...register('featured')}
             type="checkbox"
-            id="active"
+            id="featured"
             defaultChecked={defaultValues?.featured ?? false}
             className="focus:border-0 focus:outline-0"
           />
@@ -185,8 +187,20 @@ export default function AdminProductForm({
           <input
             {...register('gallery')}
             type="checkbox"
-            id="active"
+            id="gallery"
             defaultChecked={defaultValues?.gallery ?? false}
+            className="focus:border-0 focus:outline-0"
+          />
+        </div>
+         <div className="flex gap-3 w-25 align-center">
+          <label htmlFor="onlyPOS" className="text-accent-700 font-bold">
+           Only POS
+          </label>
+          <input
+            {...register('onlyPOS')}
+            type="checkbox"
+            id="onlyPOS"
+            defaultChecked={defaultValues?.onlyPOS ?? false}
             className="focus:border-0 focus:outline-0"
           />
         </div>
