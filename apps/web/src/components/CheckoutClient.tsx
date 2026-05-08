@@ -169,10 +169,10 @@ export const CheckoutClient = () => {
         </Button>
 
         <Link
-          href="/cart"
+          href="/shop"
           className="block text-center text-sm text-surface-500 hover:text-surface-700 mt-2"
         >
-          ← Back to Cart
+          ← Back to Shopping
         </Link>
       </div>
     </form>

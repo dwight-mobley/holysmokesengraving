@@ -67,6 +67,8 @@ model Order {
   customer        Customer    @relation(fields: [customerId], references: [id])
   status          OrderStatus @default(pending)
   total           Int // in cents
+  notes           String?
+  paymentMethod   String?
   stripeSessionId String?     @unique
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt

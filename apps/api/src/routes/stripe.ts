@@ -16,7 +16,7 @@ type CheckoutSession = Extract<
   { type: 'checkout.session.completed' }
 >['data']['object'] & {
   shipping_details?: {
-    name?: string
+    name?: string;
     address?: {
       line1?: string | null;
       city?: string | null;
@@ -30,6 +30,11 @@ type StripeProduct = Awaited<
   ReturnType<InstanceType<typeof Stripe>['products']['retrieve']>
 >;
 
+type StripeInvoice = Extract<
+  AllStripeEvents,
+  { type: 'invoice.paid' }
+>['data']['object'];
+
 export const stripeRouter = Router();
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -37,6 +42,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   typescript: true,
 });
 
+//Online Checkout
 async function handleCheckoutCompleted(session: CheckoutSession) {
   const existing = await prisma.order.findUnique({
     where: { stripeSessionId: session.id },
@@ -49,8 +55,7 @@ async function handleCheckoutCompleted(session: CheckoutSession) {
     return;
   }
 
- 
-  const  customerName  = session.shipping_details?.name;
+  const customerName = session.shipping_details?.name;
   const shipping = session.shipping_details?.address;
   const address = shipping?.line1 ?? '';
   const city = shipping?.city ?? '';
@@ -192,6 +197,139 @@ async function handleCheckoutCompleted(session: CheckoutSession) {
   );
 }
 
+// Invoice Payment
+async function handleInvoicePaid(invoice: StripeInvoice) {
+  // Guard against re-processing — use the invoice ID stored as stripeSessionId
+  const existing = await prisma.order.findFirst({
+    where: { stripeSessionId: invoice.id },
+  });
+  if (existing) {
+    logger.info(
+      { invoiceId: invoice.id },
+      'Invoice webhook already processed, skipping',
+    );
+    return;
+  }
+
+  const email = invoice.customer_email ?? '';
+  if (!email) {
+    logger.warn(
+      { invoiceId: invoice.id },
+      'Invoice paid but no customer email, skipping',
+    );
+    return;
+  }
+
+  // Extract line items — filter out the tax line (no productId metadata)
+  const lines = invoice.lines.data;
+  const orderItems: Array<{
+    productId: string;
+    quantity: number;
+    price: number;
+    total: number;
+  }> = [];
+
+  for (const line of lines) {
+    const productId = line.metadata?.productId as string | undefined;
+    if (!productId) continue; // tax line or non-product line
+
+    const qty = parseInt((line.metadata?.quantity as string | undefined) ?? '1', 10);
+    const unitPrice = Math.round(line.amount / qty);
+    orderItems.push({
+      productId,
+      quantity: qty,
+      price: unitPrice,
+      total: line.amount,
+    });
+  }
+
+  if (orderItems.length === 0) {
+    logger.warn(
+      { invoiceId: invoice.id },
+      'No product line items on invoice, skipping order creation',
+    );
+    return;
+  }
+
+  // Upsert customer
+  const [firstName, ...rest] = (invoice.customer_name ?? 'Unknown').split(' ');
+  const lastName = rest.join(' ') || 'Unknown';
+
+  const customer = await prisma.customer.upsert({
+    where: { email },
+    update: {},
+    create: { email, firstName, lastName },
+  });
+
+  const total = invoice.amount_paid;
+
+  const order = await prisma.$transaction(async (tx) => {
+    const productIds = orderItems.map((i) => i.productId);
+    const products = await tx.product.findMany({
+      where: { id: { in: productIds } },
+    });
+
+    for (const item of orderItems) {
+      const product = products.find((p) => p.id === item.productId);
+      if (!product || product.quantity < item.quantity) {
+        logger.warn(
+          { productId: item.productId },
+          'Insufficient stock on invoice.paid webhook',
+        );
+        throw new Error(`Insufficient stock for product ${item.productId}`);
+      }
+    }
+
+    const newOrder = await tx.order.create({
+      data: {
+        customerId: customer.id,
+        stripeSessionId: invoice.id, // reuse this field as idempotency key
+        status: 'processing',
+        total,
+        paymentMethod: 'invoice',
+        ...(invoice.description ? { notes: invoice.description } : {}),
+        items: { create: orderItems },
+      },
+    });
+
+    for (const item of orderItems) {
+      await tx.product.update({
+        where: { id: item.productId },
+        data: { quantity: { decrement: item.quantity } },
+      });
+    }
+
+    return newOrder;
+  });
+
+  // Confirmation email — Stripe already sent their own invoice receipt,
+  // but send your branded one too
+  await sendEmail({
+    to: email,
+    subject: 'Your Holy Smokes Engraving Order Is Confirmed',
+    react: React.createElement(OrderConfirmation, {
+      customerName: invoice.customer_name ?? 'Customer',
+      orderId: order.id,
+      items: orderItems.map((i) => ({
+        name:
+          lines.find((l) => l.metadata?.productId === i.productId)
+            ?.description ?? 'Item',
+        quantity: i.quantity,
+        price: i.price,
+        total: i.total,
+      })),
+      subtotal: invoice.subtotal,
+      total,
+      shippingAddress: {},
+    }),
+  });
+
+  logger.info(
+    { invoiceId: invoice.id, email, total },
+    'Order created from invoice payment',
+  );
+}
+
 stripeRouter.post(
   '/webhook',
   async (req: Request, res: Response, next: NextFunction) => {
@@ -209,7 +347,9 @@ stripeRouter.post(
       );
 
       if (event.type === 'checkout.session.completed') {
-        await handleCheckoutCompleted(event.data.object);
+        await handleCheckoutCompleted(event.data.object as CheckoutSession);
+      } else if (event.type === 'invoice.paid') {
+        await handleInvoicePaid(event.data.object as StripeInvoice);
       }
 
       res.json({ received: true });
