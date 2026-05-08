@@ -82,6 +82,10 @@ describe('GET /auth/me', () => {
   let token: string;
 
   beforeAll(async () => {
+    // Clean up any leftovers from previous describes
+    await prisma.customer.deleteMany({ where: { email: TEST_EMAIL } });
+    await prisma.user.deleteMany({ where: { email: TEST_EMAIL } });
+
     await request(app).post('/auth/register').send({
       firstName: 'Test',
       lastName: 'User',
