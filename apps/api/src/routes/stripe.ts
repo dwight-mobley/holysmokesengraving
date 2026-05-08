@@ -324,6 +324,25 @@ async function handleInvoicePaid(invoice: StripeInvoice) {
     }),
   });
 
+  // Email admin
+await sendEmail({
+  to: ADMIN_EMAIL,
+  subject: 'New Invoice Order For Holy Smokes Engraving',
+  react: React.createElement(AdminOrderNotification, {
+    customerName: invoice.customer_name ?? 'Customer',
+    orderId: order.id,
+    items: orderItems.map((i) => ({
+      name:
+        lines.find((l) => l.metadata?.productId === i.productId)
+          ?.description ?? 'Item',
+      quantity: i.quantity,
+      price: i.price,
+      total: i.total,
+    })),
+    shippingAddress: {},
+  }),
+});
+
   logger.info(
     { invoiceId: invoice.id, email, total },
     'Order created from invoice payment',
