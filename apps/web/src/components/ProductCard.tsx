@@ -7,7 +7,6 @@ import Image from 'next/image';
 import { AddToCartButton } from './AddToCartButton';
 import Link from 'next/link';
 
-
 interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
   id: string;
   name: string;
@@ -37,14 +36,14 @@ export const ProductCard = ({
       <Link href={`/shop/${slug}`} aria-label={`View ${name}`}>
         {/* Image */}
         {image && (
-          <div className="relative w-full h-48 mb-4 rounded-md overflow-hidden bg-surface-100">
+          <div className="relative w-full h-64 mb-4 rounded-md overflow-hidden bg-surface-100">
             <Image
               src={image}
               alt={name}
               fill
               sizes="100%"
               priority={priority}
-              className="object-contain"
+              className="object-cover"
             />
           </div>
         )}
