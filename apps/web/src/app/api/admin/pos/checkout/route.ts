@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
   const token = cookieStore.get('auth-token')?.value;
   if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const { email, items } = await req.json() as { email?: string; items: POSItem[] };
+  const { email, items, taxAmount, notes } = await req.json() as { email?: string; items: POSItem[] };
 
   if (!items?.length) {
     return NextResponse.json({ error: 'No items provided' }, { status: 400 });
@@ -36,14 +36,29 @@ export async function POST(req: NextRequest) {
     quantity: item.quantity,
   }));
 
+   if (taxAmount && taxAmount > 0) {
+    lineItems.push({
+      price_data: {
+        currency: 'usd',
+        unit_amount: taxAmount,
+        product_data: { name: 'Sales Tax (GA)', metadata: {} },
+      },
+      quantity: 1,
+    });
+  }
+
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
     mode: 'payment',
     line_items: lineItems,
     ...(email && { customer_email: email }),
+    metadata: {
+      source: 'pos',
+      ...(notes && { notes }),
+    },
     success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/admin/pos`,
   });
-
+  
   return NextResponse.json({ url: session.url, sessionId:session.id });
 }

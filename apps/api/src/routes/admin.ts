@@ -9,6 +9,11 @@ import { OrderStatus } from '../generated/prisma/enums';
 import multer from 'multer';
 import { cloudinary, extractPublicId } from '../lib/cloudinary';
 import { logger } from '../lib/logger';
+import Stripe from 'stripe';
+import OrderConfirmation from '../emails/templates/OrderConfirmation';
+import { POSInvoice } from '../emails/templates/POSInvoice';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -96,7 +101,7 @@ adminRouter.put(
         where: { id:id as string },
         data: { ...req.body },
       });
-      console.log(req.body)
+      
       // Delete old Cloudinary image if it was replaced
       const oldImage = existing?.image;
       const newImage = req.body.image as string | undefined;
@@ -228,3 +233,188 @@ adminRouter.patch(
     }
   },
 );
+
+// ── Customer lookup by email (for POS autofill) ──────────────────────────────
+adminRouter.get('/customers/lookup', async (req, res, next) => {
+  try {
+    const email = req.query.email as string | undefined;
+    if (!email) return res.status(400).json({ error: 'Email required' });
+
+    const customer = await prisma.customer.findUnique({
+      where: { email: email.toLowerCase() },
+      select: { id: true, firstName: true, lastName: true, email: true },
+    });
+    return res.json({ customer });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ── POS cash order ────────────────────────────────────────────────────────────
+adminRouter.post('/pos/cash-order', async (req, res, next) => {
+  type CashItem = { productId: string; quantity: number };
+  try {
+    const { email, firstName, lastName, items, taxAmount = 0, notes } = req.body as {
+      email: string;
+      firstName?: string;
+      lastName?: string;
+      items: CashItem[];
+      taxAmount?: number;
+      notes?: string;
+    };
+
+    if (!email) return res.status(400).json({ error: 'Customer email is required' });
+    if (!items?.length) return res.status(400).json({ error: 'No items provided' });
+
+    const productIds = items.map((i) => i.productId);
+    const products = await prisma.product.findMany({ where: { id: { in: productIds } } });
+
+    for (const item of items) {
+      const product = products.find((p) => p.id === item.productId);
+      if (!product) return res.status(400).json({ error: `Product ${item.productId} not found` });
+      if (product.quantity < item.quantity)
+        return res.status(400).json({ error: `Insufficient stock for ${product.name}` });
+    }
+
+    const orderItems = items.map((item) => {
+      const product = products.find((p) => p.id === item.productId)!;
+      return {
+        productId: item.productId,
+        quantity: item.quantity,
+        price: product.price,
+        total: product.price * item.quantity,
+      };
+    });
+
+    const subtotal = orderItems.reduce((sum, i) => sum + i.total, 0);
+    const total = subtotal + taxAmount;
+
+    // Upsert customer — create minimal record if first visit
+    const customer = await prisma.customer.upsert({
+      where: { email: email.toLowerCase() },
+      update: {},
+      create: {
+        email: email.toLowerCase(),
+        firstName: firstName ?? 'POS',
+        lastName: lastName ?? 'Customer',
+      },
+    });
+
+    // Create order + decrement inventory atomically
+    const order = await prisma.$transaction(async (tx) => {
+      const created = await tx.order.create({
+        data: {
+          customerId: customer.id,
+          total,
+          taxAmount,
+          paymentMethod: 'cash',
+          status: 'processing', // payment already collected in person
+          ...(notes && { notes }),
+          items: { create: orderItems },
+        },
+        include: { items: true },
+      });
+      for (const item of items) {
+        await tx.product.update({
+          where: { id: item.productId },
+          data: { quantity: { decrement: item.quantity } },
+        });
+      }
+      return created;
+    });
+
+    logger.info({ orderId: order.id, customerId: customer.id, total }, 'POS cash order created');
+
+    // Send confirmation email (non-blocking — don't fail the order if email fails)
+    sendEmail({
+      to: customer.email,
+      subject: 'Holy Smokes Engraving — Order Confirmed',
+      react: React.createElement(OrderConfirmation, {
+        customerName: customer.firstName,
+        orderId: order.id,
+        items: orderItems.map((i) => ({
+          name: products.find((p) => p.id === i.productId)!.name,
+          quantity: i.quantity,
+          price: i.price,
+          total: i.total,
+        })),
+        subtotal,
+        total,
+        shippingAddress: {}, // POS = pickup, no shipping address
+      }),
+    }).catch((err: unknown) => {
+      logger.warn({ err, orderId: order.id }, 'Failed to send POS confirmation email');
+    });
+
+    return res.status(201).json({ orderId: order.id });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ── Send invoice email (called by the Next.js invoice route) ─────────────────
+adminRouter.post('/pos/send-invoice', async (req, res, next) => {
+  try {
+    const { email, firstName, items, subtotal, taxAmount, total, paymentUrl, notes } = req.body as {
+      email: string;
+      firstName?: string;
+      items: Array<{ name: string; quantity: number; price: number; total: number }>;
+      subtotal: number;
+      taxAmount: number;
+      total: number;
+      paymentUrl: string;
+      notes?: string;
+    };
+
+    const mailingAddress = process.env.INVOICE_MAILING_ADDRESS || undefined;
+
+    await sendEmail({
+      to: email,
+      subject: 'Your Holy Smokes Engraving Invoice',
+      react: React.createElement(POSInvoice, {
+        customerName: firstName ?? 'Customer',
+        items,
+        subtotal,
+        taxAmount,
+        total,
+        paymentUrl,
+        notes,
+        mailingAddress,
+      }),
+    });
+
+    return res.json({ success: true });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ── Stripe refund ─────────────────────────────────────────────────────────────
+adminRouter.post('/orders/:id/refund', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const order = await prisma.order.findUnique({ where: { id } });
+    if (!order) return res.status(404).json({ error: 'Order not found' });
+    if (!order.stripeSessionId)
+      return res.status(400).json({ error: 'No Stripe session on this order. Cash orders must be refunded manually.' });
+
+    const session = await stripe.checkout.sessions.retrieve(order.stripeSessionId);
+    if (!session.payment_intent)
+      return res.status(400).json({ error: 'No payment intent found on this session.' });
+
+    const paymentIntentId =
+      typeof session.payment_intent === 'string'
+        ? session.payment_intent
+        : session.payment_intent.id;
+
+    const refund = await stripe.refunds.create({ payment_intent: paymentIntentId });
+
+    await prisma.order.update({ where: { id }, data: { status: 'refunded' } });
+
+    logger.info({ orderId: id, refundId: refund.id }, 'Order refunded');
+    return res.json({ refundId: refund.id });
+  } catch (err) {
+    next(err);
+  }
+});

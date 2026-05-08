@@ -11,7 +11,14 @@ export default async function POSPage() {
   const res = await fetch(`${process.env.API_URL}/admin/products`, {
     headers: { Authorization: `Bearer ${token}` },
   });
-  const { products } = await res.json() as { products: Product[] };
+  const { products } = (await res.json()) as { products: Product[] };
 
-  return <POSClient products={products.filter(p => p.active && p.quantity > 0)} />;
+  const taxRate = parseFloat(process.env.POS_TAX_RATE_PERCENT ?? '0');
+
+  return (
+    <POSClient
+      products={products.filter((p) => p.active && p.quantity > 0)}
+      taxRate={taxRate}
+    />
+  );
 }

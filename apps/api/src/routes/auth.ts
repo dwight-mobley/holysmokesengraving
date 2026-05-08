@@ -117,7 +117,7 @@ authRouter.get(
       const {passwordHash, ...safeUser} = user!;
 
       const updatedUser = {...safeUser, ...customer}
-      console.log(updatedUser)
+      
       return res.status(200).json({user:updatedUser, orders});
     } catch (err) {
       next(err);
