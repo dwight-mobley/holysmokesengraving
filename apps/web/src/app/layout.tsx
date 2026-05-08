@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full antialiased">
-      <body className="inter min-h-screen flex flex-col bg-surface-950 text-surface-50">
+      <body className="inter min-h-screen flex flex-col bg-white text-black">
         <Navbar />
         <a
           href="#main-content"
