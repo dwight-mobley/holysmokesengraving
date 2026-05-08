@@ -13,6 +13,7 @@ export const ProductSchema = z.object({
     active: z.boolean().default(true),
     featured: z.boolean().default(false),
     gallery: z.boolean().default(true),
+    onlyPOS: z.boolean().default(false),
     createdAt: z.coerce.date(),
     updatedAt: z.coerce.date()
 })

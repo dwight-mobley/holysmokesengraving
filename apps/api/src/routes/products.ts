@@ -18,6 +18,7 @@ productRouter.get(
 
       const where = {
         active:true,
+        onlyPOS:false,
         ...(search && {
           OR: [
             { name: { contains: search, mode: Prisma.QueryMode.insensitive } },
