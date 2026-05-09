@@ -29,21 +29,21 @@ export const ProductCard = ({
   ...props
 }: ProductCardProps) => {
   const baseStyles =
-    'flex flex-col transition hover:shadow-lg hover:border-brand-300';
+    'flex flex-col h-full transition hover:shadow-lg hover:border-brand-300';
 
   return (
     <Card className={clsx(baseStyles, className)} {...props}>
-      <Link href={`/shop/${slug}`} aria-label={`View ${name}`}>
+      <Link href={`/shop/${slug}`} aria-label={`View ${name}`} className='flex flex-col flex-1'>
         {/* Image */}
         {image && (
-          <div className="relative w-full h-64 mb-4 rounded-md overflow-hidden bg-surface-100">
+          <div className="relative w-full h-50 mb-4 rounded-md overflow-hidden bg-surface-100">
             <Image
               src={image}
               alt={name}
               fill
               sizes="100%"
               priority={priority}
-              className="object-cover"
+              className="object-contain"
             />
           </div>
         )}
