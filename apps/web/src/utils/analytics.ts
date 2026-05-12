@@ -1,12 +1,14 @@
+import posthog from "posthog-js";
+
 type EventProperties = Record<string, string | number | boolean | undefined>;
 
 function track(event: string, properties?: EventProperties) {
-  console.log(`[analytics] ${event}`, properties ?? {});
+ posthog.capture(event, properties)
 }
 
 export const analytics = {
   productViewed: (productId: string, name: string, price: number) =>
-    track('product viewed', { productId, name, price }),
+    track('product_viewed', { productId, name, price }),
 
   addedToCart: (productId: string, name: string, price: number) =>
     track('added_to_cart', { productId, name, price }),

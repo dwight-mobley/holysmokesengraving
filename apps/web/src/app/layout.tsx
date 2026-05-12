@@ -2,9 +2,12 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
-import {Inter} from 'next/font/google'
+import { Inter } from 'next/font/google';
+import { PostHogProvider } from '@/components/PostHogProvider';
+import { Suspense } from 'react';
+import { PostHogPageView } from '@/components/PostHogPageView';
 
-const inter = Inter({subsets:['latin']})
+const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'Holy Smokes Engraving',
   description:
@@ -18,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full antialiased">
-      <body className="inter min-h-screen flex flex-col bg-white text-black">
+      <body className={`${inter.className} min-h-screen flex flex-col bg-white text-black`}>
         <Navbar />
         <a
           href="#main-content"
@@ -26,7 +29,14 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <main className="flex-1">{children}</main>
+        <main className="flex-1">
+          <PostHogProvider>
+            <Suspense fallback={null}>
+              <PostHogPageView />
+            </Suspense>
+            {children}
+          </PostHogProvider>
+        </main>
         <Footer />
       </body>
     </html>

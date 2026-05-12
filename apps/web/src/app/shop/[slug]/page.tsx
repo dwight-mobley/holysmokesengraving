@@ -4,8 +4,8 @@ import { AddToCartButton } from '@/components/AddToCartButton';
 import Image from 'next/image';
 import { formatMoney } from '@hse/shared';
 import { notFound } from 'next/navigation';
-import { analytics } from '@/utils/analytics';
 import ReactMarkDown from 'react-markdown'
+import { ProductViewTracker } from '@/components/ProductViewTracker';
 
 
 
@@ -42,11 +42,11 @@ export default async function ProductDetailsPage({
     return notFound();
   }
 
-  //Analytics
-  analytics.productViewed(product.id, product.name, product.price);
+
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
+      <ProductViewTracker product={product}/>
       {/* Back Link */}
       <Link href="/shop" className="text-brand-600 underline">
         <span aria-hidden="true">← </span> Back to Shop
