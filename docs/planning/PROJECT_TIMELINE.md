@@ -191,7 +191,7 @@
 
 - [x] Finalize GitHub Actions: `ci.yml` (lint + test), `deploy-web.yml` (Vercel), `deploy-api.yml` (container)
 - [x] Add branch protection rules on `main`
-- [ ] Add E2E tests with Playwright (checkout happy path, admin order flow)
+- [x] Add E2E tests with Playwright (checkout happy path, admin order flow)
 - [x] Integrate Sentry for frontend and backend (environment tags, release tracking)
 - [ ] Automate DB migrations in CI; document rollback plan
 - [ ] Add Lighthouse CI for performance budgets

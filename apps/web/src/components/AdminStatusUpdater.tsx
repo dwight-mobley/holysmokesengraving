@@ -3,11 +3,26 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button, Input } from '@/components/ui';
 
-const ORDER_STATUSES = ['pending', 'processing', 'shipped', 'delivered', 'cancelled', 'refunded'] as const;
+const ORDER_STATUSES = [
+  'pending',
+  'processing',
+  'shipped',
+  'delivered',
+  'cancelled',
+  'refunded',
+] as const;
 
-type Props = { orderId: string; currentStatus: string; currentTracking: string };
+type Props = {
+  orderId: string;
+  currentStatus: string;
+  currentTracking: string;
+};
 
-export function AdminStatusUpdater({ orderId, currentStatus, currentTracking }: Props) {
+export function AdminStatusUpdater({
+  orderId,
+  currentStatus,
+  currentTracking,
+}: Props) {
   const [status, setStatus] = useState(currentStatus);
   const [tracking, setTracking] = useState(currentTracking);
   const [saving, setSaving] = useState(false);
@@ -29,20 +44,30 @@ export function AdminStatusUpdater({ orderId, currentStatus, currentTracking }: 
       <h2 className="font-semibold text-brand-700">Update Status</h2>
       <div className="flex gap-4 items-end">
         <div className="space-y-1">
-          <label className="text-sm text-surface-600">Status</label>
+          <label htmlFor="status" className="text-sm text-surface-600">
+            Status
+          </label>
           <select
+            id="status"
             value={status}
-            onChange={e => setStatus(e.target.value)}
+            onChange={(e) => setStatus(e.target.value)}
             className="border border-surface-300 rounded-md px-3 py-2 text-sm bg-white"
           >
-            {ORDER_STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
+            {ORDER_STATUSES.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
           </select>
         </div>
         <div className="space-y-1 flex-1">
-          <label className="text-sm text-surface-600">Tracking Number</label>
+          <label htmlFor="trackingNumber" className="text-sm text-surface-600">
+            Tracking Number
+          </label>
           <Input
+            id="trackingNumber"
             value={tracking}
-            onChange={e => setTracking(e.target.value)}
+            onChange={(e) => setTracking(e.target.value)}
             placeholder="Optional"
             size="sm"
           />
