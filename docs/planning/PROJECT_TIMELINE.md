@@ -187,14 +187,14 @@
 
 ## Phase 10: CI/CD, Testing & Observability
 
-**Status: 🔄  In Progress**
+**Status: 🔄 In Progress**
 
 - [x] Finalize GitHub Actions: `ci.yml` (lint + test), `deploy-web.yml` (Vercel), `deploy-api.yml` (container)
 - [x] Add branch protection rules on `main`
 - [x] Add E2E tests with Playwright (checkout happy path, admin order flow)
 - [x] Integrate Sentry for frontend and backend (environment tags, release tracking)
-- [ ] Automate DB migrations in CI; document rollback plan
-- [ ] Add Lighthouse CI for performance budgets
+- [x] Automate DB migrations in CI; document rollback plan
+- [x] Add Lighthouse CI for performance budgets
 - [ ] Merge `dev` → `main`; run full pipeline to staging; verify smoke tests
 
 **✅ Milestone:** Robust CI/CD, automated E2E tests, error monitoring, and clean deploy pipeline.
@@ -228,13 +228,13 @@
 | Foundation & Tooling              | ✅ Complete    |
 | Storefront UI & Component Library | ✅ Complete    |
 | Backend API & Database            | ✅ Complete    |
-| Frontend → API Integration        | ✅ Complete |
+| Frontend → API Integration        | ✅ Complete    |
 | Stripe Checkout & Webhooks        | ✅ Complete    |
 | Transactional Email               | ✅ Complete    |
-| Auth & Customer Accounts          |  ✅ Complete |
-| Admin UI & POS                    |  ✅ Complete |
+| Auth & Customer Accounts          | ✅ Complete    |
+| Admin UI & POS                    | ✅ Complete    |
 | Docker & Infrastructure           | 🔲 Not Started |
-| CI/CD & Observability             |🔄 In Progress |
+| CI/CD & Observability             | 🔄 In Progress |
 | 🚀 Portfolio & Job Outreach       | 🔲 Not Started |
 
 ---
