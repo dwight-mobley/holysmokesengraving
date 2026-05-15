@@ -126,7 +126,7 @@
 
 ## Phase 7: Auth & Customer Accounts
 
-**Status: 🔄  In Progress**
+**Status: ✅ Complete**
 
 - [x] Add auth endpoints to API: `POST /auth/register`, `POST /auth/login`, `GET /auth/me`
 - [x] Issue JWT on login; add auth middleware to protect customer routes
@@ -187,7 +187,7 @@
 
 ## Phase 10: CI/CD, Testing & Observability
 
-**Status: 🔲 Not Started**
+**Status: 🔄  In Progress**
 
 - [x] Finalize GitHub Actions: `ci.yml` (lint + test), `deploy-web.yml` (Vercel), `deploy-api.yml` (container)
 - [x] Add branch protection rules on `main`
@@ -228,13 +228,13 @@
 | Foundation & Tooling              | ✅ Complete    |
 | Storefront UI & Component Library | ✅ Complete    |
 | Backend API & Database            | ✅ Complete    |
-| Frontend → API Integration        | 🔄 In Progress |
+| Frontend → API Integration        | ✅ Complete |
 | Stripe Checkout & Webhooks        | ✅ Complete    |
 | Transactional Email               | ✅ Complete    |
-| Auth & Customer Accounts          | 🔲 Not Started |
-| Admin UI & POS                    | 🔲 Not Started |
+| Auth & Customer Accounts          |  ✅ Complete |
+| Admin UI & POS                    |  ✅ Complete |
 | Docker & Infrastructure           | 🔲 Not Started |
-| CI/CD & Observability             | 🔲 Not Started |
+| CI/CD & Observability             |🔄 In Progress |
 | 🚀 Portfolio & Job Outreach       | 🔲 Not Started |
 
 ---

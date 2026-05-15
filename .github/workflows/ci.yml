@@ -22,8 +22,22 @@ jobs:
 
   test-api:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: hse_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DATABASE_URL: postgresql://test:test@localhost:5432/hse_test
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
       STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
     steps:
@@ -35,6 +49,7 @@ jobs:
       - run: npm ci
       - run: npm run build --workspace=packages/shared
       - run: npx prisma generate --schema=apps/api/prisma/schema.prisma
+      - run: npx prisma migrate deploy --schema=apps/api/prisma/schema.prisma
       - run: npm test --workspace=apps/api
 
   test-web:
@@ -53,4 +68,4 @@ jobs:
           API_URL: ${{ secrets.API_URL }}
           NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
           STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}   
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
