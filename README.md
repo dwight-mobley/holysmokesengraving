@@ -65,19 +65,27 @@ Open [http://localhost:3000](http://localhost:3000).
 | -------------------- | ---------------------------- |
 | `npm run dev`        | Start API with hot reload    |
 | `npm run build`      | Compile TypeScript           |
+| `npm run start`      | Serve compiled build         |
 | `npm test`           | Run Vitest integration tests |
+| `npm run test:watch` | Run Vitest in watch mode     |
 | `npm run db:migrate` | Run Prisma migrations        |
 | `npm run db:studio`  | Open Prisma Studio           |
 | `npm run db:backup`  | Run DB backup script         |
 
 ### `apps/web`
 
-| Script              | Description                  |
-| ------------------- | ---------------------------- |
-| `npm run dev`       | Start Next.js dev server     |
-| `npm run build`     | Production build             |
-| `npm test`          | Run Vitest tests             |
-| `npm run storybook` | Start Storybook on port 6006 |
+| Script                    | Description                     |
+| ------------------------- | ------------------------------- |
+| `npm run dev`             | Start Next.js dev server        |
+| `npm run build`           | Production build                |
+| `npm run start`           | Serve production build          |
+| `npm run lint`            | Run ESLint                      |
+| `npm test`                | Run Vitest unit/component tests |
+| `npm run test:ui`         | Run tests with Vitest UI        |
+| `npm run test:e2e`        | Run Playwright E2E tests        |
+| `npm run test:e2e:ui`     | Run Playwright tests with UI    |
+| `npm run storybook`       | Start Storybook on port 6006    |
+| `npm run build-storybook` | Build static Storybook          |
 
 ## Project Status
 
@@ -91,7 +99,7 @@ Open [http://localhost:3000](http://localhost:3000).
 | Transactional Email               | ✅ Complete    |
 | Auth & Customer Accounts          | ✅ Complete    |
 | Admin UI & POS                    | ✅ Complete    |
-| CI/CD & Observability             | 🔄 In Progress |
-| Portfolio & Job Outreach          | 🔲 Not Started |
+| CI/CD & Observability             | ✅ Complete    |
+| Portfolio & Job Outreach          | 🔄 In Progress |
 
 See [docs/planning/PROJECT_TIMELINE.md](docs/planning/PROJECT_TIMELINE.md) for the full phase breakdown.

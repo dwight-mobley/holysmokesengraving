@@ -144,7 +144,7 @@
 
 ## Phase 8: Admin UI & Point of Sale
 
-**Status: 🔲 Not Started**
+**Status: ✅ Complete**
 
 ### Admin Dashboard
 
@@ -187,7 +187,7 @@
 
 ## Phase 10: CI/CD, Testing & Observability
 
-**Status: 🔄 In Progress**
+ **Status: ✅ Complete**
 
 - [x] Finalize GitHub Actions: `ci.yml` (lint + test), `deploy-web.yml` (Vercel), `deploy-api.yml` (container)
 - [x] Add branch protection rules on `main`
@@ -195,7 +195,7 @@
 - [x] Integrate Sentry for frontend and backend (environment tags, release tracking)
 - [x] Automate DB migrations in CI; document rollback plan
 - [x] Add Lighthouse CI for performance budgets
-- [ ] Merge `dev` → `main`; run full pipeline to staging; verify smoke tests
+- [x] Merge `dev` → `main`; run full pipeline to staging; verify smoke tests
 
 **✅ Milestone:** Robust CI/CD, automated E2E tests, error monitoring, and clean deploy pipeline.
 
@@ -203,9 +203,9 @@
 
 ## Phase 11: Portfolio Polish, Case Study & Job Outreach
 
-**Status: 🔲 Not Started**
+**Status: 🔄 In Progress**
 
-- [ ] Deploy storefront and API to production
+- [X] Deploy storefront and API to production
 - [ ] Build portfolio page (`dwight-mobley.com`): hero, project cards, HolysmokesEngraving case study
 - [ ] Write case study: problem, solution, architecture diagram, tech choices, metrics, lessons learned
 - [ ] Record demo video: storefront → checkout → email + admin POS flow
@@ -234,8 +234,8 @@
 | Auth & Customer Accounts          | ✅ Complete    |
 | Admin UI & POS                    | ✅ Complete    |
 | Docker & Infrastructure           | 🔲 Not Started |
-| CI/CD & Observability             | 🔄 In Progress |
-| 🚀 Portfolio & Job Outreach       | 🔲 Not Started |
+| CI/CD & Observability             | ✅ Complete  |
+| 🚀 Portfolio & Job Outreach       | 🔄 In Progress |
 
 ---
 
