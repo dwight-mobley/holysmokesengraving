@@ -1,0 +1,7 @@
+Phase 10 pushed me harder than I expected, but in the best way. I ended up working with tools and frameworks I had never touched before, and the learning curve was steep. Using Playwright for end‑to‑end testing completely changed the way I think about development. Adding data-test IDs and other testing‑friendly attributes is something I’ll be doing from the start in future projects instead of retrofitting them later.
+
+This phase also exposed a gap in my analytics setup. I realized my “analytics” were basically just console logs — nothing was actually being tracked or stored. To fix that, I integrated PostHog to handle product views and checkout tracking, and I built a simple dashboard in the admin panel to monitor the data. I also added Sentry for error logging so I can catch issues more proactively.
+
+I’m familiar with these tools now, but I wouldn’t call myself an expert. Like most developers, I’d need to revisit documentation if I were setting them up again. I’m glad I implemented them, even if they feel like overkill for a one‑person business. Product view analytics probably won’t be very meaningful since most of my items are one‑offs, but maybe the long‑term insights will prove useful.
+
+I’m also circling back to update the README files across the project. I’ll likely let AI generate the initial drafts and then refine them myself to save time and keep everything consistent.
