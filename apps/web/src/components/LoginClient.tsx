@@ -1,6 +1,6 @@
 "use client";
 
-import {useForm} from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { loginSchema, type LoginForm } from "@/schemas/login.schema";
@@ -10,11 +10,13 @@ import { FormField } from './ui/FormField';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useAuth } from '@/store/auth';
+import { ForgotPasswordModal } from './ForgotPasswordModal';
 
 export default function LoginClient() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
-  const {register, handleSubmit, formState:{errors, isSubmitting}} = useForm<LoginForm>({
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginForm>({
     resolver: zodResolver(loginSchema)
   });
 
@@ -26,12 +28,12 @@ export default function LoginClient() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
-    if(!res.ok){
+    if (!res.ok) {
       setError('Invalid email or password');
       return;
     }
     const resData = await res.json()
-    
+
     auth.setAuth(resData.user)
     router.push('/dashboard');
   };
@@ -42,10 +44,10 @@ export default function LoginClient() {
         Login
       </h1>
       {error &&
-      <div>
-        <p className='text-center text-red-600'>{error}</p>
+        <div>
+          <p className='text-center text-red-600'>{error}</p>
         </div>
-        }
+      }
       <form onSubmit={handleSubmit(handleLogin)} className="space-y-6">
         {/* Email */}
         <FormField label='Email' error={errors.email?.message} >
@@ -61,7 +63,7 @@ export default function LoginClient() {
         <FormField label='Password' error={errors.password?.message}>
 
           <Input
-           {...register('password')}
+            {...register('password')}
             placeholder="••••••••••"
             type='password'
             autoComplete='current-password'
@@ -69,6 +71,13 @@ export default function LoginClient() {
             className="bg-surface-50 border-surface-300 focus:ring-brand-400"
           />
         </FormField>
+        <button 
+          type="button" 
+          className="text-sm text-accent-600 hover:text-accent-700 hover:cursor-pointer"
+          onClick={() => setShowForgotPassword(true)}
+        >
+          Forgot Password
+        </button>
 
         {/* Submit */}
         <Button
@@ -90,6 +99,7 @@ export default function LoginClient() {
           Create Account
         </Link>
       </p>
+      {showForgotPassword && <ForgotPasswordModal onClose={() => setShowForgotPassword(false)} />}
     </div>
   );
 }
