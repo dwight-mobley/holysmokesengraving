@@ -13,8 +13,9 @@ export const ForgotPasswordModal = ({ onClose }: { onClose: () => void }) => {
         const res = await fetch('/api/auth/forgot-password', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email })
+            body: JSON.stringify({ email:email, url: `${window.location.origin}/reset-password` }),
         });
+        
         if (res.ok) {
             setMessage('If an account with that email exists, a password reset link has been sent.');
         } else {
