@@ -1,7 +1,7 @@
 
 
 import { ShopClient } from '@/components/ShopClient';
-
+import {type Product} from '@/types/product'
 export const revalidate = 3600;
 
 const getTags = async (): Promise<string[]> => {
@@ -30,7 +30,7 @@ export default async function ProductPage({searchParams}:{searchParams:Promise<{
   return (
     <div>
       {/* Products */}
-        <ShopClient products={products} page={page} totalPages={totalPages} search={search} tags={tags} tag={tag} />
+        <ShopClient products={products.filter((p: Product) => p.quantity > 0)} page={page} totalPages={totalPages} search={search} tags={tags} tag={tag} />
     </div>
   );
 }
