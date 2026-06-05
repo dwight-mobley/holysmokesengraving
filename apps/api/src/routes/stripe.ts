@@ -349,8 +349,63 @@ await sendEmail({
   );
 }
 
-stripeRouter.post(
-  '/webhook',
+// Stripe Session Creator
+stripeRouter.post('/session', async (req: Request, res: Response, next: NextFunction) => {
+  // Parse and validate request body
+  try {
+    const { email, items } = req.body
+
+    const lineItems = items.map(
+      (item: { productId: string; name: string; price: number; quantity: number; image?: string }) => ({
+        price_data: {
+          currency: 'usd',
+          unit_amount: item.price,
+          tax_behavior: 'exclusive',
+          product_data: {
+            name: item.name,
+            metadata: { productId: item.productId },
+            ...(item.image && {
+              images: [
+                item.image.startsWith('http')
+                  ? item.image
+                  : `${process.env.NEXT_PUBLIC_BASE_URL}${item.image}`,
+              ],
+            }),
+          },
+        },
+        quantity: item.quantity,
+      }),
+    );
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      mode: 'payment',
+      line_items: lineItems,
+      customer_email: email,
+      automatic_tax: { enabled: true },
+      shipping_address_collection: { allowed_countries: ['US'] },
+      shipping_options: [{
+        shipping_rate_data: {
+          type: 'fixed_amount',
+          fixed_amount: { amount: 999, currency: 'usd' },
+          display_name: 'Standard Shipping',
+        },
+      }],
+      success_url: `${process.env.FRONTEND_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.FRONTEND_URL}/checkout`,
+    });
+
+    res.json({ url: session.url });
+  } catch (err) {
+    console.log(err)
+    next(err);
+  }
+});
+
+//Webhook Handler
+export const stripeWebHookHandler = Router();
+stripeWebHookHandler.post(
+  '/',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const sig = req.headers['stripe-signature'];
