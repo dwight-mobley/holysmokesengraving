@@ -29,5 +29,5 @@ export async function POST(request: Request) {
   });
 
   const { token: _, ...safeData } = data;
-  return NextResponse.json({ user: safeData }, { status: 201 });
+  return NextResponse.json({ user: { ...safeData.user } }, { status: 201 });
 }
