@@ -8,7 +8,7 @@ import { adminRouter } from './routes/admin';
 import { requireAdminAccess } from './middleware/requireAdmin';
 import { pinoHttp } from 'pino-http';
 import { logger } from './lib/logger';
-import { stripeRouter } from './routes/stripe';
+import { stripeRouter, stripeWebHookHandler } from './routes/stripe';
 import { authRouter } from './routes/auth';
 import { customOrderRouter } from './routes/customOrders';
 import { contactRouter } from './routes/contact';
@@ -51,8 +51,7 @@ app.use(
   }),
 );
 
-//Stripe set raw buffer body for signature verification
-app.use('/stripe', express.raw({ type: 'application/json' }), stripeRouter);
+
 
 //Cors
 const corsOptions = {
@@ -63,6 +62,9 @@ const corsOptions = {
   ],
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
 };
+
+//Stripe set raw buffer body for signature verification
+app.use('/stripe/webhook', express.raw({ type: 'application/json' }), stripeWebHookHandler);
 
 app.use(cors(corsOptions));
 
@@ -102,6 +104,7 @@ app.use('/auth', ...(process.env.NODE_ENV !== 'test' ? [authLimiter] : []), auth
 app.use('/admin', requireAdminAccess, adminRouter);
 app.use('/custom-orders', formLimiter, customOrderRouter);
 app.use('/contact',formLimiter, contactRouter);
+app.use('/stripe', stripeRouter);
 
 Sentry.setupExpressErrorHandler(app);
 
