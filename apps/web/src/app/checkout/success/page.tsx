@@ -21,8 +21,9 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
     expand: ['line_items.data.price.product'],
   });
 
+  
   const orderData = {
-    customerName: session.metadata?.customerName ?? 'there',
+    customerName: session?.customer_details?.name ?? '',
     email: session.customer_email ?? '',
     total: session.amount_total ?? 0,
     items: (session.line_items?.data ?? []).map((item) => ({

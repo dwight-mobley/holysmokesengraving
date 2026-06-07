@@ -31,10 +31,9 @@ export default function RegisterClient({ prefillEmail }: { prefillEmail?: string
       setError('Error Registering User')
       return;
     }
-    const resData = await res.json()
-    console.log(resData)
-    auth.setAuth(resData.user)
-    router.push('/dashboard')
+    const resData = await res.json();
+    auth.setAuth(resData.user);
+    router.push('/dashboard');
   };
 
   return (
