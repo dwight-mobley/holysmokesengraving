@@ -3,7 +3,7 @@ import { prisma } from '../lib/prisma';
 import { CreateOrderDTO, CreateOrderSchema } from '@hse/shared';
 import { validate } from '../middleware/validate';
 import { logger } from '../lib/logger';
-
+import { requireAuth } from '../middleware/requireAuth';
 export const orderRouter = Router();
 
 orderRouter.post(
@@ -79,6 +79,39 @@ orderRouter.post(
       );
 
       res.status(201).json({ order });
+    } catch (err) {
+      next(err);
+    }
+  },
+);
+
+orderRouter.get(
+  '/:id',
+  requireAuth,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const order = await prisma.order.findUnique({
+        where: { id: req.params.id as string },
+        include: {
+          items: {
+            include: { product: { select: { name: true, image: true } } },
+          },
+        },
+      });
+      if (!order) {
+        res.status(404).json({ error: 'Order not found' });
+        return;
+      }
+      console.log(order);
+      const customer = await prisma.customer.findUnique({
+        where: { userId: req.auth?.userId },
+        select: { id: true },
+      });
+      if (order.customerId !== customer?.id) {
+        res.status(403).json({ error: 'Unauthorized' });
+        return;
+      }
+      res.json({ order });
     } catch (err) {
       next(err);
     }
