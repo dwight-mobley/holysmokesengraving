@@ -10,8 +10,11 @@ import { Button, Input } from './ui';
 import Link from 'next/link';
 import { analytics } from '@/utils/analytics';
 import { FormField } from './ui/FormField';
+import { useAuth } from '@/store/auth';
 
 export const CheckoutClient = () => {
+  const auth = useAuth();
+  console.log(auth)
   const items = useCart((state) => state.items);
   const total = useCart((state) => state.total)();
   const totalItems = useCart((state) =>
@@ -25,14 +28,25 @@ export const CheckoutClient = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     watch,
     formState: { errors, isSubmitting },
   } = useForm<CheckoutForm>({
     resolver: zodResolver(checkoutSchema),
+    defaultValues: {
+      email: ""
+    }
   });
 
   const emailValue = watch('email');
   const isActive = !!emailValue && !errors.email;
+
+  //Autofill Email
+  useEffect(()=>{
+    if(auth.user?.email){
+      setValue('email', auth.user.email);
+    }
+  },[auth.user?.email, setValue])
 
   //Analytics
   useEffect(() => {
@@ -163,7 +177,7 @@ export const CheckoutClient = () => {
           variant={isActive ? 'accent' : 'disabled'}
           size="lg"
           className="w-full mt-4"
-          disabled={isSubmitting}
+          disabled={isSubmitting || !isActive ? true : false}
         >
           {isSubmitting ? 'Processing...' : 'Pay with Stripe'}
         </Button>
