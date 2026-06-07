@@ -32,7 +32,7 @@ export const OrderSchema = z.object({
 
 // Create Type
 export type Order = z.infer<typeof OrderSchema>;
-
+export type OrderItem = z.infer<typeof OrderItemSchema>;
 // Create DTOs for api
 export const CreateOrderSchema = OrderSchema.omit({
   id: true,
