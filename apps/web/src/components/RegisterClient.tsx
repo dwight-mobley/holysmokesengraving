@@ -7,11 +7,13 @@ import { FormField } from './ui/FormField';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
+import { useAuth } from '@/store/auth';
 
 
 
 
 export default function RegisterClient({ prefillEmail }: { prefillEmail?: string }) {
+  const auth = useAuth();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null)
   const { register, handleSubmit, formState: { isSubmitting, errors } } = useForm<RegisterForm>({
@@ -29,7 +31,9 @@ export default function RegisterClient({ prefillEmail }: { prefillEmail?: string
       setError('Error Registering User')
       return;
     }
-    router.push('/dashboard')
+    const resData = await res.json();
+    auth.setAuth(resData.user);
+    router.push('/dashboard');
   };
 
   return (
