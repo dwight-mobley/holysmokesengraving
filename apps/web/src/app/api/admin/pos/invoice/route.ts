@@ -1,4 +1,4 @@
-// apps/web/src/app/api/admin/pos/invoice/route.ts
+"use server"
 
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
