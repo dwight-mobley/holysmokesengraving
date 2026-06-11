@@ -38,12 +38,12 @@ const ShoppingBag = () => {
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
-  
+
   const auth = useAuth();
 
   const handleSignout = async () => {
     auth.clearAuth();
-    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/logout`);
+    await fetch(`/api/auth/logout`);
     setOpen(!open);
     redirect('/');
   };
