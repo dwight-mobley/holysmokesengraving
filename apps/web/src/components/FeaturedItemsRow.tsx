@@ -1,50 +1,96 @@
 'use client';
 
 import Link from 'next/link';
-import type { CSSProperties } from 'react';
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+} from 'react';
 import { ProductCard } from './ProductCard';
-import { Product } from '@/types/product';
+import type { Product } from '@/types/product';
 
-const CARD_WIDTH = 272; // w-64 (256px) + gap-4 (16px)
-const MIN_SET_WIDTH = 2400;
+const CARD_WIDTH = 256; // w-64
+const GAP = 16; // gap-4
+const ESTIMATED_CARD_SPACE = CARD_WIDTH + GAP;
+const MIN_SET_WIDTH = 1200;
+const PIXELS_PER_SECOND = 88;
 
-function buildLoopedItems(items: Product[]) {
-  if (items.length === 0) return [];
-
-  const repeatCount = Math.max(
-    2,
-    Math.ceil(MIN_SET_WIDTH / (items.length * CARD_WIDTH)),
-  );
-  const oneSet = Array.from({ length: repeatCount }, () => items).flat();
-
-  return [...oneSet, ...oneSet];
+function repeatItems(items: Product[], repeatCount: number) {
+  return Array.from({ length: repeatCount }, () => items).flat();
 }
 
 export const FeaturedItems = ({ items = [] }: { items: Product[] }) => {
-  const loopedItems = buildLoopedItems(items);
-  const oneSetCount = loopedItems.length / 2;
-  const durationSeconds = Math.max(24, oneSetCount * 6);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const firstSetRef = useRef<HTMLDivElement>(null);
 
-  if (items.length === 0) return null;
+  const [containerWidth, setContainerWidth] = useState(0);
+  const [setWidth, setSetWidth] = useState(0);
+
+  const repeatCount = useMemo(() => {
+    if (!items.length) return 0;
+
+    const baseWidth = items.length * ESTIMATED_CARD_SPACE;
+    const targetWidth = Math.max(containerWidth * 1.5, MIN_SET_WIDTH);
+
+    return Math.max(1, Math.ceil(targetWidth / baseWidth));
+  }, [items, containerWidth]);
+
+  const oneSet = useMemo(() => {
+    if (!items.length) return [];
+    return repeatItems(items, repeatCount || 1);
+  }, [items, repeatCount]);
+
+  useEffect(() => {
+    if (!containerRef.current || !firstSetRef.current) return;
+
+    const measure = () => {
+      setContainerWidth(containerRef.current?.clientWidth ?? 0);
+      setSetWidth(firstSetRef.current?.scrollWidth ?? 0);
+    };
+
+    measure();
+
+    const observer = new ResizeObserver(measure);
+    observer.observe(containerRef.current);
+    observer.observe(firstSetRef.current);
+
+    return () => observer.disconnect();
+  }, [oneSet.length]);
+
+  if (!items.length) return null;
+
+  const durationSeconds = setWidth
+    ? Math.max(18, Number((setWidth / PIXELS_PER_SECOND).toFixed(2)))
+    : 24;
+
+  const isReady = setWidth > 0;
+
+  const marqueeStyle = {
+    '--marquee-distance': `${setWidth}px`,
+    '--marquee-duration': `${durationSeconds}s`,
+  } as CSSProperties;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-accent-600 text-sm font-semibold uppercase tracking-widest mb-2">
+          <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-accent-600">
             Popular Picks
           </p>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-surface-900">
+          <h2 className="text-3xl font-bold tracking-tight text-surface-900 sm:text-4xl">
             Featured Items
           </h2>
         </div>
+
         <Link
           href="/shop"
-          className="inline-flex items-center gap-2 text-brand-700 font-semibold hover:text-brand-600 transition-colors group shrink-0"
+          className="group inline-flex shrink-0 items-center gap-2 font-semibold text-brand-700 transition-colors hover:text-brand-600"
         >
           View all
           <svg
-            className="w-4 h-4 transition-transform group-hover:translate-x-1"
+            className="h-4 w-4 transition-transform group-hover:translate-x-1"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -60,23 +106,63 @@ export const FeaturedItems = ({ items = [] }: { items: Product[] }) => {
         </Link>
       </div>
 
-      <div className="relative overflow-hidden marquee-mask">
+      <div
+        ref={containerRef}
+        className="marquee-mask relative overflow-hidden motion-reduce:overflow-visible"
+      >
         <div
-          className="flex gap-4 w-max animate-marquee hover:[animation-play-state:paused] motion-reduce:animate-none motion-reduce:flex-wrap motion-reduce:w-full motion-reduce:justify-center"
-          style={{ '--marquee-duration': `${durationSeconds}s` } as CSSProperties}
+          className={[
+            'marquee-track flex w-max',
+            isReady ? 'animate-marquee' : '',
+            'hover:[animation-play-state:paused]',
+            'focus-within:[animation-play-state:paused]',
+          ].join(' ')}
+          style={marqueeStyle}
         >
-          {loopedItems.map((product, i) => (
-            <div key={`${product.id}-${i}`} className="shrink-0 w-64 h-105">
-              <ProductCard
-                id={product.id}
-                image={product?.image}
-                slug={product.slug}
-                name={product.name}
-                price={product.price}
-                description={product?.description}
-              />
-            </div>
-          ))}
+          <div
+            ref={firstSetRef}
+            className="flex shrink-0 gap-4 pr-4"
+            role="list"
+            aria-label="Featured products"
+          >
+            {oneSet.map((product, i) => (
+              <div
+                key={`original-${product.id}-${i}`}
+                className="h-[26.25rem] w-64 shrink-0"
+                role="listitem"
+              >
+                <ProductCard
+                  id={product.id}
+                  image={product.image}
+                  slug={product.slug}
+                  name={product.name}
+                  price={product.price}
+                  description={product.description}
+                />
+              </div>
+            ))}
+          </div>
+
+          <div
+            aria-hidden="true"
+            className="marquee-clone flex shrink-0 gap-4 pr-4"
+          >
+            {oneSet.map((product, i) => (
+              <div
+                key={`clone-${product.id}-${i}`}
+                className="h-[26.25rem] w-64 shrink-0"
+              >
+                <ProductCard
+                  id={product.id}
+                  image={product.image}
+                  slug={product.slug}
+                  name={product.name}
+                  price={product.price}
+                  description={product.description}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
