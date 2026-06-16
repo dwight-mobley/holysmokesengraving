@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-
 @theme {
   /* Brand Colors */
   --color-brand-50: #fdf8f0;
@@ -28,7 +27,7 @@
   --color-surface-900: #18181b;
   --color-surface-950: #09090b;
 
-  /* Accent — for CTAs, links, highlights */
+  /* Accent */
   --color-accent-400: #f59e0b;
   --color-accent-500: #d97706;
   --color-accent-600: #b45309;
@@ -42,4 +41,60 @@
   --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(calc(var(--marquee-distance, 0px) * -1), 0, 0);
+  }
+}
+
+.marquee-track {
+  width: max-content;
+  will-change: transform;
+}
+
+.animate-marquee {
+  animation: marquee-scroll var(--marquee-duration, 24s) linear infinite;
+}
+
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 6%,
+    black 94%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 6%,
+    black 94%,
+    transparent
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none !important;
+  }
+
+  .marquee-track {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .marquee-clone {
+    display: none;
+  }
+
+  .marquee-mask {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
 }
