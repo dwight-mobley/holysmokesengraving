@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { ProductCard } from './ProductCard';
 import { Product } from '@/types/product';
 
@@ -49,10 +50,37 @@ export const FeaturedItems = ({ items = []}: { items: Product[] }) => {
   const loopedItems = [...items, ...items];
 
   return (
-    <div className="max-w-6xl mx-auto px-4">
-      <h2 className="text-center text-4xl font-bold mb-6 text-surface-900">
-        Featured Items
-      </h2>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
+        <div>
+          <p className="text-accent-600 text-sm font-semibold uppercase tracking-widest mb-2">
+            Popular Picks
+          </p>
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-surface-900">
+            Featured Items
+          </h2>
+        </div>
+        <Link
+          href="/shop"
+          className="inline-flex items-center gap-2 text-brand-700 font-semibold hover:text-brand-600 transition-colors group shrink-0"
+        >
+          View all
+          <svg
+            className="w-4 h-4 transition-transform group-hover:translate-x-1"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M17 8l4 4m0 0l-4 4m4-4H3"
+            />
+          </svg>
+        </Link>
+      </div>
 
       <div
         onMouseEnter={() => {
