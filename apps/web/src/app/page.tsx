@@ -1,4 +1,5 @@
 import { FeaturedItems } from '@/components/FeaturedItemsRow';
+import { RevealOnScroll } from '@/components/RevealOnScroll';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -105,33 +106,35 @@ export default async function Home() {
         />
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 pt-32 md:pt-40">
-          <div className="max-w-2xl">
-            <span className="inline-flex items-center gap-2 rounded-full border border-accent-400/30 bg-accent-400/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-accent-400 mb-6">
-              Veteran Owned &amp; Operated
-            </span>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.1] mb-6">
-              Faith in{' '}
-              <span className="text-accent-400">Every Detail</span>
-            </h1>
-            <p className="text-lg sm:text-xl text-surface-300 leading-relaxed mb-10 max-w-xl">
-              Custom laser engraving crafted with precision, purpose, and pride.
-              Meaningful pieces made to inspire and connect.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link
-                href="/shop"
-                className="inline-flex items-center justify-center bg-accent-600 text-white font-semibold py-3.5 px-8 rounded-full hover:bg-accent-500 transition-colors duration-200 shadow-lg shadow-accent-600/25"
-              >
-                Shop Custom Pieces
-              </Link>
-              <Link
-                href="/custom-order"
-                className="inline-flex items-center justify-center border border-white/25 text-white font-semibold py-3.5 px-8 rounded-full hover:bg-white/10 transition-colors duration-200 backdrop-blur-sm"
-              >
-                Request a Custom Order
-              </Link>
+          <RevealOnScroll>
+            <div className="max-w-2xl">
+              <span className="inline-flex items-center gap-2 rounded-full border border-accent-400/30 bg-accent-400/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-accent-400 mb-6">
+                Veteran Owned &amp; Operated
+              </span>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.1] mb-6">
+                Faith in{' '}
+                <span className="text-accent-400">Every Detail</span>
+              </h1>
+              <p className="text-lg sm:text-xl text-surface-300 leading-relaxed mb-10 max-w-xl">
+                Custom laser engraving crafted with precision, purpose, and pride.
+                Each piece is made to inspire, connect, and last a lifetime.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link
+                  href="/shop"
+                  className="inline-flex items-center justify-center bg-accent-600 text-white font-semibold py-3.5 px-8 rounded-full hover:bg-accent-500 transition-colors duration-200 shadow-lg shadow-accent-600/25"
+                >
+                  Shop Custom Pieces
+                </Link>
+                <Link
+                  href="/custom-order"
+                  className="inline-flex items-center justify-center border border-white/25 text-white font-semibold py-3.5 px-8 rounded-full hover:bg-white/10 transition-colors duration-200 backdrop-blur-sm"
+                >
+                  Request a Custom Order
+                </Link>
+              </div>
             </div>
-          </div>
+          </RevealOnScroll>
         </div>
       </section>
 
@@ -159,7 +162,7 @@ export default async function Home() {
       <section aria-label="Our mission" className="py-24 lg:py-32 bg-surface-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <div className="order-2 lg:order-1">
+            <RevealOnScroll className="order-2 lg:order-1">
               <p className="text-accent-600 text-sm font-semibold uppercase tracking-widest mb-4">
                 Our Mission
               </p>
@@ -195,9 +198,9 @@ export default async function Home() {
                   />
                 </svg>
               </Link>
-            </div>
+            </RevealOnScroll>
 
-            <div className="order-1 lg:order-2 relative">
+            <RevealOnScroll className="order-1 lg:order-2 relative" delay={150}>
               <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl shadow-surface-900/10">
                 <Image
                   src="https://res.cloudinary.com/dwf7x3rjv/image/upload/v1776687837/collection_2_xqimug.webp"
@@ -213,7 +216,7 @@ export default async function Home() {
                   Handcrafted with care — every single piece
                 </p>
               </div>
-            </div>
+            </RevealOnScroll>
           </div>
         </div>
       </section>
@@ -221,19 +224,22 @@ export default async function Home() {
       {/* Values */}
       <section aria-label="What we stand for" className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <p className="text-accent-600 text-sm font-semibold uppercase tracking-widest mb-4">
-              Why Holy Smokes
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-surface-900">
-              Built on service, faith, and craftsmanship
-            </h2>
-          </div>
+          <RevealOnScroll>
+            <div className="text-center max-w-2xl mx-auto mb-16">
+              <p className="text-accent-600 text-sm font-semibold uppercase tracking-widest mb-4">
+                Why Holy Smokes
+              </p>
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-surface-900">
+                Built on service, faith, and craftsmanship
+              </h2>
+            </div>
+          </RevealOnScroll>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-            {VALUES.map((value) => (
-              <div
+            {VALUES.map((value, index) => (
+              <RevealOnScroll
                 key={value.title}
+                delay={index * 100}
                 className="group rounded-2xl border border-surface-200 bg-surface-50 p-8 transition-all duration-300 hover:shadow-lg hover:border-brand-200 hover:-translate-y-1"
               >
                 <div className="mb-5 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-accent-400/10 text-accent-600 group-hover:bg-accent-400/20 transition-colors">
@@ -254,7 +260,7 @@ export default async function Home() {
                 <p className="text-surface-600 text-sm leading-relaxed">
                   {value.description}
                 </p>
-              </div>
+              </RevealOnScroll>
             ))}
           </div>
         </div>
@@ -273,18 +279,24 @@ export default async function Home() {
       {/* How it works */}
       <section aria-label="How it works" className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <p className="text-accent-600 text-sm font-semibold uppercase tracking-widest mb-4">
-              Simple Process
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-surface-900">
-              From idea to finished piece
-            </h2>
-          </div>
+          <RevealOnScroll>
+            <div className="text-center max-w-2xl mx-auto mb-16">
+              <p className="text-accent-600 text-sm font-semibold uppercase tracking-widest mb-4">
+                Simple Process
+              </p>
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-surface-900">
+                From idea to finished piece
+              </h2>
+            </div>
+          </RevealOnScroll>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
             {PROCESS_STEPS.map((item, index) => (
-              <div key={item.step} className="relative text-center md:text-left">
+              <RevealOnScroll
+                key={item.step}
+                delay={index * 120}
+                className="relative text-center md:text-left"
+              >
                 {index < PROCESS_STEPS.length - 1 && (
                   <div
                     className="hidden md:block absolute top-8 left-[calc(50%+2rem)] w-[calc(100%-4rem)] h-px bg-surface-200"
@@ -300,7 +312,7 @@ export default async function Home() {
                 <p className="text-surface-600 leading-relaxed">
                   {item.description}
                 </p>
-              </div>
+              </RevealOnScroll>
             ))}
           </div>
         </div>
@@ -321,30 +333,32 @@ export default async function Home() {
           aria-hidden="true"
         />
 
-        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-6">
-            Ready to create something{' '}
-            <span className="text-accent-400">meaningful</span>?
-          </h2>
-          <p className="text-lg text-surface-300 mb-10 leading-relaxed">
-            Upload your own designs or choose from our curated items. Every
-            order is handled with the same care and precision.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/shop"
-              className="inline-flex items-center justify-center bg-accent-600 text-white font-semibold py-3.5 px-8 rounded-full hover:bg-accent-500 transition-colors duration-200 shadow-lg shadow-accent-600/25"
-            >
-              Start Shopping
-            </Link>
-            <Link
-              href="/gallery"
-              className="inline-flex items-center justify-center border border-white/25 text-white font-semibold py-3.5 px-8 rounded-full hover:bg-white/10 transition-colors duration-200"
-            >
-              View Gallery
-            </Link>
+        <RevealOnScroll>
+          <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-6">
+              Ready to create something{' '}
+              <span className="text-accent-400">meaningful</span>?
+            </h2>
+            <p className="text-lg text-surface-300 mb-10 leading-relaxed">
+              Upload your own designs or choose from our curated items. Every
+              order is handled with the same care and precision.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/shop"
+                className="inline-flex items-center justify-center bg-accent-600 text-white font-semibold py-3.5 px-8 rounded-full hover:bg-accent-500 transition-colors duration-200 shadow-lg shadow-accent-600/25"
+              >
+                Start Shopping
+              </Link>
+              <Link
+                href="/gallery"
+                className="inline-flex items-center justify-center border border-white/25 text-white font-semibold py-3.5 px-8 rounded-full hover:bg-white/10 transition-colors duration-200"
+              >
+                View Gallery
+              </Link>
+            </div>
           </div>
-        </div>
+        </RevealOnScroll>
       </section>
     </div>
   );

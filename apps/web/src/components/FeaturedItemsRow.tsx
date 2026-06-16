@@ -1,53 +1,31 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
 import Link from 'next/link';
+import type { CSSProperties } from 'react';
 import { ProductCard } from './ProductCard';
 import { Product } from '@/types/product';
 
-export const FeaturedItems = ({ items = []}: { items: Product[] }) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const isPaused = useRef(false);
-  const animationRef = useRef<number | null>(null);
+const CARD_WIDTH = 272; // w-64 (256px) + gap-4 (16px)
+const MIN_SET_WIDTH = 2400;
 
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
+function buildLoopedItems(items: Product[]) {
+  if (items.length === 0) return [];
 
-    let lastTime: number | null = null;
-    const speed = 0.135; // px per ms — adjust to taste ----> My Happy Number
+  const repeatCount = Math.max(
+    2,
+    Math.ceil(MIN_SET_WIDTH / (items.length * CARD_WIDTH)),
+  );
+  const oneSet = Array.from({ length: repeatCount }, () => items).flat();
 
-    const step = (timestamp: number) => {
-      if (!isPaused.current) {
-        if (lastTime !== null) {
-          const delta = Math.min(timestamp - lastTime, 32); // cap at ~2 frames (16ms × 2)
-          el.scrollLeft += speed * delta;
-          // When halfway through duplicated list, silently reset to start
-          if (el.scrollLeft >= el.scrollWidth / 2) {
-            el.scrollLeft = 0;
-          }
-        }
-        lastTime = timestamp;
-      } else {
-        lastTime = null;
-      }
-      animationRef.current = requestAnimationFrame(step);
-    };
+  return [...oneSet, ...oneSet];
+}
 
-    animationRef.current = requestAnimationFrame(step);
-    return () => {
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
-    };
-  }, []);
+export const FeaturedItems = ({ items = [] }: { items: Product[] }) => {
+  const loopedItems = buildLoopedItems(items);
+  const oneSetCount = loopedItems.length / 2;
+  const durationSeconds = Math.max(24, oneSetCount * 6);
 
-  const scroll = (dir: 'left' | 'right') => {
-    scrollRef.current?.scrollBy({
-      left: dir === 'right' ? 300 : -300,
-      behavior: 'smooth',
-    });
-  };
-
-  const loopedItems = [...items, ...items];
+  if (items.length === 0) return null;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -82,29 +60,11 @@ export const FeaturedItems = ({ items = []}: { items: Product[] }) => {
         </Link>
       </div>
 
-      <div
-        onMouseEnter={() => {
-          isPaused.current = true;
-        }}
-        onMouseLeave={() => {
-          isPaused.current = false;
-        }}
-        onTouchStart={() => {
-          isPaused.current = true;
-        }}
-        onTouchEnd={() => {
-          isPaused.current = false;
-        }}
-      >
-        <button
-          onClick={() => scroll('left')}
-          aria-label="Scroll left"
-          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-surface-200 shadow-md rounded-full w-10 h-10 flex items-center justify-center text-brand-700 hover:bg-brand-50 hover:border-brand-300 transition opacity-0 group-hover:opacity-100"
+      <div className="relative overflow-hidden marquee-mask">
+        <div
+          className="flex gap-4 w-max animate-marquee hover:[animation-play-state:paused] motion-reduce:animate-none motion-reduce:flex-wrap motion-reduce:w-full motion-reduce:justify-center"
+          style={{ '--marquee-duration': `${durationSeconds}s` } as CSSProperties}
         >
-          ‹
-        </button>
-
-        <div ref={scrollRef} className="flex  gap-4 overflow-x-auto px-2 pb-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {loopedItems.map((product, i) => (
             <div key={`${product.id}-${i}`} className="shrink-0 w-64 h-105">
               <ProductCard
@@ -118,14 +78,6 @@ export const FeaturedItems = ({ items = []}: { items: Product[] }) => {
             </div>
           ))}
         </div>
-
-        <button
-          onClick={() => scroll('right')}
-          aria-label="Scroll right"
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-surface-200 shadow-md rounded-full w-10 h-10 flex items-center justify-center text-brand-700 hover:bg-brand-50 hover:border-brand-300 transition opacity-0 group-hover:opacity-100"
-        >
-          ›
-        </button>
       </div>
     </div>
   );
