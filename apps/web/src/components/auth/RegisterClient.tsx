@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { registerSchema, type RegisterForm } from '@/schemas/register.schema';
 import { Input, Button } from "@/components/ui";
-import { FormField } from './ui/FormField';
+import { FormField } from '../ui/FormField';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';

@@ -1,4 +1,4 @@
-import { CheckoutClient } from "@/components/CheckoutClient";
+import { CheckoutClient } from "@/components/checkout/CheckoutClient";
 
 
 

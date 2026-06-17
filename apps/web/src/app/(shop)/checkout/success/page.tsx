@@ -1,5 +1,5 @@
 import Stripe from 'stripe';
-import { CheckoutSuccess } from '@/components/CheckoutSuccess';
+import { CheckoutSuccess } from '@/components/checkout/CheckoutSuccess';
 import { cookies } from 'next/headers';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
@@ -21,7 +21,7 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
     expand: ['line_items.data.price.product'],
   });
 
-  
+
   const orderData = {
     customerName: session?.customer_details?.name ?? '',
     email: session.customer_email ?? '',

@@ -6,10 +6,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { checkoutSchema, type CheckoutForm } from '@/schemas/checkout.schema';
 import { useCart } from '@/store/cart';
 import { formatMoney } from '@hse/shared';
-import { Button, Input } from './ui';
+import { Button, Input } from '../ui';
 import Link from 'next/link';
 import { analytics } from '@/utils/analytics';
-import { FormField } from './ui/FormField';
+import { FormField } from '../ui/FormField';
 import { useAuth } from '@/store/auth';
 
 export const CheckoutClient = () => {

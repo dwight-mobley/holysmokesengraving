@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useCart } from '@/store/cart';
-import { Button } from './ui';
+import { Button } from '../ui';
 import Link from 'next/link';
 import { formatMoney } from '@hse/shared';
 

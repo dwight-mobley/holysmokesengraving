@@ -1,4 +1,4 @@
-import RegisterClient from "@/components/RegisterClient";
+import RegisterClient from "@/components/auth/RegisterClient";
 
 interface RegisterPageProps {
   searchParams: Promise<{ email?: string }>;

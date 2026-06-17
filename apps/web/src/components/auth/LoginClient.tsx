@@ -6,11 +6,11 @@ import { Button } from "@/components/ui/Button";
 import { loginSchema, type LoginForm } from "@/schemas/login.schema";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { FormField } from './ui/FormField';
+import { FormField } from '../ui/FormField';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useAuth } from '@/store/auth';
-import { ForgotPasswordModal } from './auth/ForgotPasswordModal';
+import { ForgotPasswordModal } from '../auth/ForgotPasswordModal';
 
 export default function LoginClient() {
   const router = useRouter();
