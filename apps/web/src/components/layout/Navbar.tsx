@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useCart } from '../store/cart';
+import { useCart } from '@/store/cart';
 import { useAuth } from '@/store/auth';
 import { redirect } from 'next/navigation';
 

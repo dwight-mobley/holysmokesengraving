@@ -2,8 +2,8 @@
 import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { formatMoney } from '@hse/shared';
-import { AdminStatusUpdater } from '@/components/AdminStatusUpdater';
-import { RefundButton } from '@/components/RefundButton';
+import { AdminStatusUpdater } from '@/components/admin/AdminStatusUpdater';
+import { RefundButton } from '@/components/admin/RefundButton';
 
 type AdminOrderItem = {
   id: string;

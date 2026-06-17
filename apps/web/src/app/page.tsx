@@ -1,5 +1,5 @@
-import { FeaturedItems } from '@/components/FeaturedItemsRow';
-import { RevealOnScroll } from '@/components/RevealOnScroll';
+import { FeaturedItems } from '@/components/shop/FeaturedItemsRow';
+import { RevealOnScroll } from '@/components/layout/RevealOnScroll';
 import Image from 'next/image';
 import Link from 'next/link';
 

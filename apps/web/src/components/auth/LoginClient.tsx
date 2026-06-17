@@ -10,7 +10,7 @@ import { FormField } from './ui/FormField';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useAuth } from '@/store/auth';
-import { ForgotPasswordModal } from './ForgotPasswordModal';
+import { ForgotPasswordModal } from './auth/ForgotPasswordModal';
 
 export default function LoginClient() {
   const router = useRouter();
@@ -71,8 +71,8 @@ export default function LoginClient() {
             className="bg-surface-50 border-surface-300 focus:ring-brand-400"
           />
         </FormField>
-        <button 
-          type="button" 
+        <button
+          type="button"
           className="text-sm text-accent-600 hover:text-accent-700 hover:cursor-pointer"
           onClick={() => setShowForgotPassword(true)}
         >

@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Navbar } from '../components/Navbar';
-import { Footer } from '../components/Footer';
+import { Navbar } from '../components/layout/Navbar';
+import { Footer } from '../components/layout/Footer';
 import { Inter } from 'next/font/google';
-import { PostHogProvider } from '@/components/PostHogProvider';
+import { PostHogProvider } from '@/components/analytics/PostHogProvider';
 import { Suspense } from 'react';
-import { PostHogPageView } from '@/components/PostHogPageView';
+import { PostHogPageView } from '@/components/analytics/PostHogPageView';
 
 const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {

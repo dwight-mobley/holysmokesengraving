@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import { OrdersTable } from '@/components/OrdersTable';
+import { OrdersTable } from '@/components/dashboard/OrdersTable';
 import { redirect } from 'next/navigation';
 import { Button } from '@/components/ui';
 import Link from 'next/link';

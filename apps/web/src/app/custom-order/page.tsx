@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { CustomOrderForm } from '@/components/CustomOrderForm';
+import { CustomOrderForm } from '@/components/forms/CustomOrderForm';
 
 export const metadata: Metadata = {
   title: 'Custom Order | Holy Smokes Engraving',

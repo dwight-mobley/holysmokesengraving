@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import { POSClient } from '@/components/POSClient';
+import { POSClient } from '@/components/admin/POSClient';
 import { Product } from '@hse/shared';
 
 export const dynamic = 'force-dynamic';

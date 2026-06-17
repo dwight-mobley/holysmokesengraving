@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { Product, formatMoney } from '@hse/shared';
-import { AdminDeleteButton } from '@/components/AdminDeleteButton';
+import { AdminDeleteButton } from '@/components/admin/AdminDeleteButton';
 import { Button } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';

@@ -1,4 +1,4 @@
-import ResetPasswordClient from '@/components/ResetPasswordClient';
+import ResetPasswordClient from '@/components/auth/ResetPasswordClient';
 
 type Props = {
   searchParams: Promise<{ token_hash?: string }>;

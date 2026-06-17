@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { formatMoney } from '@hse/shared';
 import Image from 'next/image';
 
-import { AddToCartButton } from './AddToCartButton';
+import { AddToCartButton } from '../checkout/AddToCartButton';
 import Link from 'next/link';
 
 interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {

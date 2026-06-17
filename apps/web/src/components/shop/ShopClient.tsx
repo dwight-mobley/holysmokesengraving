@@ -3,7 +3,7 @@
 import { useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Product } from '@/types/product';
-import { ProductCard } from '@/components/ProductCard';
+import { ProductCard } from '@/components/shop/ProductCard';
 import { Input } from '@/components/ui';
 
 interface ShopClientProps {

@@ -1,9 +1,13 @@
 // apps/web/src/app/admin/products/[id]/edit/page.tsx
 import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
-import AdminProductForm from '@/components/AdminProductForm';
+import AdminProductForm from '@/components/admin/AdminProductForm';
 
-export default async function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function EditProductPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = await params;
   const cookieStore = await cookies();
   const token = cookieStore.get('auth-token')?.value;
@@ -27,7 +31,7 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
           priceDollars: product.price / 100,
           quantity: product.quantity,
           slug: product.slug,
-          active:product.active,
+          active: product.active,
           featured: product.featured,
           gallery: product.gallery,
           onlyPOS: product.onlyPOS,

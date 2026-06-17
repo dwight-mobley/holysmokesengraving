@@ -1,4 +1,4 @@
-import AdminProductForm from '@/components/AdminProductForm';
+import AdminProductForm from '@/components/admin/AdminProductForm';
 export default function NewProductPage() {
   return (
     <div className="space-y-4">
